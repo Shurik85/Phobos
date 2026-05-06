@@ -20,7 +20,7 @@ WireGuard admin panel with a built-in STUN obfuscator. Traffic from the client t
 - Admin UI for tuning obfuscator level, masking mode, key, port.
 - SQLite + Drizzle, multilanguage UI, 2FA, per-client firewall, IPv6, CIDR support.
 
-## Quickstart
+## Quickstart (generic Docker)
 
 ```yaml
 services:
@@ -48,6 +48,35 @@ volumes:
 ```
 
 Open `http://<host>:51821`, complete the initial setup, create a client.
+
+## Deploy from this repository (ph-wg-easy branch)
+
+To deploy the customized `wg-easy + Phobos` build from this repo on a fresh Ubuntu/Debian server:
+
+```bash
+sudo -i
+apt update && apt install -y git
+
+git clone -b ph-wg-easy https://github.com/Ground-Zerro/Phobos.git /root/wg
+cd /root/wg
+
+# WG_HOST — your public IP or domain, OBF_PORT — external obfuscator UDP port
+WG_HOST=<PUBLIC_IP_OR_DOMAIN> OBF_PORT=51822 bash deploy.sh
+```
+
+The script will:
+
+- install Docker + docker compose (if missing),
+- copy sources to `/opt/wg-easy`,
+- build the image from the included `Dockerfile`,
+- bring up the stack via `docker-compose.yml`,
+- wait until the `wg-easy` container is healthy.
+
+After that:
+
+- Web UI: `http://<WG_HOST>:51821/`
+- WireGuard (internal server listen port): `51820/udp`
+- Obfuscator (external UDP port): `<WG_HOST>:51822` (or your `OBF_PORT`)
 
 ## How it works
 
