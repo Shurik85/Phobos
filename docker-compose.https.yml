@@ -1,0 +1,62 @@
+volumes:
+  etc_wireguard:
+  sqlite_data:
+  caddy_data:
+  caddy_config:
+
+services:
+  wg-easy:
+    image: ghcr.io/wg-easy/wg-easy:latest
+    build: .
+    container_name: wg-easy
+    environment:
+      - OBF_PORT=${OBF_PORT:-51822}
+      - TLS_TERMINATION=external
+    networks:
+      wg:
+        ipv4_address: 10.42.42.42
+        ipv6_address: fdcc:ad94:bacf:61a3::2a
+    volumes:
+      - etc_wireguard:/etc/wireguard
+      - sqlite_data:/app/server/data
+      - /lib/modules:/lib/modules:ro
+      - ./certs:/app/certs:ro
+    ports:
+      - "${OBF_PORT:-51822}:${OBF_PORT:-51822}/udp"
+    restart: unless-stopped
+    cap_add:
+      - NET_ADMIN
+      - SYS_MODULE
+    sysctls:
+      - net.ipv4.ip_forward=1
+      - net.ipv4.conf.all.src_valid_mark=1
+      - net.ipv6.conf.all.disable_ipv6=0
+      - net.ipv6.conf.all.forwarding=1
+      - net.ipv6.conf.default.forwarding=1
+
+  caddy:
+    image: caddy:2-alpine
+    container_name: wg-easy-caddy
+    restart: unless-stopped
+    depends_on:
+      - wg-easy
+    networks:
+      - wg
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./docker/caddy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - ./certs:/etc/caddy/certs:ro
+      - caddy_data:/data
+      - caddy_config:/config
+
+networks:
+  wg:
+    driver: bridge
+    enable_ipv6: true
+    ipam:
+      driver: default
+      config:
+        - subnet: 10.42.42.0/24
+        - subnet: fdcc:ad94:bacf:61a3::/64

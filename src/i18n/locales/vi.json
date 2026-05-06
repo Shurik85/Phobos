@@ -1,0 +1,298 @@
+{
+  "pages": {
+    "me": "Tài khoản",
+    "clients": "Người dùng",
+    "admin": {
+      "panel": "Bảng quản trị",
+      "general": "Chung",
+      "config": "Cấu hình",
+      "interface": "Giao diện mạng",
+      "hooks": "Hooks"
+    }
+  },
+  "user": {
+    "email": "E-Mail"
+  },
+  "me": {
+    "currentPassword": "Mật khẩu hiện tại",
+    "enable2fa": "Bật xác thực hai yếu tố",
+    "enable2faDesc": "Quét mã QR bằng ứng dụng xác thực của bạn hoặc nhập khóa thủ công.",
+    "2faKey": "Khóa TOTP",
+    "2faCodeDesc": "Nhập mã từ ứng dụng xác thực của bạn.",
+    "disable2fa": "Tắt xác thực hai yếu tố",
+    "disable2faDesc": "Nhập mật khẩu để tắt xác thực hai yếu tố."
+  },
+  "general": {
+    "name": "Tên",
+    "username": "Tên đăng nhập",
+    "password": "Mật khẩu",
+    "newPassword": "Mật khẩu mới",
+    "updatePassword": "Cập nhật mật khẩu",
+    "mtu": "MTU",
+    "allowedIps": "IP được phép",
+    "dns": "DNS",
+    "persistentKeepalive": "Persistent Keepalive",
+    "logout": "Đăng xuất",
+    "continue": "Tiếp tục",
+    "host": "Host",
+    "port": "Cổng",
+    "yes": "Có",
+    "no": "Chưa",
+    "confirmPassword": "Xác nhận mật khẩu",
+    "loading": "Đang tải...",
+    "2fa": "Xác thực hai yếu tố",
+    "2faCode": "Mã TOTP"
+  },
+  "setup": {
+    "welcome": "Chào mừng đến với thiết lập đầu tiên của wg-easy",
+    "welcomeDesc": "Bạn đã tìm thấy cách dễ nhất để cài đặt và quản lý WireGuard trên bất kỳ máy chủ Linux nào",
+    "existingSetup": "Bạn có hệ thống được cài đặt trước đây chưa?",
+    "createAdminDesc": "Vui lòng nhập tên đăng nhập quản trị viên và mật khẩu mạnh. Thông tin này sẽ được sử dụng để đăng nhập vào bảng quản trị của bạn.",
+    "setupConfigDesc": "Vui lòng cung cấp host và cổng. Những thông tin này sẽ được sử dụng để cấu hình WireGuard cho người dùng trên thiết bị của họ.",
+    "setupMigrationDesc": "Vui lòng cung cấp tệp sao lưu nếu bạn muốn chuyển dữ liệu từ phiên bản wg-easy trước sang cài đặt mới.",
+    "upload": "Tải lên",
+    "migration": "Khôi phục bản sao lưu:",
+    "createAccount": "Tạo tài khoản",
+    "successful": "Thiết lập thành công",
+    "hostDesc": "Tên miền công khai mà thiết bị sẽ kết nối tới",
+    "portDesc": "Cổng UDP công khai mà thiết bị sẽ kết nối và WireGuard sẽ sử dụng"
+  },
+  "update": {
+    "updateAvailable": "Có bản cập nhật mới!",
+    "update": "Cập nhật"
+  },
+  "theme": {
+    "dark": "Giao diện tối",
+    "light": "Giao diện sáng",
+    "system": "Giao diện hệ thống"
+  },
+  "layout": {
+    "toggleCharts": "Hiện/ẩn biểu đồ",
+    "donate": "Ủng hộ"
+  },
+  "login": {
+    "signIn": "Đăng nhập",
+    "rememberMe": "Duy trì đăng nhập",
+    "rememberMeDesc": "Duy trì trạng thái đăng nhập sau khi đóng trình duyệt",
+    "insecure": "Bạn không thể đăng nhập qua kết nối không bảo mật. Hãy dùng HTTPS.",
+    "2faRequired": "Yêu cầu xác thực hai yếu tố",
+    "2faWrong": "Mã xác thực hai yếu tố không đúng"
+  },
+  "client": {
+    "empty": "Chưa có người dùng nào.",
+    "newShort": "Mới",
+    "sort": "Sắp xếp",
+    "create": "Tạo người dùng",
+    "created": "Đã tạo người dùng",
+    "new": "Người dùng mới",
+    "name": "Tên",
+    "expireDate": "Ngày hết hạn",
+    "expireDateDesc": "Ngày người dùng sẽ bị vô hiệu hóa. Để trống nếu dùng vĩnh viễn",
+    "delete": "Xóa",
+    "deleteClient": "Xóa người dùng",
+    "deleteDialog1": "Bạn có chắc rằng muốn xóa",
+    "deleteDialog2": "Hành động này không thể hoàn tác.",
+    "enabled": "Đã bật",
+    "address": "Địa chỉ",
+    "serverAllowedIps": "IP được phép phía máy chủ",
+    "permanent": "Vĩnh viễn",
+    "createdOn": "Được tạo vào ",
+    "lastSeen": "Lần cuối trực tuyến ",
+    "totalDownload": "Tổng tải về: ",
+    "totalUpload": "Tổng tải lên: ",
+    "newClient": "Người dùng mới",
+    "disableClient": "Vô hiệu hóa người dùng",
+    "enableClient": "Kích hoạt người dùng",
+    "noPrivKey": "Người dùng này không có khóa riêng tư. Không thể tạo cấu hình.",
+    "showQR": "Hiển thị mã QR",
+    "allowedIpsDesc": "Các IP sẽ được định tuyến qua VPN (ghi đè cấu hình chung)",
+    "serverAllowedIpsDesc": "Các IP mà máy chủ sẽ định tuyến đến người dùng",
+    "mtuDesc": "Đặt đơn vị truyền tải tối đa - MTU (kích thước gói tin) cho VPN",
+    "persistentKeepaliveDesc": "Đặt khoảng thời gian (giây) gửi gói tin keep-alive. 0 để tắt",
+    "hooks": "Hooks",
+    "hooksDescription": "Hooks chỉ hoạt động với wg-quick",
+    "hooksLeaveEmpty": "Chỉ dùng cho wg-quick. Nếu không, để trống",
+    "dnsDesc": "Máy chủ DNS mà người dùng sử dụng (ghi đè cấu hình chung)",
+    "notConnected": "Người dùng chưa kết nối",
+    "endpoint": "Điểm cuối",
+    "endpointDesc": "IP của người dùng dùng để thiết lập kết nối WireGuard",
+    "search": "Tìm kiếm người dùng...",
+    "config": "Cấu hình",
+    "viewConfig": "Xem cấu hình",
+    "firewallIps": "IP được phép qua tường lửa",
+    "firewallIpsDesc": "Địa chỉ IP/CIDR đích mà người dùng này có thể truy cập (kiểm soát phía máy chủ). Để trống để dùng giá trị IP được phép. Hỗ trợ lọc theo cổng và giao thức tùy chọn. Xem tài liệu để hiểu cú pháp.",
+    "downloadPng": "Tải PNG",
+    "copyPng": "Sao chép PNG",
+    "copyInstallLink": "Copy install command",
+    "installLinkCopied": "Install command copied to clipboard",
+    "installLinkFailed": "Failed to generate install link",
+    "downloadPackage": "Download install package"
+  },
+  "dialog": {
+    "change": "Thay đổi",
+    "cancel": "Hủy",
+    "create": "Tạo"
+  },
+  "toast": {
+    "success": "Thành công",
+    "saved": "Đã lưu",
+    "error": "Lỗi",
+    "unknown": "Lỗi không xác định. Xem console để biết thêm chi tiết"
+  },
+  "form": {
+    "actions": "Thao tác",
+    "save": "Lưu",
+    "revert": "Hoàn tác",
+    "sectionGeneral": "Chung",
+    "sectionAdvanced": "Nâng cao",
+    "noItems": "Không có mục nào",
+    "nullNoItems": "Không có mục nào. Sử dụng cấu hình chung",
+    "add": "Thêm"
+  },
+  "admin": {
+    "general": {
+      "sessionTimeout": "Thời gian hết phiên",
+      "sessionTimeoutDesc": "Thời lượng phiên cho tính năng Duy trì đăng nhập (giây)",
+      "metrics": "Metrics",
+      "metricsPassword": "Mật khẩu",
+      "metricsPasswordDesc": "Mật khẩu Bearer cho đường dẫn metrics (mật khẩu hoặc hash argon2)",
+      "json": "JSON",
+      "jsonDesc": "Đường dẫn metrics định dạng JSON",
+      "prometheus": "Prometheus",
+      "prometheusDesc": "Đường dẫn metrics Prometheus"
+    },
+    "config": {
+      "connection": "Kết nối",
+      "hostDesc": "Tên miền công khai mà người dùng sẽ kết nối tới (làm mất hiệu lực cấu hình)",
+      "portDesc": "Cổng UDP công khai mà người dùng sẽ kết nối tới (làm mất hiệu lực cấu hình, bạn cũng cần thay đổi cổng giao diện mạng)",
+      "allowedIpsDesc": "Các IP được cho phép mà người dùng sẽ sử dụng (cấu hình chung)",
+      "dnsDesc": "Máy chủ DNS mà người dùng sẽ sử dụng (cấu hình chung)",
+      "mtuDesc": "MTU mà người dùng sẽ sử dụng (chỉ áp dụng cho người dùng mới)",
+      "persistentKeepaliveDesc": "Khoảng thời gian (giây) gửi keepalive đến máy chủ. 0 = tắt (chỉ áp dụng cho người dùng mới)",
+      "suggest": "Gợi ý",
+      "suggestDesc": "Chọn địa chỉ IP hoặc tên miền cho trường Host"
+    },
+    "interface": {
+      "cidrSuccess": "Đã thay đổi CIDR",
+      "device": "Card mạng",
+      "deviceDesc": "Card mạng mà lưu lượng WireGuard sẽ được chuyển tiếp qua",
+      "mtuDesc": "MTU mà WireGuard sẽ sử dụng",
+      "portDesc": "Cổng UDP mà WireGuard sẽ sử dụng (bạn cũng cần thay đổi cổng cấu hình)",
+      "changeCidr": "Thay đổi CIDR",
+      "restart": "Khởi động lại giao diện mạng",
+      "restartDesc": "Khởi động lại giao diện mạng WireGuard",
+      "restartWarn": "Bạn có chắc muốn khởi động lại giao diện mạng? Điều này sẽ ngắt kết nối tất cả người dùng.",
+      "restartSuccess": "Đã khởi động lại giao diện mạng",
+      "firewall": "Lọc lưu lượng",
+      "firewallEnabled": "Bật tường lửa theo từng người dùng",
+      "firewallEnabledDesc": "Áp dụng iptables để giới hạn người dùng chỉ truy cập các IP đích xác định. Sau khi kích hoạt, cho phép cấu hình điểm đến riêng cho từng người dùng."
+    },
+    "introText": "Chào mừng đến bảng quản trị.\n\nTại đây bạn có thể quản lý cài đặt chung, cấu hình, cài đặt giao diện mạng và hooks.\n\nBắt đầu bằng cách chọn một trong các mục trong thanh bên.",
+    "obfuscator": {
+      "heading": "Obfuscator",
+      "extPort": "External UDP port",
+      "extPortDesc": "Public UDP port obfuscator listens on. Pinned when OBF_PORT env is set.",
+      "key": "Obfuscator key",
+      "keyDesc": "XOR key shared between server and all clients.",
+      "regenerateKey": "Regenerate key",
+      "keyRegenerated": "Obfuscator key regenerated",
+      "regeneratePort": "Pick free port",
+      "portRegenerated": "Obfuscator port changed",
+      "masking": "Masking mode (STUN / AUTO / NONE)",
+      "maskingDesc": "STUN wraps packets in STUN Binding messages. AUTO lets the obfuscator choose. NONE disables masking.",
+      "idle": "Idle timeout (seconds)",
+      "idleDesc": "Time after which an inactive client is removed from the session table.",
+      "dummy": "Max dummy bytes",
+      "dummyDesc": "Random padding prepended to each packet. Larger values increase entropy but also overhead.",
+      "publicIpV4": "Server public IPv4",
+      "publicIpV4Desc": "Used as target in client obfuscator config.",
+      "publicIpV6": "Server public IPv6",
+      "publicIpV6Desc": "Optional IPv6 target.",
+      "clientWgLocalPort": "Client-side WG → obfuscator port",
+      "clientWgLocalPortDesc": "Local loopback port the WireGuard client sends to on the device."
+    }
+  },
+  "zod": {
+    "generic": {
+      "required": "{0} không được để trống",
+      "validNumber": "{0} phải là số hợp lệ",
+      "validNumberRange": "{0} phải là số hoặc khoảng số hợp lệ",
+      "validString": "{0} phải là chuỗi hợp lệ",
+      "validBoolean": "{0} phải là giá trị boolean hợp lệ",
+      "validArray": "{0} phải là mảng hợp lệ",
+      "stringMin": "{0} phải có ít nhất {1} ký tự",
+      "numberMin": "{0} phải có giá trị ít nhất là {1}"
+    },
+    "client": {
+      "id": "ID thiết bị",
+      "name": "Tên",
+      "expiresAt": "Hết hạn lúc",
+      "address4": "Địa chỉ IPv4",
+      "address6": "Địa chỉ IPv6",
+      "serverAllowedIps": "IP được phép phía máy chủ",
+      "firewallIps": "IP được phép qua tường lửa",
+      "firewallIpsInvalid": "IP tường lửa không hợp lệ. Xem tài liệu để biết cú pháp được hỗ trợ."
+    },
+    "user": {
+      "username": "Tên đăng nhập",
+      "password": "Mật khẩu",
+      "remember": "Ghi nhớ",
+      "name": "Tên",
+      "email": "Email",
+      "emailInvalid": "Email phải có định dạng hợp lệ",
+      "passwordMatch": "Mật khẩu phải khớp nhau",
+      "totpEnable": "Bật TOTP",
+      "totpEnableTrue": "Bật TOTP phải là true",
+      "totpCode": "Mã TOTP"
+    },
+    "userConfig": {
+      "host": "Host"
+    },
+    "general": {
+      "sessionTimeout": "Thời gian hết phiên",
+      "metricsEnabled": "Số liệu",
+      "metricsPassword": "Mật khẩu số liệu"
+    },
+    "interface": {
+      "cidr": "CIDR",
+      "device": "Thiết bị mạng",
+      "cidrValid": "CIDR phải hợp lệ"
+    },
+    "stringMalformed": "Chuỗi không đúng định dạng",
+    "body": "Body phải là đối tượng hợp lệ",
+    "hook": "Hook",
+    "enabled": "Đã bật",
+    "mtu": "MTU",
+    "port": "Cổng",
+    "persistentKeepalive": "Persistent Keepalive",
+    "address": "Địa chỉ IP",
+    "dns": "DNS",
+    "allowedIps": "Các IP được phép",
+    "file": "Tệp",
+    "installLink": {
+      "token": "Install token"
+    },
+    "obfuscator": {
+      "extPort": "Obfuscator external port",
+      "key": "Obfuscator key",
+      "masking": "Masking mode",
+      "idle": "Obfuscator idle timeout",
+      "dummy": "Max dummy bytes",
+      "publicIpV4": "Server public IPv4",
+      "publicIpV6": "Server public IPv6",
+      "clientWgLocalPort": "Client local WG port"
+    }
+  },
+  "hooks": {
+    "preUp": "PreUp",
+    "postUp": "PostUp",
+    "preDown": "PreDown",
+    "postDown": "PostDown"
+  },
+  "copy": {
+    "notSupported": "Không hỗ trợ sao chép",
+    "copied": "Đã sao chép!",
+    "failed": "Sao chép thất bại",
+    "copy": "Sao chép"
+  }
+}

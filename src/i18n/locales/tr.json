@@ -1,0 +1,298 @@
+{
+  "pages": {
+    "me": "Hesap",
+    "clients": "İstemciler",
+    "admin": {
+      "panel": "Yönetici Paneli",
+      "general": "Genel",
+      "config": "Yapılandırma",
+      "interface": "Arayüz",
+      "hooks": "Hooks"
+    }
+  },
+  "user": {
+    "email": "E-Posta"
+  },
+  "me": {
+    "currentPassword": "Mevcut Şifre",
+    "enable2fa": "2FA'yı Etkinleştir",
+    "enable2faDesc": "Kimlik doğrulama uygulamanızla QR kodunu tarayın veya anahtarı manuel olarak girin.",
+    "2faKey": "TOTP Anahtarı",
+    "2faCodeDesc": "Uygulamanızdaki doğrulama kodunu girin.",
+    "disable2fa": "2FA'yı Devre Dışı Bırak",
+    "disable2faDesc": "2FA'yı kapatmak için şifrenizi girin."
+  },
+  "general": {
+    "name": "İsim",
+    "username": "Kullanıcı Adı",
+    "password": "Şifre",
+    "newPassword": "Yeni Şifre",
+    "updatePassword": "Şifreyi Güncelle",
+    "mtu": "MTU",
+    "allowedIps": "Allowed IPs",
+    "dns": "DNS",
+    "persistentKeepalive": "Persistent Keepalive",
+    "logout": "Çıkış Yap",
+    "continue": "Devam Et",
+    "host": "Host",
+    "port": "Port",
+    "yes": "Evet",
+    "no": "Hayır",
+    "confirmPassword": "Şifreyi Onayla",
+    "loading": "Yükleniyor...",
+    "2fa": "2FA (İki Faktörlü Doğrulama)",
+    "2faCode": "TOTP Kodu"
+  },
+  "setup": {
+    "welcome": "wg-easy kurulumuna hoş geldiniz",
+    "welcomeDesc": "Linux üzerinde WireGuard kurmanın ve yönetmenin en kolay yolu.",
+    "existingSetup": "Mevcut bir kurulumunuz var mı?",
+    "createAdminDesc": "Yönetim paneline giriş için bir kullanıcı adı ve güçlü bir şifre belirleyin.",
+    "setupConfigDesc": "İstemci cihazların bağlanacağı Host ve Port bilgilerini girin.",
+    "setupMigrationDesc": "Eski wg-easy verilerinizi taşımak için yedek dosyasını yükleyebilirsiniz.",
+    "upload": "Yükle",
+    "migration": "Yedeği Geri Yükle:",
+    "createAccount": "Hesap Oluştur",
+    "successful": "Kurulum Başarılı",
+    "hostDesc": "İstemcilerin bağlanacağı public hostname/IP",
+    "portDesc": "WireGuard'ın dinleyeceği public UDP portu"
+  },
+  "update": {
+    "updateAvailable": "Yeni bir güncelleme mevcut!",
+    "update": "Güncelle"
+  },
+  "theme": {
+    "dark": "Koyu Tema",
+    "light": "Açık Tema",
+    "system": "Sistem Teması"
+  },
+  "layout": {
+    "toggleCharts": "Grafikleri Göster/Gizle",
+    "donate": "Bağış Yap"
+  },
+  "login": {
+    "signIn": "Giriş Yap",
+    "rememberMe": "Beni hatırla",
+    "rememberMeDesc": "Oturumu açık tut",
+    "insecure": "Güvensiz bağlantı üzerinden giriş yapılamaz. Lütfen HTTPS kullanın.",
+    "2faRequired": "2FA Doğrulaması Gerekli",
+    "2faWrong": "Hatalı 2FA Kodu"
+  },
+  "client": {
+    "empty": "Henüz kayıtlı bir istemci yok.",
+    "newShort": "Yeni",
+    "sort": "Sırala",
+    "create": "İstemci Oluştur",
+    "created": "İstemci oluşturuldu",
+    "new": "Yeni İstemci",
+    "name": "İsim",
+    "expireDate": "Son Kullanma Tarihi",
+    "expireDateDesc": "Boş bırakılırsa süresiz olur.",
+    "delete": "Sil",
+    "deleteClient": "İstemciyi Sil",
+    "deleteDialog1": "Silmek istediğinize emin misiniz",
+    "deleteDialog2": "Bu işlem geri alınamaz.",
+    "enabled": "Aktif",
+    "address": "Adres",
+    "serverAllowedIps": "Server Allowed IPs",
+    "permanent": "Süresiz",
+    "createdOn": "Oluşturulma: ",
+    "lastSeen": "Son Görülme: ",
+    "totalDownload": "Toplam İndirme: ",
+    "totalUpload": "Toplam Yükleme: ",
+    "newClient": "Yeni İstemci",
+    "disableClient": "İstemciyi Devre Dışı Bırak",
+    "enableClient": "İstemciyi Etkinleştir",
+    "noPrivKey": "Özel anahtar (private key) bulunamadı. Yapılandırma oluşturulamaz.",
+    "showQR": "QR Kodunu Göster",
+    "allowedIpsDesc": "VPN üzerinden yönlendirilecek IP'ler (global ayarı ezer)",
+    "serverAllowedIpsDesc": "Sunucunun istemciye yönlendireceği IP'ler",
+    "mtuDesc": "VPN tüneli için paket boyutu (MTU)",
+    "persistentKeepaliveDesc": "Bağlantıyı ayakta tutma aralığı (saniye). 0 devre dışı bırakır.",
+    "hooks": "Hooks",
+    "hooksDescription": "Hooks sadece wg-quick ile çalışır",
+    "hooksLeaveEmpty": "Sadece wg-quick içindir. Aksi halde boş bırakın.",
+    "dnsDesc": "İstemci DNS sunucuları (global ayarı ezer)",
+    "notConnected": "Bağlı Değil",
+    "endpoint": "Endpoint",
+    "endpointDesc": "İstemcinin WireGuard bağlantısı kurduğu IP adresi",
+    "search": "İstemci ara...",
+    "config": "Config",
+    "viewConfig": "Config Görüntüle",
+    "firewallIps": "Firewall Allowed IPs",
+    "firewallIpsDesc": "İstemcinin erişebileceği hedef IP/CIDR'ler (isteğe bağlı port/protokol filtreleme ile). Boş bırakılırsa Allowed IPs kullanılır. Ayrıntılı söz dizimi için dokümantasyona bakın.",
+    "downloadPng": "PNG İndir",
+    "copyPng": "PNG Kopyala",
+    "copyInstallLink": "Copy install command",
+    "installLinkCopied": "Install command copied to clipboard",
+    "installLinkFailed": "Failed to generate install link",
+    "downloadPackage": "Download install package"
+  },
+  "dialog": {
+    "change": "Değiştir",
+    "cancel": "İptal",
+    "create": "Oluştur"
+  },
+  "toast": {
+    "success": "Başarılı",
+    "saved": "Kaydedildi",
+    "error": "Hata",
+    "unknown": "Bilinmeyen hata. Detaylar için konsola bakın."
+  },
+  "form": {
+    "actions": "İşlemler",
+    "save": "Kaydet",
+    "revert": "Geri Al",
+    "sectionGeneral": "Genel",
+    "sectionAdvanced": "Gelişmiş",
+    "noItems": "Öge yok",
+    "nullNoItems": "Öge yok. Global ayarlar kullanılıyor.",
+    "add": "Ekle"
+  },
+  "admin": {
+    "general": {
+      "sessionTimeout": "Oturum Zaman Aşımı",
+      "sessionTimeoutDesc": "Beni Hatırla süresi (saniye)",
+      "metrics": "Metrikler",
+      "metricsPassword": "Şifre",
+      "metricsPasswordDesc": "Metrics endpoint'i için Bearer şifresi (argon2 hash destekler)",
+      "json": "JSON",
+      "jsonDesc": "JSON metrik rotası",
+      "prometheus": "Prometheus",
+      "prometheusDesc": "Prometheus metrik rotası"
+    },
+    "config": {
+      "connection": "Bağlantı",
+      "hostDesc": "İstemcilerin bağlanacağı Host (configleri etkiler)",
+      "portDesc": "İstemcilerin bağlanacağı UDP portu. Bunu değiştirmek mevcut istemci yapılandırmalarını geçersiz kılabilir ve WireGuard Arayüz Portu ile eşleşmelidir.",
+      "allowedIpsDesc": "Genel Allowed IPs (izin verilen IP'ler)",
+      "dnsDesc": "Global DNS",
+      "mtuDesc": "Varsayılan MTU (yeni istemciler için)",
+      "persistentKeepaliveDesc": "Varsayılan Keepalive (yeni istemciler için)",
+      "suggest": "Öner",
+      "suggestDesc": "Host alanı için bir IP veya Hostname öner"
+    },
+    "interface": {
+      "cidrSuccess": "CIDR güncellendi",
+      "device": "Arayüz",
+      "deviceDesc": "Trafiğin yönlendirileceği ağ arayüzü (ethernet)",
+      "mtuDesc": "WireGuard arayüz MTU'su",
+      "portDesc": "WireGuard dinleme portu",
+      "changeCidr": "CIDR Değiştir",
+      "restart": "Arayüzü Yeniden Başlat",
+      "restartDesc": "WireGuard arayüzünü resetler",
+      "restartWarn": "Arayüzü yeniden başlatmak tüm istemci bağlantılarını koparacaktır. Emin misiniz?",
+      "restartSuccess": "Arayüz yeniden başlatıldı",
+      "firewall": "Trafik Filtreleme",
+      "firewallEnabled": "İstemci Bazlı Firewall",
+      "firewallEnabledDesc": "iptables kullanarak istemci trafiğini kısıtlayın."
+    },
+    "introText": "Yönetici paneline hoş geldiniz.\n\nBuradan sistem ayarlarını, WireGuard yapılandırmasını ve Hooks ayarlarını yönetebilirsiniz.",
+    "obfuscator": {
+      "heading": "Obfuscator",
+      "extPort": "External UDP port",
+      "extPortDesc": "Public UDP port obfuscator listens on. Pinned when OBF_PORT env is set.",
+      "key": "Obfuscator key",
+      "keyDesc": "XOR key shared between server and all clients.",
+      "regenerateKey": "Regenerate key",
+      "keyRegenerated": "Obfuscator key regenerated",
+      "regeneratePort": "Pick free port",
+      "portRegenerated": "Obfuscator port changed",
+      "masking": "Masking mode (STUN / AUTO / NONE)",
+      "maskingDesc": "STUN wraps packets in STUN Binding messages. AUTO lets the obfuscator choose. NONE disables masking.",
+      "idle": "Idle timeout (seconds)",
+      "idleDesc": "Time after which an inactive client is removed from the session table.",
+      "dummy": "Max dummy bytes",
+      "dummyDesc": "Random padding prepended to each packet. Larger values increase entropy but also overhead.",
+      "publicIpV4": "Server public IPv4",
+      "publicIpV4Desc": "Used as target in client obfuscator config.",
+      "publicIpV6": "Server public IPv6",
+      "publicIpV6Desc": "Optional IPv6 target.",
+      "clientWgLocalPort": "Client-side WG → obfuscator port",
+      "clientWgLocalPortDesc": "Local loopback port the WireGuard client sends to on the device."
+    }
+  },
+  "zod": {
+    "generic": {
+      "required": "{0} alanı zorunludur",
+      "validNumber": "{0} geçerli bir sayı olmalıdır",
+      "validNumberRange": "{0} geçerli bir sayı veya aralık olmalıdır",
+      "validString": "{0} geçerli bir metin olmalıdır",
+      "validBoolean": "{0} geçerli bir boolean olmalıdır",
+      "validArray": "{0} geçerli bir dizi olmalıdır",
+      "stringMin": "{0} en az {1} karakter olmalıdır",
+      "numberMin": "{0} en az {1} olmalıdır"
+    },
+    "client": {
+      "id": "Client ID",
+      "name": "İsim",
+      "expiresAt": "Son Kullanma",
+      "address4": "IPv4 Adresi",
+      "address6": "IPv6 Adresi",
+      "serverAllowedIps": "Server Allowed IPs",
+      "firewallIps": "Firewall Allowed IPs",
+      "firewallIpsInvalid": "Geçersiz Firewall IP formatı. Desteklenen söz dizimi için dokümantasyona bakın. See docs for supported syntax."
+    },
+    "user": {
+      "username": "Kullanıcı Adı",
+      "password": "Şifre",
+      "remember": "Hatırla",
+      "name": "İsim",
+      "email": "E-posta",
+      "emailInvalid": "Geçersiz e-posta formatı",
+      "passwordMatch": "Şifreler eşleşmiyor",
+      "totpEnable": "2FA Aktif",
+      "totpEnableTrue": "2FA Aktif edilmelidir",
+      "totpCode": "2FA Kodu"
+    },
+    "userConfig": {
+      "host": "Host"
+    },
+    "general": {
+      "sessionTimeout": "Zaman Aşımı",
+      "metricsEnabled": "Metrikler",
+      "metricsPassword": "Metrik Şifresi"
+    },
+    "interface": {
+      "cidr": "CIDR",
+      "device": "Aygıt",
+      "cidrValid": "Geçersiz CIDR"
+    },
+    "stringMalformed": "Hatalı format",
+    "body": "Body geçerli bir obje olmalıdır",
+    "hook": "Hook",
+    "enabled": "Aktif",
+    "mtu": "MTU",
+    "port": "Port",
+    "persistentKeepalive": "Keepalive",
+    "address": "IP Adresi",
+    "dns": "DNS",
+    "allowedIps": "Allowed IPs",
+    "file": "Dosya",
+    "installLink": {
+      "token": "Install token"
+    },
+    "obfuscator": {
+      "extPort": "Obfuscator external port",
+      "key": "Obfuscator key",
+      "masking": "Masking mode",
+      "idle": "Obfuscator idle timeout",
+      "dummy": "Max dummy bytes",
+      "publicIpV4": "Server public IPv4",
+      "publicIpV6": "Server public IPv6",
+      "clientWgLocalPort": "Client local WG port"
+    }
+  },
+  "hooks": {
+    "preUp": "PreUp",
+    "postUp": "PostUp",
+    "preDown": "PreDown",
+    "postDown": "PostDown"
+  },
+  "copy": {
+    "notSupported": "Kopyalama desteklenmiyor",
+    "copied": "Kopyalandı!",
+    "failed": "Kopyalama başarısız",
+    "copy": "Kopyala"
+  }
+}

@@ -1,0 +1,8 @@
+#!/command/with-contenv sh
+ACME="${HOME}/.acme.sh/acme.sh"
+while true; do
+  if [ -f "$ACME" ]; then
+    "$ACME" --cron --home "${HOME}/.acme.sh"
+  fi
+  sleep 86400
+done
