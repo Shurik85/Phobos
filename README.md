@@ -1,9 +1,8 @@
 # wg-easy + Phobos obfuscator
 
-[![Build & Publish latest Image](https://github.com/wg-easy/wg-easy/actions/workflows/deploy.yml/badge.svg?branch=production)](https://github.com/wg-easy/wg-easy/actions/workflows/deploy.yml)
-[![Lint](https://github.com/wg-easy/wg-easy/actions/workflows/lint.yml/badge.svg?branch=master)](https://github.com/wg-easy/wg-easy/actions/workflows/lint.yml)
-[![GitHub Stars](https://img.shields.io/github/stars/wg-easy/wg-easy)](https://github.com/wg-easy/wg-easy/stargazers)
-[![License](https://img.shields.io/github/license/wg-easy/wg-easy)](LICENSE)
+[![Build & Publish Image](https://github.com/Ground-Zerro/Phobos/actions/workflows/publish-image.yml/badge.svg?branch=ph-wg-easy)](https://github.com/Ground-Zerro/Phobos/actions/workflows/publish-image.yml)
+[![GitHub Stars](https://img.shields.io/github/stars/Ground-Zerro/Phobos)](https://github.com/Ground-Zerro/Phobos/stargazers)
+[![License](https://img.shields.io/github/license/Ground-Zerro/Phobos)](LICENSE)
 
 WireGuard admin panel with a built-in STUN obfuscator. Traffic from the client to the server is masked as STUN and XOR-encoded — to bypass DPI in regions with blocks.
 
@@ -63,7 +62,14 @@ Script behavior:
 - downloads deployment files from this repository,
 - pulls ready project image from `ghcr.io/ground-zerro/phobos`,
 - starts the stack without server-side image build,
-- auto-generates first admin password and prints login details.
+- opens the setup wizard: create admin account, set hostname, configure TLS.
+
+After deployment open `http://<WG_HOST>:51821/` — the wizard guides through:
+1. Admin account (username + password)
+2. Server host (IP address or domain)
+3. TLS certificate (self-signed / Let's Encrypt / skip)
+
+> Make sure port **80** is open for Let's Encrypt HTTP challenge.
 
 Optional parameters:
 
@@ -71,15 +77,23 @@ Optional parameters:
 WG_HOST=<PUBLIC_IP_OR_DOMAIN> \
 OBF_PORT=51822 \
 WG_EASY_IMAGE=ghcr.io/ground-zerro/phobos:latest \
-INIT_USERNAME=admin \
 curl -fsSL https://raw.githubusercontent.com/Ground-Zerro/Phobos/ph-wg-easy/deploy.sh | sudo bash
 ```
 
-After deployment:
+To skip the wizard and pre-configure admin credentials via environment:
+
+```shell
+INIT_ENABLED=true \
+INIT_USERNAME=admin \
+INIT_PASSWORD=YourPassword \
+WG_HOST=<PUBLIC_IP_OR_DOMAIN> \
+curl -fsSL https://raw.githubusercontent.com/Ground-Zerro/Phobos/ph-wg-easy/deploy.sh | sudo bash
+```
+
+Ports:
 
 - Web UI: `http://<WG_HOST>:51821/`
-- Obfuscator port: `UDP <WG_HOST>:<OBF_PORT>`
-- Login and password are printed by the script.
+- Obfuscator: `UDP <WG_HOST>:<OBF_PORT>`
 
 ## How it works
 
