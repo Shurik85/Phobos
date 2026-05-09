@@ -49,34 +49,35 @@ volumes:
 
 Open `http://<host>:51821`, complete the initial setup, create a client.
 
-## Deploy from this repository (ph-wg-easy branch)
+## Deploy ready image from GitHub
 
-To deploy the customized `wg-easy + Phobos` build from this repo on a fresh Ubuntu/Debian server:
+This repository is designed for publishing ready-to-run images to GitHub Container Registry (`ghcr.io`) and deploying them on servers without local image builds.
 
-```bash
-sudo -i
-apt update && apt install -y git
+Build and publish image from your workstation/CI:
 
-git clone -b ph-wg-easy https://github.com/Ground-Zerro/Phobos.git /root/wg
-cd /root/wg
-
-# WG_HOST — your public IP or domain, OBF_PORT — external obfuscator UDP port
-WG_HOST=<PUBLIC_IP_OR_DOMAIN> OBF_PORT=51822 bash deploy.sh
+```shell
+echo "$GITHUB_TOKEN" | docker login ghcr.io -u <github-username> --password-stdin
+scripts/deploy/remote-deploy.sh root@HOST --multi-arch --push --image ghcr.io/<owner>/<repo>:latest
 ```
 
-The script will:
+What this command does:
 
-- install Docker + docker compose (if missing),
-- copy sources to `/opt/wg-easy`,
-- build the image from the included `Dockerfile` on the target host,
-- bring up the stack via `docker-compose.yml`,
-- wait until the `wg-easy` container is healthy.
+- builds and publishes a multi-arch image (`linux/amd64,linux/arm64`) to GHCR,
+- syncs deployment files to the server,
+- pulls the published image on the server,
+- starts `docker compose` without `docker build` on the server.
+
+Server-only deploy from already published image:
+
+```shell
+WG_EASY_IMAGE=ghcr.io/<owner>/<repo>:latest OBF_PORT=51822 docker compose up -d
+```
 
 After that:
 
-- Web UI: `http://<WG_HOST>:51821/`
+- Web UI: `http://<HOST>:51821/`
 - WireGuard (internal server listen port): `51820/udp`
-- Obfuscator (external UDP port): `<WG_HOST>:51822` (or your `OBF_PORT`)
+- Obfuscator (external UDP port): `<HOST>:51822` (or your `OBF_PORT`)
 
 ## How it works
 
@@ -122,9 +123,9 @@ Client device                    Server (Docker)
 | 4 — Above average | 50 | 50 |
 | 5 — Nightmare | 255 | 100 |
 
-## Remote deploy
+## Remote deploy scripts
 
-Helper scripts in `scripts/deploy/` automate SSH setup, Docker install, image build, transfer, and lifecycle:
+Helper scripts in `scripts/deploy/` automate SSH setup and deployment lifecycle:
 
 ```shell
 scripts/deploy/setup-ssh.sh     root@HOST            # one-shot password → key
@@ -136,17 +137,6 @@ scripts/deploy/teardown.sh      root@HOST            # stop; add --purge to wipe
 ```
 
 With `--https` the stack launches behind Caddy on :443 and a cert manager (Let's Encrypt / self-signed / import) runs on first deploy.
-
-For GitHub Container Registry:
-
-```shell
-echo "$GITHUB_TOKEN" | docker login ghcr.io -u <github-username> --password-stdin
-scripts/deploy/remote-deploy.sh root@HOST --multi-arch --push --image ghcr.io/<owner>/<repo>:latest
-```
-
-`--multi-arch` builds `linux/amd64,linux/arm64`, `--push` publishes manifest + images to registry, and the server only runs `docker pull` + `docker compose up`.
-
-Full guides: [`docs/deployment.md`](docs/deployment.md), [`docs/tls-certificates.md`](docs/tls-certificates.md).
 
 ## Development
 
