@@ -17,9 +17,15 @@ ARG S6_OVERLAY_VERSION=3.2.0.2
 ARG TARGETARCH
 
 ADD https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLAY_VERSION}/s6-overlay-noarch.tar.xz /tmp/
-ADD https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLAY_VERSION}/s6-overlay-x86_64.tar.xz /tmp/
-RUN tar -C / -Jxpf /tmp/s6-overlay-noarch.tar.xz && \
-    tar -C / -Jxpf /tmp/s6-overlay-x86_64.tar.xz && \
+RUN case "$TARGETARCH" in \
+      amd64) S6_ARCH="x86_64" ;; \
+      arm64) S6_ARCH="aarch64" ;; \
+      *) echo "Unsupported TARGETARCH: $TARGETARCH" >&2; exit 1 ;; \
+    esac && \
+    wget -qO "/tmp/s6-overlay-${S6_ARCH}.tar.xz" \
+      "https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLAY_VERSION}/s6-overlay-${S6_ARCH}.tar.xz" && \
+    tar -C / -Jxpf /tmp/s6-overlay-noarch.tar.xz && \
+    tar -C / -Jxpf "/tmp/s6-overlay-${S6_ARCH}.tar.xz" && \
     rm /tmp/s6-overlay-*.tar.xz
 
 COPY --from=build /app/.output /app
@@ -28,13 +34,12 @@ COPY --from=build /app/server/database/bootstrap.sql /app/server/database/bootst
 COPY src/phobos-obfuscator/bin /app/phobos/bin
 COPY src/server/phobos/templates /app/phobos/templates
 
-RUN LIBSQL_VER=$(node -pe "require('/app/server/node_modules/@libsql/linux-x64-gnu/package.json').version") && \
-    ARCH=$(uname -m) && \
-    case "$ARCH" in \
-      x86_64)  PKG="linux-x64-musl" ;; \
-      aarch64) PKG="linux-arm64-musl" ;; \
-      *) echo "Unsupported arch: $ARCH" >&2; exit 1 ;; \
+RUN case "$TARGETARCH" in \
+      amd64) LIBSQL_GNU_PKG="linux-x64-gnu"; PKG="linux-x64-musl" ;; \
+      arm64) LIBSQL_GNU_PKG="linux-arm64-gnu"; PKG="linux-arm64-musl" ;; \
+      *) echo "Unsupported TARGETARCH: $TARGETARCH" >&2; exit 1 ;; \
     esac && \
+    LIBSQL_VER=$(node -pe "require('/app/server/node_modules/@libsql/$LIBSQL_GNU_PKG/package.json').version") && \
     mkdir -p "/app/server/node_modules/@libsql/$PKG" && \
     wget -qO- "https://registry.npmjs.org/@libsql/$PKG/-/$PKG-$LIBSQL_VER.tgz" \
       | tar xz -C "/app/server/node_modules/@libsql/$PKG" --strip-components=1 && \
