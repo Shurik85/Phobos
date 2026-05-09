@@ -14,6 +14,7 @@ INIT_PASSWORD="${INIT_PASSWORD:-}"
 log()  { printf '\e[1;34m==>\e[0m %s\n' "$*"; }
 ok()   { printf '\e[1;32m  ✓\e[0m %s\n' "$*"; }
 fail() { printf '\e[1;31mERROR:\e[0m %s\n' "$*" >&2; exit 1; }
+trap 'printf "\e[1;31mERROR:\e[0m Deploy failed at line %s\n" "$LINENO" >&2' ERR
 
 require_root() {
   [ "$(id -u)" -eq 0 ] || fail "Run as root: sudo bash $0"
@@ -29,7 +30,15 @@ detect_distro() {
 }
 
 random_password() {
-  tr -dc 'A-Za-z0-9!@#%^*_+=' < /dev/urandom | head -c 20
+  local prev_pipefail password
+  prev_pipefail="$(set -o | awk '$1=="pipefail"{print $2}')"
+  set +o pipefail
+  password="$(tr -dc 'A-Za-z0-9!@#%^*_+=' < /dev/urandom | head -c 20 || true)"
+  if [ "$prev_pipefail" = "on" ]; then
+    set -o pipefail
+  fi
+  [ -n "$password" ] || password="Phobos$(date +%s)Aa1!"
+  printf '%s' "$password"
 }
 
 install_docker() {
