@@ -34,18 +34,35 @@ COPY --from=build /app/server/database/bootstrap.sql /app/server/database/bootst
 COPY src/phobos-obfuscator/bin /app/phobos/bin
 COPY src/server/phobos/templates /app/phobos/templates
 
-RUN case "$TARGETARCH" in \
-      amd64) GNU_PKG="linux-x64-gnu"; MUSL_PKG="linux-x64-musl" ;; \
-      arm64) GNU_PKG="linux-arm64-gnu"; MUSL_PKG="linux-arm64-musl" ;; \
-      *) echo "Unsupported TARGETARCH: $TARGETARCH" >&2; exit 1 ;; \
-    esac && \
-    GNU_JSON="/app/server/node_modules/@libsql/${GNU_PKG}/package.json" && \
-    test -f "$GNU_JSON" || { echo "Missing $GNU_JSON" >&2; exit 1; } && \
-    LIBSQL_VER=$(GNU_PKG="$GNU_PKG" node -pe "require('/app/server/node_modules/@libsql/' + process.env.GNU_PKG + '/package.json').version") && \
-    mkdir -p "/app/server/node_modules/@libsql/${MUSL_PKG}" && \
-    wget -qO- "https://registry.npmjs.org/@libsql/${MUSL_PKG}/-/${MUSL_PKG}-${LIBSQL_VER}.tgz" \
-      | tar xz -C "/app/server/node_modules/@libsql/${MUSL_PKG}" --strip-components=1 && \
-    ls "/app/server/node_modules/@libsql/"
+RUN set -eux; \
+    TA="${TARGETARCH:-}"; \
+    [ -n "$TA" ] || case "$(uname -m)" in \
+      x86_64) TA=amd64 ;; aarch64|arm64) TA=arm64 ;; \
+      *) echo "Unsupported uname -m: $(uname -m)" >&2; exit 1 ;; \
+    esac; \
+    case "$TA" in \
+      amd64) MUSL_PKG=linux-x64-musl; PREFERRED_GNU=linux-x64-gnu ;; \
+      arm64) MUSL_PKG=linux-arm64-musl; PREFERRED_GNU=linux-arm64-gnu ;; \
+      *) echo "Unsupported TARGETARCH/uname mapping: ${TA:-empty}" >&2; exit 1 ;; \
+    esac; \
+    LIBSQL_ROOT="/app/server/node_modules/@libsql"; \
+    GNU_JSON="${LIBSQL_ROOT}/${PREFERRED_GNU}/package.json"; \
+    if [ ! -f "$GNU_JSON" ]; then \
+      GNU_JSON="$(find "$LIBSQL_ROOT" -maxdepth 2 -type f -path '*/linux-*-gnu/package.json' | head -n1)"; \
+    fi; \
+    if [ ! -f "$GNU_JSON" ]; then \
+      echo "No @libsql linux-*-gnu package.json under $LIBSQL_ROOT" >&2; \
+      ls -la "$LIBSQL_ROOT" 2>&1 || true; \
+      exit 1; \
+    fi; \
+    LIBSQL_VER="$(node -p "require(\"${GNU_JSON}\").version")"; \
+    MUSL_TGZ_URL="https://registry.npmjs.org/@libsql/${MUSL_PKG}/-/${MUSL_PKG}-${LIBSQL_VER}.tgz"; \
+    mkdir -p "${LIBSQL_ROOT}/${MUSL_PKG}"; \
+    wget -O /tmp/libsql-musl.tgz "$MUSL_TGZ_URL" || \
+      { echo "wget failed: $MUSL_TGZ_URL (LIBSQL_VER=$LIBSQL_VER from $GNU_JSON)" >&2; exit 1; }; \
+    tar -xzf /tmp/libsql-musl.tgz -C "${LIBSQL_ROOT}/${MUSL_PKG}" --strip-components=1; \
+    rm -f /tmp/libsql-musl.tgz; \
+    ls -la "$LIBSQL_ROOT"/
 
 COPY --from=build /app/cli/cli.sh /usr/local/bin/cli
 RUN chmod +x /usr/local/bin/cli
