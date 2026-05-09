@@ -59,7 +59,6 @@ RUN set -eu; \
 
 COPY --from=build /app/.output /app
 COPY --from=build /app/server/database/migrations /app/server/database/migrations
-COPY --from=build /app/server/database/bootstrap.sql /app/server/database/bootstrap.sql
 COPY src/phobos-obfuscator/bin /app/phobos/bin
 COPY src/server/phobos/templates /app/phobos/templates
 RUN apk add --no-cache curl
