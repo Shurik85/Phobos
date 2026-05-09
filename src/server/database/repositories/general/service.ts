@@ -12,11 +12,19 @@ function createPreparedStatement(db: DBType) {
         },
       })
       .prepare(),
+    getAllowInsecureHttpLogin: db.query.general
+      .findFirst({
+        columns: {
+          allowInsecureHttpLogin: true,
+        },
+      })
+      .prepare(),
     getSessionConfig: db.query.general
       .findFirst({
         columns: {
           sessionPassword: true,
           sessionTimeout: true,
+          allowInsecureHttpLogin: true,
         },
       })
       .prepare(),
@@ -87,7 +95,21 @@ export class GeneralService {
     return {
       sessionPassword: result.sessionPassword,
       sessionTimeout: result.sessionTimeout,
+      allowInsecureHttpLogin: result.allowInsecureHttpLogin,
     };
+  }
+
+  /** For /api/information etc. — avoids loading session secrets. */
+  async getAllowInsecureHttpLogin() {
+    const row = await this.#statements.getAllowInsecureHttpLogin.execute();
+    return row?.allowInsecureHttpLogin ?? false;
+  }
+
+  setAllowInsecureHttpLogin(allowed: boolean) {
+    return this.#db
+      .update(general)
+      .set({ allowInsecureHttpLogin: allowed })
+      .execute();
   }
 
   /**

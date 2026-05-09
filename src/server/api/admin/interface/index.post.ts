@@ -29,7 +29,6 @@ export default definePermissionEventHandler(
     const prev = await Database.interfaces.get();
 
     const obfuscatorChanged =
-      prev.port !== data.port ||
       prev.obfuscatorExtPort !== data.obfuscatorExtPort ||
       prev.obfuscatorKey !== data.obfuscatorKey ||
       prev.obfuscatorMasking !== data.obfuscatorMasking ||

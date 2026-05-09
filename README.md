@@ -68,7 +68,7 @@ The script will:
 
 - install Docker + docker compose (if missing),
 - copy sources to `/opt/wg-easy`,
-- build the image from the included `Dockerfile`,
+- build the image from the included `Dockerfile` on the target host,
 - bring up the stack via `docker-compose.yml`,
 - wait until the `wg-easy` container is healthy.
 
@@ -124,18 +124,27 @@ Client device                    Server (Docker)
 
 ## Remote deploy
 
-Helper scripts in `scripts/deploy/` automate SSH setup, Docker install, build, and lifecycle:
+Helper scripts in `scripts/deploy/` automate SSH setup, Docker install, image build, transfer, and lifecycle:
 
 ```shell
 scripts/deploy/setup-ssh.sh     root@HOST            # one-shot password → key
-scripts/deploy/remote-deploy.sh root@HOST [--https]  # full deploy (Docker + build + up)
-scripts/deploy/update.sh        root@HOST [--https]  # rsync + rebuild + restart
+scripts/deploy/remote-deploy.sh root@HOST [--https] [--multi-arch --push --image ghcr.io/<owner>/<repo>:tag]
+scripts/deploy/update.sh        root@HOST [--https] [--multi-arch --push --image ghcr.io/<owner>/<repo>:tag]
 scripts/deploy/certs.sh         root@HOST            # manage TLS certificates
 scripts/deploy/logs.sh          root@HOST            # tail container logs
 scripts/deploy/teardown.sh      root@HOST            # stop; add --purge to wipe volumes
 ```
 
 With `--https` the stack launches behind Caddy on :443 and a cert manager (Let's Encrypt / self-signed / import) runs on first deploy.
+
+For GitHub Container Registry:
+
+```shell
+echo "$GITHUB_TOKEN" | docker login ghcr.io -u <github-username> --password-stdin
+scripts/deploy/remote-deploy.sh root@HOST --multi-arch --push --image ghcr.io/<owner>/<repo>:latest
+```
+
+`--multi-arch` builds `linux/amd64,linux/arm64`, `--push` publishes manifest + images to registry, and the server only runs `docker pull` + `docker compose up`.
 
 Full guides: [`docs/deployment.md`](docs/deployment.md), [`docs/tls-certificates.md`](docs/tls-certificates.md).
 

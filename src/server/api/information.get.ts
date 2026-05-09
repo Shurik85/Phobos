@@ -8,7 +8,8 @@ import {
 export default defineEventHandler(async () => {
   const latestRelease = await cachedFetchLatestRelease();
   const updateAvailable = gt(latestRelease.version, RELEASE);
-  const insecure = WG_ENV.INSECURE;
+  const insecure =
+    WG_ENV.INSECURE || (await Database.general.getAllowInsecureHttpLogin());
   const wgInterface = await Database.interfaces.get();
 
   const envPort = Number(process.env.OBF_PORT);

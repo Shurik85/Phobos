@@ -14,14 +14,6 @@
           url="/api/setup/4"
         />
       </div>
-      <div class="flex flex-col">
-        <FormNumberField
-          id="port"
-          v-model="port"
-          :label="$t('general.port')"
-          :description="$t('setup.portDesc')"
-        />
-      </div>
       <div class="mt-4 flex justify-center">
         <BasePrimaryButton @click="submit">
           {{ $t('general.continue') }}
@@ -40,7 +32,6 @@ const setupStore = useSetupStore();
 setupStore.setStep(4);
 
 const host = ref<null | string>(null);
-const port = ref<number>(51820);
 
 const _submit = useSubmit(
   '/api/setup/4',
@@ -58,6 +49,6 @@ const _submit = useSubmit(
 );
 
 function submit() {
-  return _submit({ host: host.value, port: port.value });
+  return _submit({ host: host.value });
 }
 </script>

@@ -8,12 +8,6 @@
           :label="$t('general.mtu')"
           :description="$t('admin.interface.mtuDesc')"
         />
-        <FormNumberField
-          id="port"
-          v-model="data.port"
-          :label="$t('general.port')"
-          :description="$t('admin.interface.portDesc')"
-        />
         <FormTextField
           id="device"
           v-model="data.device"
@@ -84,12 +78,6 @@
           v-model="data.serverPublicIpV6"
           :label="$t('admin.obfuscator.publicIpV6')"
           :description="$t('admin.obfuscator.publicIpV6Desc')"
-        />
-        <FormNumberField
-          id="clientWgLocalPort"
-          v-model="data.clientWgLocalPort"
-          :label="$t('admin.obfuscator.clientWgLocalPort')"
-          :description="$t('admin.obfuscator.clientWgLocalPortDesc')"
         />
       </FormGroup>
       <FormGroup>

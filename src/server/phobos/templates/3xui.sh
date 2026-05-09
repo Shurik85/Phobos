@@ -109,7 +109,7 @@ extract_endpoint() {
     SERVER_ADDRESS=$(echo "$endpoint" | rev | cut -d':' -f2- | rev)
     SERVER_PORT=$(echo "$endpoint" | rev | cut -d':' -f1 | rev)
   fi
-  [[ -z "$SERVER_PORT" ]] && SERVER_PORT="51820"
+  [[ -z "$SERVER_PORT" ]] && SERVER_PORT="51822"
 }
 
 build_local_addresses() {

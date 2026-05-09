@@ -1,7 +1,6 @@
 import { eq, sql } from 'drizzle-orm';
 import { userConfig } from './schema';
 import type { UserConfigUpdateType } from './types';
-import { wgInterface } from '#db/schema';
 import type { DBType } from '#db/sqlite';
 
 function createPreparedStatement(db: DBType) {
@@ -33,25 +32,12 @@ export class UserConfigService {
 
   // TODO: wrap ipv6 host in square brackets
 
-  /**
-   * sets host of user config
-   *
-   * sets port of user config and interface
-   */
-  updateHostPort(host: string, port: number) {
-    return this.#db.transaction(async (tx) => {
-      await tx
-        .update(userConfig)
-        .set({ host, port })
-        .where(eq(userConfig.id, 'wg0'))
-        .execute();
-
-      await tx
-        .update(wgInterface)
-        .set({ port })
-        .where(eq(wgInterface.name, 'wg0'))
-        .execute();
-    });
+  updateHost(host: string) {
+    return this.#db
+      .update(userConfig)
+      .set({ host })
+      .where(eq(userConfig.id, 'wg0'))
+      .execute();
   }
 
   update(data: Partial<UserConfigUpdateType>) {

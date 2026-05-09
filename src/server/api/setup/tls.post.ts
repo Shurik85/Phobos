@@ -37,14 +37,18 @@ export default defineSetupEventHandler('tls', async ({ event }) => {
       });
     }
 
+    await Database.general.setAllowInsecureHttpLogin(false);
     await Database.general.setSetupStep(0);
     return { success: true, httpsUrl: null };
   }
 
   if (body.mode === 'skip') {
+    await Database.general.setAllowInsecureHttpLogin(true);
     await Database.general.setSetupStep(0);
     return { success: true, httpsUrl: null };
   }
+
+  await Database.general.setAllowInsecureHttpLogin(false);
 
   const userConfig = await Database.userConfigs.get();
   const host = userConfig.host;

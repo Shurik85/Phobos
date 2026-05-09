@@ -1,26 +1,19 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# wg-easy + Phobos remote deployer.
-# Installs Docker on a fresh Ubuntu/Debian host, syncs this repo,
-# builds the image, and starts the stack via docker compose.
-#
-# Usage:
-#   scripts/deploy/remote-deploy.sh <user@host> [--port <obfuscator-udp-port>] [--path <remote-dir>] [--https]
-#
-# --https adds a Caddy reverse proxy with a self-signed cert on :443
-# (uses docker-compose.https.yml instead of docker-compose.yml).
-#
-# Requires on the workstation: ssh, rsync.
-# Requires on the remote host: SSH key auth (use setup-ssh.sh first).
-
 REMOTE=""
 OBF_PORT="51822"
 REMOTE_PATH="/opt/wg-easy"
 HTTPS=0
+IMAGE_TAG="ghcr.io/wg-easy/wg-easy:latest"
+PLATFORMS="linux/amd64"
+PUSH=0
 
 usage() {
-  sed -n '2,15p' "$0"
+  cat <<EOF
+Usage:
+  scripts/deploy/remote-deploy.sh <user@host> [--port <obfuscator-udp-port>] [--path <remote-dir>] [--https] [--image <tag>] [--platform <platform>] [--multi-arch] [--push]
+EOF
   exit 1
 }
 
@@ -29,6 +22,10 @@ while [ $# -gt 0 ]; do
     --port) OBF_PORT="$2"; shift 2 ;;
     --path) REMOTE_PATH="$2"; shift 2 ;;
     --https) HTTPS=1; shift ;;
+    --image) IMAGE_TAG="$2"; shift 2 ;;
+    --platform) PLATFORMS="$2"; shift 2 ;;
+    --multi-arch) PLATFORMS="linux/amd64,linux/arm64"; shift ;;
+    --push) PUSH=1; shift ;;
     -h|--help) usage ;;
     *)
       if [ -z "$REMOTE" ]; then REMOTE="$1"; else echo "Unknown arg: $1" >&2; usage; fi
@@ -38,6 +35,11 @@ while [ $# -gt 0 ]; do
 done
 
 [ -n "$REMOTE" ] || usage
+
+if [ "$PUSH" -eq 0 ] && [[ "$PLATFORMS" == *","* ]]; then
+  echo "Multi-platform build requires --push (registry mode)." >&2
+  exit 1
+fi
 
 REPO_ROOT="$(cd "$(dirname "$0")/../.." && pwd)"
 cd "$REPO_ROOT"
@@ -78,8 +80,17 @@ rsync -az --delete \
   --exclude 'certs' \
   "$REPO_ROOT/" "$REMOTE:$REMOTE_PATH/"
 
-echo "==> Building image on $REMOTE (this may take a few minutes on first run)"
-ssh "$REMOTE" "cd $REMOTE_PATH && docker build -t wg-easy:local . && docker tag wg-easy:local ghcr.io/wg-easy/wg-easy:latest"
+if [ "$PUSH" -eq 1 ]; then
+  echo "==> Building and pushing image ($IMAGE_TAG, platforms=$PLATFORMS)"
+  docker buildx build --platform "$PLATFORMS" -t "$IMAGE_TAG" --push .
+  echo "==> Pulling image on $REMOTE"
+  ssh "$REMOTE" "docker pull $IMAGE_TAG"
+else
+  echo "==> Building image locally ($IMAGE_TAG, platform=$PLATFORMS)"
+  docker buildx build --platform "$PLATFORMS" -t "$IMAGE_TAG" --load .
+  echo "==> Transferring image to $REMOTE"
+  docker save "$IMAGE_TAG" | ssh "$REMOTE" 'docker load'
+fi
 
 if [ $HTTPS -eq 1 ]; then
   echo "==> Checking for active TLS certificate"
@@ -98,16 +109,44 @@ if [ $HTTPS -eq 1 ]; then
 fi
 
 echo "==> Starting stack (compose=$COMPOSE_FILE, OBF_PORT=$OBF_PORT)"
-ssh "$REMOTE" "cd $REMOTE_PATH && OBF_PORT=$OBF_PORT docker compose -f $COMPOSE_FILE up -d --force-recreate"
+ssh "$REMOTE" "cd $REMOTE_PATH && OBF_PORT=$OBF_PORT WG_EASY_IMAGE=$IMAGE_TAG docker compose -f $COMPOSE_FILE up -d --force-recreate"
 
 echo "==> Waiting for container to become healthy"
-for i in $(seq 1 60); do
-  status=$(ssh "$REMOTE" 'docker inspect wg-easy --format "{{.State.Health.Status}}"' 2>/dev/null || echo "unknown")
+poll_s="${WAIT_HEALTHY_POLL_SEC:-2}"
+timeout_s="${WAIT_HEALTHY_TIMEOUT_SEC:-240}"
+start_ts=$(date +%s)
+i=0
+while true; do
+  status=$(ssh "$REMOTE" 'docker inspect wg-easy --format "{{if .State.Health}}{{.State.Health.Status}}{{else}}nohealth{{end}}"' 2>/dev/null || echo "missing")
+  now_ts=$(date +%s)
+  elapsed=$((now_ts - start_ts))
   case "$status" in
-    healthy) echo "    healthy"; break ;;
-    unhealthy) echo "    container reported unhealthy"; ssh "$REMOTE" 'docker logs --tail 30 wg-easy'; exit 1 ;;
-    *) sleep 5 ;;
+    healthy)
+      echo "    healthy after ${elapsed}s"
+      break
+      ;;
+    unhealthy)
+      echo "    container reported unhealthy after ${elapsed}s"
+      ssh "$REMOTE" 'docker logs --tail 80 wg-easy'
+      exit 1
+      ;;
+    missing)
+      echo "    container missing"
+      exit 1
+      ;;
+    *)
+      if [ $((i % 5)) -eq 0 ]; then
+        echo "    status=${status} elapsed=${elapsed}s/${timeout_s}s"
+      fi
+      ;;
   esac
+  if [ "$elapsed" -ge "$timeout_s" ]; then
+    echo "    timeout after ${timeout_s}s"
+    ssh "$REMOTE" 'docker logs --tail 120 wg-easy'
+    exit 1
+  fi
+  i=$((i + 1))
+  sleep "$poll_s"
 done
 
 echo "==> Summary"

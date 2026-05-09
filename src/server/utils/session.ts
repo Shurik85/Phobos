@@ -9,6 +9,8 @@ const name = 'wg-easy';
 
 export async function useWGSession(event: H3Event, rememberMe = false) {
   const sessionConfig = await Database.general.getSessionConfig();
+  const allowPlainHttp =
+    WG_ENV.INSECURE || sessionConfig.allowInsecureHttpLogin;
   return useSession<WGSession>(event, {
     password: sessionConfig.sessionPassword,
     name,
@@ -16,18 +18,20 @@ export async function useWGSession(event: H3Event, rememberMe = false) {
     // maxAge: undefined
     cookie: {
       maxAge: rememberMe ? sessionConfig.sessionTimeout : undefined,
-      secure: !WG_ENV.INSECURE,
+      secure: !allowPlainHttp,
     },
   });
 }
 
 export async function getWGSession(event: H3Event) {
   const sessionConfig = await Database.general.getSessionConfig();
+  const allowPlainHttp =
+    WG_ENV.INSECURE || sessionConfig.allowInsecureHttpLogin;
   return getSession<WGSession>(event, {
     password: sessionConfig.sessionPassword,
     name,
     cookie: {
-      secure: !WG_ENV.INSECURE,
+      secure: !allowPlainHttp,
     },
   });
 }

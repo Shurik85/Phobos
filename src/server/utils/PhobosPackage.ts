@@ -35,6 +35,10 @@ const TEMPLATES = [
 
 const TEMPLATE_WITH_PLACEHOLDER = 'install-router.sh.template';
 
+function normalizeLf(content: string): string {
+  return content.replaceAll('\r\n', '\n');
+}
+
 function resolveBinDir(): string {
   if (existsSync(PROD_BIN_DIR)) return PROD_BIN_DIR;
   return fileURLToPath(
@@ -96,14 +100,17 @@ class PhobosPackageService {
 
     const installRouter = (
       await readFile(resolve(templatesDir, TEMPLATE_WITH_PLACEHOLDER), 'utf8')
-    ).replaceAll('{{CLIENT_NAME}}', slug);
+    )
+      .replaceAll('{{CLIENT_NAME}}', slug);
     pack.entry(
       { name: `${pkgRoot}/install-router.sh`, mode: 0o755 },
-      installRouter
+      normalizeLf(installRouter)
     );
 
     for (const file of TEMPLATES) {
-      const content = await readFile(join(templatesDir, file));
+      const content = normalizeLf(
+        await readFile(join(templatesDir, file), 'utf8')
+      );
       pack.entry(
         { name: `${pkgRoot}/${file}`, mode: 0o755 },
         content
@@ -164,7 +171,7 @@ class PhobosPackageService {
   }
 
   async installScript(token: string, origin: string): Promise<string> {
-    const link = await Database.installLinks.getByToken(token);
+    const link = await Database.installLinks.getActiveByToken(token);
     if (!link) throw createError({ statusCode: 404 });
 
     const client = await Database.clients.get(link.id);

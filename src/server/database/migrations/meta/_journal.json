@@ -50,6 +50,20 @@
       "when": 1746403200000,
       "tag": "0006_remove_awg_fields",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "6",
+      "when": 1777000000000,
+      "tag": "0007_remove_legacy_user_config_port",
+      "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "6",
+      "when": 1777100000000,
+      "tag": "0008_allow_insecure_http_login",
+      "breakpoints": true
     }
   ]
 }

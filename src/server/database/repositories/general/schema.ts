@@ -13,6 +13,11 @@ export const general = sqliteTable('general_table', {
   metricsJson: int('metrics_json', { mode: 'boolean' }).notNull(),
   metricsPassword: text('metrics_password'),
 
+  /** HTTP login + non-secure session cookies (set when setup wizard skips TLS). */
+  allowInsecureHttpLogin: int('allow_insecure_http_login', { mode: 'boolean' })
+    .notNull()
+    .default(false),
+
   createdAt: text('created_at')
     .notNull()
     .default(sql`(CURRENT_TIMESTAMP)`),

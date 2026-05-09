@@ -10,12 +10,6 @@
           :description="$t('admin.config.hostDesc')"
           url="/api/admin/ip-info"
         />
-        <FormNumberField
-          id="port"
-          v-model="data.port"
-          :label="$t('general.port')"
-          :description="$t('admin.config.portDesc')"
-        />
       </FormGroup>
       <FormGroup>
         <FormHeading :description="$t('admin.config.allowedIpsDesc')">

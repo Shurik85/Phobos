@@ -11,7 +11,6 @@ const host = z
 
 export const UserConfigSetupSchema = z.object({
   host: host,
-  port: PortSchema,
 });
 
 export type UserConfigUpdateType = Omit<
@@ -21,7 +20,6 @@ export type UserConfigUpdateType = Omit<
 
 export const UserConfigUpdateSchema = schemaForType<UserConfigUpdateType>()(
   z.object({
-    port: PortSchema,
     defaultMtu: MtuSchema,
     defaultPersistentKeepalive: PersistentKeepaliveSchema,
     defaultDns: DnsSchema,

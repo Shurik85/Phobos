@@ -28,11 +28,6 @@ export const MtuSchema = z
   .min(1024, { message: t('zod.mtu') })
   .max(9000, { message: t('zod.mtu') });
 
-export const PortSchema = z
-  .number({ message: t('zod.port') })
-  .min(1, { message: t('zod.port') })
-  .max(65535, { message: t('zod.port') });
-
 export const PersistentKeepaliveSchema = z
   .number({ message: t('zod.persistentKeepalive') })
   .min(0, t('zod.persistentKeepalive'))

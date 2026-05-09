@@ -16,6 +16,12 @@ export type InterfaceUpdateType = Omit<
   'name' | 'createdAt' | 'updatedAt' | 'privateKey' | 'publicKey'
 >;
 
+/** Admin/API updates: internal WG listen port and local client port are fixed in DB. */
+export type InterfaceAdminUpdateType = Omit<
+  InterfaceUpdateType,
+  'port' | 'clientWgLocalPort'
+>;
+
 const device = z
   .string({ message: t('zod.interface.device') })
   .min(1, t('zod.interface.device'))
@@ -68,18 +74,11 @@ export const ServerPublicIpV6Schema = z
   })
   .nullable();
 
-export const ClientWgLocalPortSchema = z
-  .number({ message: t('zod.obfuscator.clientWgLocalPort') })
-  .int()
-  .min(1024)
-  .max(65535);
-
-export const InterfaceUpdateSchema = schemaForType<InterfaceUpdateType>()(
+export const InterfaceUpdateSchema = schemaForType<InterfaceAdminUpdateType>()(
   z.object({
     ipv4Cidr: cidr,
     ipv6Cidr: cidr,
     mtu: MtuSchema,
-    port: PortSchema,
     device: device,
     enabled: EnabledSchema,
     firewallEnabled: EnabledSchema,
@@ -90,7 +89,6 @@ export const InterfaceUpdateSchema = schemaForType<InterfaceUpdateType>()(
     obfuscatorDummy: ObfuscatorDummySchema,
     serverPublicIpV4: ServerPublicIpV4Schema,
     serverPublicIpV6: ServerPublicIpV6Schema,
-    clientWgLocalPort: ClientWgLocalPortSchema,
   })
 );
 

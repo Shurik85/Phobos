@@ -19,7 +19,6 @@ export const userConfig = sqliteTable('user_configs_table', {
     .$type<string[]>()
     .notNull(),
   host: text().notNull(),
-  port: int().notNull(),
   createdAt: text('created_at')
     .notNull()
     .default(sql`(CURRENT_TIMESTAMP)`),

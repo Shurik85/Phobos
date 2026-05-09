@@ -1,8 +1,11 @@
 import { drizzle } from 'drizzle-orm/libsql';
-import { migrate as drizzleMigrate } from 'drizzle-orm/libsql/migrator';
 import { createClient } from '@libsql/client';
 import debug from 'debug';
-import { eq } from 'drizzle-orm';
+import { eq, sql } from 'drizzle-orm';
+import { existsSync } from 'node:fs';
+import { readFile } from 'node:fs/promises';
+import { dirname, join } from 'node:path';
+import { fileURLToPath } from 'node:url';
 
 import * as schema from './schema';
 import { ClientService } from './repositories/client/service';
@@ -58,16 +61,64 @@ export type DBType = typeof db;
 export type DBServiceType = DBService;
 
 async function migrate() {
-  try {
-    DB_DEBUG('Migrating database...');
-    await drizzleMigrate(db, {
-      migrationsFolder: './server/database/migrations',
-    });
-    DB_DEBUG('Migration complete');
-  } catch (e) {
-    if (e instanceof Error) {
-      DB_DEBUG('Failed to migrate database:', e.message);
-    }
+  const hasInterfaces = await hasInterfacesTable();
+
+  if (!hasInterfaces) {
+    DB_DEBUG('Fresh database: applying bundled bootstrap.sql...');
+    await runBootstrapSql();
+    await ensureCoreTables();
+    DB_DEBUG('Bootstrap complete');
+    return;
+  }
+
+  DB_DEBUG('Existing database detected: skipping migration chain');
+  await ensureCoreTables();
+}
+
+async function hasInterfacesTable(): Promise<boolean> {
+  const row = await db.run(
+    sql`SELECT name FROM sqlite_master WHERE type = 'table' AND name = 'interfaces_table'`,
+  );
+  return Array.isArray(row.rows) && row.rows.length > 0;
+}
+
+async function ensureCoreTables() {
+  const hasInterfaces = await hasInterfacesTable();
+  if (!hasInterfaces) {
+    throw new Error('Core table interfaces_table is missing after database init');
+  }
+}
+
+function resolveBootstrapSqlPath(): string {
+  const siblingBootstrap = join(
+    dirname(fileURLToPath(import.meta.url)),
+    'bootstrap.sql',
+  );
+  const candidates = [
+    siblingBootstrap,
+    '/app/server/database/bootstrap.sql',
+    join(process.cwd(), 'server/database/bootstrap.sql'),
+    join(process.cwd(), 'src/server/database/bootstrap.sql'),
+  ];
+  const found = candidates.find((candidate) => existsSync(candidate));
+  if (!found) {
+    throw new Error(
+      `bootstrap.sql not found on disk (tried: ${candidates.join(', ')})`,
+    );
+  }
+  return found;
+}
+
+async function runBootstrapSql() {
+  const fullPath = resolveBootstrapSqlPath();
+  const raw = await readFile(fullPath, 'utf8');
+  const statements = raw
+    .split('--> statement-breakpoint')
+    .map((s) => s.trim())
+    .filter(Boolean);
+
+  for (const statement of statements) {
+    await db.run(sql.raw(statement));
   }
 }
 
@@ -101,20 +152,12 @@ async function initialSetup(db: DBServiceType) {
     });
   }
 
-  if (
-    WG_INITIAL_ENV.USERNAME &&
-    WG_INITIAL_ENV.PASSWORD &&
-    WG_INITIAL_ENV.HOST &&
-    WG_INITIAL_ENV.PORT
-  ) {
+  if (WG_INITIAL_ENV.USERNAME && WG_INITIAL_ENV.PASSWORD && WG_INITIAL_ENV.HOST) {
     DB_DEBUG('Creating initial user...');
     await db.users.create(WG_INITIAL_ENV.USERNAME, WG_INITIAL_ENV.PASSWORD);
 
-    DB_DEBUG('Setting initial host and port...');
-    await db.userConfigs.updateHostPort(
-      WG_INITIAL_ENV.HOST,
-      WG_INITIAL_ENV.PORT
-    );
+    DB_DEBUG('Setting initial host...');
+    await db.userConfigs.updateHost(WG_INITIAL_ENV.HOST);
 
     await db.general.setSetupStep(0);
   }

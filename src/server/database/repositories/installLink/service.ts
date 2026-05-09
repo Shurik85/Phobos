@@ -35,9 +35,11 @@ function createPreparedStatement(db: DBType) {
 }
 
 export class InstallLinkService {
+  #db: DBType;
   #statements: ReturnType<typeof createPreparedStatement>;
 
   constructor(db: DBType) {
+    this.#db = db;
     this.#statements = createPreparedStatement(db);
   }
 
@@ -49,12 +51,27 @@ export class InstallLinkService {
     return this.#statements.findByToken.execute({ token });
   }
 
+  async getActiveByToken(token: string) {
+    const link = await this.#statements.findByToken.execute({ token });
+    if (!link) {
+      return null;
+    }
+
+    if (new Date(link.expiresAt).getTime() < Date.now()) {
+      await this.#statements.delete.execute({ id: link.id });
+      return null;
+    }
+
+    return link;
+  }
+
   async generate(id: ID) {
     const token = createHash('sha256')
       .update(randomBytes(32))
       .digest('hex')
       .slice(0, 32);
     const expiresAt = new Date(Date.now() + TTL_MS).toISOString();
+    await this.#db.delete(installLink).where(eq(installLink.id, id)).execute();
     await this.#statements.create.execute({ id, token, expiresAt });
     return { token, expiresAt };
   }

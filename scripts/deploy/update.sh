@@ -1,19 +1,19 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Fast iterate: sync code, rebuild image, restart container.
-# Preserves volumes (wireguard config + sqlite DB).
-#
-# Usage:
-#   scripts/deploy/update.sh <user@host> [--path <remote-dir>] [--port <obfuscator-udp-port>] [--https]
-
 REMOTE=""
 OBF_PORT="51822"
 REMOTE_PATH="/opt/wg-easy"
 HTTPS=0
+IMAGE_TAG="ghcr.io/wg-easy/wg-easy:latest"
+PLATFORMS="linux/amd64"
+PUSH=0
 
 usage() {
-  sed -n '2,10p' "$0"
+  cat <<EOF
+Usage:
+  scripts/deploy/update.sh <user@host> [--path <remote-dir>] [--port <obfuscator-udp-port>] [--https] [--image <tag>] [--platform <platform>] [--multi-arch] [--push]
+EOF
   exit 1
 }
 
@@ -22,6 +22,10 @@ while [ $# -gt 0 ]; do
     --port) OBF_PORT="$2"; shift 2 ;;
     --path) REMOTE_PATH="$2"; shift 2 ;;
     --https) HTTPS=1; shift ;;
+    --image) IMAGE_TAG="$2"; shift 2 ;;
+    --platform) PLATFORMS="$2"; shift 2 ;;
+    --multi-arch) PLATFORMS="linux/amd64,linux/arm64"; shift ;;
+    --push) PUSH=1; shift ;;
     -h|--help) usage ;;
     *)
       if [ -z "$REMOTE" ]; then REMOTE="$1"; else echo "Unknown arg: $1" >&2; usage; fi
@@ -31,6 +35,11 @@ while [ $# -gt 0 ]; do
 done
 
 [ -n "$REMOTE" ] || usage
+
+if [ "$PUSH" -eq 0 ] && [[ "$PLATFORMS" == *","* ]]; then
+  echo "Multi-platform build requires --push (registry mode)." >&2
+  exit 1
+fi
 
 REPO_ROOT="$(cd "$(dirname "$0")/../.." && pwd)"
 COMPOSE_FILE="docker-compose.yml"
@@ -43,11 +52,20 @@ rsync -az --delete \
   --exclude 'certs' \
   "$REPO_ROOT/" "$REMOTE:$REMOTE_PATH/"
 
-echo "==> Rebuilding"
-ssh "$REMOTE" "cd $REMOTE_PATH && docker build -t wg-easy:local . && docker tag wg-easy:local ghcr.io/wg-easy/wg-easy:latest"
+if [ "$PUSH" -eq 1 ]; then
+  echo "==> Rebuilding and pushing image ($IMAGE_TAG, platforms=$PLATFORMS)"
+  docker buildx build --platform "$PLATFORMS" -t "$IMAGE_TAG" --push "$REPO_ROOT"
+  echo "==> Pulling image on $REMOTE"
+  ssh "$REMOTE" "docker pull $IMAGE_TAG"
+else
+  echo "==> Rebuilding image ($IMAGE_TAG, platform=$PLATFORMS)"
+  docker buildx build --platform "$PLATFORMS" -t "$IMAGE_TAG" --load "$REPO_ROOT"
+  echo "==> Transferring image"
+  docker save "$IMAGE_TAG" | ssh "$REMOTE" 'docker load'
+fi
 
 echo "==> Restarting (compose=$COMPOSE_FILE, volumes preserved)"
-ssh "$REMOTE" "cd $REMOTE_PATH && OBF_PORT=$OBF_PORT docker compose -f $COMPOSE_FILE up -d --force-recreate"
+ssh "$REMOTE" "cd $REMOTE_PATH && OBF_PORT=$OBF_PORT WG_EASY_IMAGE=$IMAGE_TAG docker compose -f $COMPOSE_FILE up -d --force-recreate"
 
 for i in $(seq 1 60); do
   status=$(ssh "$REMOTE" 'docker inspect wg-easy --format "{{.State.Health.Status}}"' 2>/dev/null || echo unknown)

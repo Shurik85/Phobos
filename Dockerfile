@@ -22,12 +22,9 @@ RUN tar -C / -Jxpf /tmp/s6-overlay-noarch.tar.xz && \
     tar -C / -Jxpf /tmp/s6-overlay-x86_64.tar.xz && \
     rm /tmp/s6-overlay-*.tar.xz
 
-HEALTHCHECK --interval=1m --timeout=5s --retries=3 CMD \
-    /usr/bin/timeout 5s /bin/sh -c \
-    "/usr/bin/wg show | /bin/grep -q interface && /usr/bin/pgrep wg-obfuscator >/dev/null || exit 1"
-
 COPY --from=build /app/.output /app
 COPY --from=build /app/server/database/migrations /app/server/database/migrations
+COPY --from=build /app/server/database/bootstrap.sql /app/server/database/bootstrap.sql
 COPY src/phobos-obfuscator/bin /app/phobos/bin
 COPY src/server/phobos/templates /app/phobos/templates
 
@@ -55,6 +52,7 @@ RUN apk add --no-cache \
     iptables-legacy \
     wireguard-go \
     wireguard-tools \
+    procps-ng \
     openssl \
     curl \
     socat
@@ -72,6 +70,11 @@ RUN chmod +x /etc/s6-overlay/s6-rc.d/node/run \
     /etc/s6-overlay/s6-rc.d/wg-obfuscator/run \
     /etc/s6-overlay/s6-rc.d/wg-obfuscator/finish \
     /etc/s6-overlay/s6-rc.d/acme-renew/run
+
+# procps-ng installs /usr/bin/pgrep (BusyBox only has /bin/pgrep — the old /usr/bin/pgrep path always failed).
+HEALTHCHECK --interval=30s --timeout=8s --start-period=120s --retries=5 CMD \
+    /usr/bin/timeout 8s /bin/sh -c \
+    '/usr/bin/wg show 2>/dev/null | /bin/grep -q interface && /usr/bin/pgrep wg-obfuscator >/dev/null || exit 1'
 
 ENV DEBUG=Server,WireGuard,Database,CMD,Obfuscator,PhobosPackage
 ENV PORT=51821

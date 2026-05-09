@@ -6,18 +6,11 @@ export default defineEventHandler(async (event) => {
     validateZod(InstallTokenParamSchema, event)
   );
 
-  const link = await Database.installLinks.getByToken(token);
+  const link = await Database.installLinks.getActiveByToken(token);
   if (!link) {
     throw createError({
       statusCode: 404,
       statusMessage: 'Install link not found',
-    });
-  }
-
-  if (new Date(link.expiresAt).getTime() < Date.now()) {
-    throw createError({
-      statusCode: 410,
-      statusMessage: 'Install link expired',
     });
   }
 
