@@ -7,7 +7,7 @@ WG_HOST="${WG_HOST:-}"
 WG_EASY_IMAGE="${WG_EASY_IMAGE:-ghcr.io/ground-zerro/phobos:latest}"
 REPO_RAW_BASE="${REPO_RAW_BASE:-https://raw.githubusercontent.com/Ground-Zerro/Phobos/ph-wg-easy}"
 COMPOSE_FILE="docker-compose.yml"
-INIT_ENABLED="${INIT_ENABLED:-true}"
+INIT_ENABLED="${INIT_ENABLED:-false}"
 INIT_USERNAME="${INIT_USERNAME:-admin}"
 INIT_PASSWORD="${INIT_PASSWORD:-}"
 
@@ -160,7 +160,7 @@ if [ -z "$WG_HOST" ]; then
   ok "Public IP: $WG_HOST"
 fi
 
-if [ -z "$INIT_PASSWORD" ]; then
+if [ "$INIT_ENABLED" = "true" ] && [ -z "$INIT_PASSWORD" ]; then
   INIT_PASSWORD="$(random_password)"
 fi
 
@@ -168,15 +168,24 @@ download_stack_files
 cd "$DEPLOY_DIR"
 
 log "Writing .env"
-cat > "${DEPLOY_DIR}/.env" <<EOF
+if [ "$INIT_ENABLED" = "true" ]; then
+  cat > "${DEPLOY_DIR}/.env" <<EOF
 WG_HOST=${WG_HOST}
 OBF_PORT=${OBF_PORT}
 WG_EASY_IMAGE=${WG_EASY_IMAGE}
-INIT_ENABLED=${INIT_ENABLED}
+INIT_ENABLED=true
 INIT_USERNAME=${INIT_USERNAME}
 INIT_PASSWORD=${INIT_PASSWORD}
 INIT_HOST=${WG_HOST}
 EOF
+else
+  cat > "${DEPLOY_DIR}/.env" <<EOF
+WG_HOST=${WG_HOST}
+OBF_PORT=${OBF_PORT}
+WG_EASY_IMAGE=${WG_EASY_IMAGE}
+INIT_ENABLED=false
+EOF
+fi
 ok ".env written"
 
 log "Pulling image"
@@ -190,17 +199,38 @@ ok "Stack started"
 wait_healthy
 
 printf '\n'
-printf '\e[1;32m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\e[0m\n'
+printf '\e[1;32m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\e[0m\n'
 printf '\e[1;32m  wg-easy deployed successfully\e[0m\n'
-printf '\e[1;32m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\e[0m\n'
-printf '  Web UI      : http://%s:51821/\n' "$WG_HOST"
+printf '\e[1;32m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\e[0m\n'
+printf '\n'
+
+if [ "$INIT_ENABLED" = "true" ]; then
+  printf '\e[1;33m  >>> Open in browser to log in: <<<\e[0m\n'
+  printf '\e[1;37m  http://%s:51821/\e[0m\n' "$WG_HOST"
+  printf '\n'
+  printf '  Username    : %s\n' "$INIT_USERNAME"
+  printf '  Password    : %s\n' "$INIT_PASSWORD"
+  printf '\n'
+  printf '\e[0;33m  Note: to configure domain and TLS certificate go to\e[0m\n'
+  printf '\e[0;33m  Admin → Interface after login.\e[0m\n'
+  printf '\e[0;33m  Credentials above apply on first deploy only (new database).\e[0m\n'
+else
+  printf '\e[1;33m  >>> Open in browser to complete initial setup: <<<\e[0m\n'
+  printf '\e[1;37m  http://%s:51821/\e[0m\n' "$WG_HOST"
+  printf '\n'
+  printf '  The setup wizard will guide you through:\n'
+  printf '    1. Create admin account (username + password)\n'
+  printf '    2. Set server host (IP address or domain name)\n'
+  printf '    3. Configure TLS certificate (self-signed / Let'\''s Encrypt / skip)\n'
+  printf '\n'
+  printf '\e[0;33m  Make sure port 80 is open for Let'\''s Encrypt HTTP challenge.\e[0m\n'
+fi
+
+printf '\n'
 printf '  Obfuscator  : UDP %s:%s\n' "$WG_HOST" "$OBF_PORT"
-printf '  Username    : %s\n' "$INIT_USERNAME"
-printf '  Password    : %s\n' "$INIT_PASSWORD"
 printf '  Image       : %s\n' "$WG_EASY_IMAGE"
 printf '  Deploy dir  : %s\n' "$DEPLOY_DIR"
-printf '\e[1;32m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\e[0m\n'
+printf '\e[1;32m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\e[0m\n'
 printf '\n'
-printf 'Credentials are applied on first setup only (new database).\n\n'
 docker ps --format "  {{.Names}}  |  {{.Status}}  |  {{.Ports}}"
 printf '\n'

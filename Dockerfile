@@ -1,16 +1,17 @@
-FROM docker.io/library/node:krypton-alpine AS build
+FROM docker.io/library/node:lts-alpine AS build
 WORKDIR /app
 
+RUN apk add --no-cache python3
 RUN npm install --global corepack@latest
 RUN corepack enable pnpm
 
 COPY src/package.json src/pnpm-lock.yaml ./
-RUN pnpm install
+RUN pnpm install --frozen-lockfile
 
 COPY src ./
 RUN pnpm build
 
-FROM docker.io/library/node:krypton-alpine
+FROM docker.io/library/node:lts-alpine
 WORKDIR /app
 
 ARG S6_OVERLAY_VERSION=3.2.0.2
@@ -74,10 +75,9 @@ RUN chmod +x /etc/s6-overlay/s6-rc.d/node/run \
     /etc/s6-overlay/s6-rc.d/wg-obfuscator/finish \
     /etc/s6-overlay/s6-rc.d/acme-renew/run
 
-# procps-ng installs /usr/bin/pgrep (BusyBox only has /bin/pgrep — the old /usr/bin/pgrep path always failed).
-HEALTHCHECK --interval=30s --timeout=8s --start-period=120s --retries=5 CMD \
+HEALTHCHECK --interval=30s --timeout=8s --start-period=60s --retries=5 CMD \
     /usr/bin/timeout 8s /bin/sh -c \
-    '/usr/bin/wg show 2>/dev/null | /bin/grep -q interface && /usr/bin/pgrep wg-obfuscator >/dev/null || exit 1'
+    'curl -fsSk https://localhost:${PORT:-51821}/ >/dev/null 2>&1 || curl -fsS http://localhost:${PORT:-51821}/ >/dev/null 2>&1'
 
 ENV DEBUG=Server,WireGuard,Database,CMD,Obfuscator,PhobosPackage
 ENV PORT=51821
