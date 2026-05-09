@@ -39,11 +39,15 @@ RUN case "$TARGETARCH" in \
       arm64) PKG="linux-arm64-musl" ;; \
       *) echo "Unsupported TARGETARCH: $TARGETARCH" >&2; exit 1 ;; \
     esac && \
-    LIBSQL_VER=$(PKG="$PKG" node -pe "const c=require('/app/server/node_modules/@libsql/client/package.json'); const v=(c.optionalDependencies||{})['@libsql/'+process.env.PKG]; if(!v){process.exit(1)}; v.replace(/^[^0-9]*/, '')") && \
-    mkdir -p "/app/server/node_modules/@libsql/$PKG" && \
-    wget -qO- "https://registry.npmjs.org/@libsql/$PKG/-/$PKG-$LIBSQL_VER.tgz" \
-      | tar xz -C "/app/server/node_modules/@libsql/$PKG" --strip-components=1 && \
-    ls /app/server/node_modules/@libsql/
+    LIBSQL_VER=$(PKG="$PKG" node -pe "const c=require('/app/server/node_modules/@libsql/client/package.json'); const v=(c.optionalDependencies||{})['@libsql/'+process.env.PKG]; v ? v.replace(/^[^0-9]*/, '') : ''" 2>/dev/null || true) && \
+    if [ -n "$LIBSQL_VER" ]; then \
+      mkdir -p "/app/server/node_modules/@libsql/$PKG" && \
+      wget -qO- "https://registry.npmjs.org/@libsql/$PKG/-/$PKG-$LIBSQL_VER.tgz" \
+        | tar xz -C "/app/server/node_modules/@libsql/$PKG" --strip-components=1; \
+    else \
+      echo "Skipping @libsql musl override for $PKG"; \
+    fi && \
+    ls /app/server/node_modules/@libsql/ || true
 
 COPY --from=build /app/cli/cli.sh /usr/local/bin/cli
 RUN chmod +x /usr/local/bin/cli
