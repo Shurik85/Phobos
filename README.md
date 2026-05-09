@@ -25,7 +25,7 @@ WireGuard admin panel with a built-in STUN obfuscator. Traffic from the client t
 ```yaml
 services:
   wg-easy:
-    image: ghcr.io/wg-easy/wg-easy:latest
+    image: ghcr.io/ground-zerro/phobos:latest
     environment:
       - OBF_PORT=51822
     ports:
@@ -49,34 +49,37 @@ volumes:
 
 Open `http://<host>:51821`, complete the initial setup, create a client.
 
-## Deploy from this repository (ph-wg-easy branch)
+## One-command server deploy
 
-To deploy the customized `wg-easy + Phobos` build from this repo on a fresh Ubuntu/Debian server:
+Run one command on a fresh server:
 
-```bash
-sudo -i
-apt update && apt install -y git
-
-git clone -b ph-wg-easy https://github.com/Ground-Zerro/Phobos.git /root/wg
-cd /root/wg
-
-# WG_HOST — your public IP or domain, OBF_PORT — external obfuscator UDP port
-WG_HOST=<PUBLIC_IP_OR_DOMAIN> OBF_PORT=51822 bash deploy.sh
+```shell
+curl -fsSL https://raw.githubusercontent.com/Ground-Zerro/Phobos/ph-wg-easy/deploy.sh | sudo bash
 ```
 
-The script will:
+Script behavior:
 
-- install Docker + docker compose (if missing),
-- copy sources to `/opt/wg-easy`,
-- build the image from the included `Dockerfile` on the target host,
-- bring up the stack via `docker-compose.yml`,
-- wait until the `wg-easy` container is healthy.
+- installs Docker + Compose plugin (if missing),
+- downloads deployment files from this repository,
+- pulls ready project image from `ghcr.io/ground-zerro/phobos`,
+- starts the stack without server-side image build,
+- auto-generates first admin password and prints login details.
 
-After that:
+Optional parameters:
+
+```shell
+WG_HOST=<PUBLIC_IP_OR_DOMAIN> \
+OBF_PORT=51822 \
+WG_EASY_IMAGE=ghcr.io/ground-zerro/phobos:latest \
+INIT_USERNAME=admin \
+curl -fsSL https://raw.githubusercontent.com/Ground-Zerro/Phobos/ph-wg-easy/deploy.sh | sudo bash
+```
+
+After deployment:
 
 - Web UI: `http://<WG_HOST>:51821/`
-- WireGuard (internal server listen port): `51820/udp`
-- Obfuscator (external UDP port): `<WG_HOST>:51822` (or your `OBF_PORT`)
+- Obfuscator port: `UDP <WG_HOST>:<OBF_PORT>`
+- Login and password are printed by the script.
 
 ## How it works
 
@@ -122,31 +125,9 @@ Client device                    Server (Docker)
 | 4 — Above average | 50 | 50 |
 | 5 — Nightmare | 255 | 100 |
 
-## Remote deploy
+## Remote deploy scripts
 
-Helper scripts in `scripts/deploy/` automate SSH setup, Docker install, image build, transfer, and lifecycle:
-
-```shell
-scripts/deploy/setup-ssh.sh     root@HOST            # one-shot password → key
-scripts/deploy/remote-deploy.sh root@HOST [--https] [--multi-arch --push --image ghcr.io/<owner>/<repo>:tag]
-scripts/deploy/update.sh        root@HOST [--https] [--multi-arch --push --image ghcr.io/<owner>/<repo>:tag]
-scripts/deploy/certs.sh         root@HOST            # manage TLS certificates
-scripts/deploy/logs.sh          root@HOST            # tail container logs
-scripts/deploy/teardown.sh      root@HOST            # stop; add --purge to wipe volumes
-```
-
-With `--https` the stack launches behind Caddy on :443 and a cert manager (Let's Encrypt / self-signed / import) runs on first deploy.
-
-For GitHub Container Registry:
-
-```shell
-echo "$GITHUB_TOKEN" | docker login ghcr.io -u <github-username> --password-stdin
-scripts/deploy/remote-deploy.sh root@HOST --multi-arch --push --image ghcr.io/<owner>/<repo>:latest
-```
-
-`--multi-arch` builds `linux/amd64,linux/arm64`, `--push` publishes manifest + images to registry, and the server only runs `docker pull` + `docker compose up`.
-
-Full guides: [`docs/deployment.md`](docs/deployment.md), [`docs/tls-certificates.md`](docs/tls-certificates.md).
+Additional helpers in `scripts/deploy/` are available for SSH-based remote operations and updates.
 
 ## Development
 

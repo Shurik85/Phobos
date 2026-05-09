@@ -31,7 +31,7 @@ if [ $PURGE -eq 1 ]; then
       docker compose -f docker-compose.https.yml down -v --remove-orphans 2>/dev/null || true
       docker compose down -v --remove-orphans 2>/dev/null || true
     }
-    docker rmi wg-easy:local ghcr.io/wg-easy/wg-easy:latest 2>/dev/null || true
+    docker rmi wg-easy:local ghcr.io/ground-zerro/phobos:latest 2>/dev/null || true
     rm -rf $REMOTE_PATH
   "
   echo "Purged container, volumes, and $REMOTE_PATH."

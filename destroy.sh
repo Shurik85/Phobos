@@ -61,7 +61,7 @@ done
 
 # ── 4. Remove Docker images ──────────────────────────────────────────────────
 log "Removing Docker images"
-for IMG in "wg-easy:local" "ghcr.io/wg-easy/wg-easy:latest"; do
+for IMG in "wg-easy:local" "ghcr.io/ground-zerro/phobos:latest"; do
     if docker image inspect "$IMG" >/dev/null 2>&1; then
         docker rmi "$IMG"
         ok "Image removed: $IMG"

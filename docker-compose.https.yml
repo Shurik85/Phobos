@@ -6,7 +6,7 @@ volumes:
 
 services:
   wg-easy:
-    image: ${WG_EASY_IMAGE:-ghcr.io/wg-easy/wg-easy:latest}
+    image: ${WG_EASY_IMAGE:-ghcr.io/ground-zerro/phobos:latest}
     container_name: wg-easy
     environment:
       - OBF_PORT=${OBF_PORT:-51822}

@@ -16,7 +16,7 @@ set -euo pipefail
 #   ./scripts/buildx-push.sh
 
 REGISTRY="${REGISTRY:-ghcr.io}"
-IMAGE_REPO="${IMAGE_REPO:-}"
+IMAGE_REPO="${IMAGE_REPO:-ground-zerro/phobos}"
 VERSION_TAG="${VERSION_TAG:-}"
 PUSH_LATEST="${PUSH_LATEST:-true}"
 PLATFORMS="${PLATFORMS:-linux/amd64,linux/arm64}"
@@ -34,7 +34,7 @@ require_cmd() {
 
 require_cmd docker
 
-[ -n "$IMAGE_REPO" ] || fail "Set IMAGE_REPO (e.g. my-org/wg-easy)"
+[ -n "$IMAGE_REPO" ] || fail "Set IMAGE_REPO (e.g. ground-zerro/phobos)"
 [ -n "$VERSION_TAG" ] || fail "Set VERSION_TAG (e.g. 15.3.0-phobos)"
 
 FULL_IMAGE="${REGISTRY}/${IMAGE_REPO}"

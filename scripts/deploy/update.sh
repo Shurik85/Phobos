@@ -5,7 +5,7 @@ REMOTE=""
 OBF_PORT="51822"
 REMOTE_PATH="/opt/wg-easy"
 HTTPS=0
-IMAGE_TAG="ghcr.io/wg-easy/wg-easy:latest"
+IMAGE_TAG="ghcr.io/ground-zerro/phobos:latest"
 PLATFORMS="linux/amd64"
 PUSH=0
 
