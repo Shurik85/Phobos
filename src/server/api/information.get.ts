@@ -7,7 +7,9 @@ import {
 
 export default defineEventHandler(async () => {
   const latestRelease = await cachedFetchLatestRelease();
-  const updateAvailable = gt(latestRelease.version, RELEASE);
+  const updateAvailable = latestRelease.version !== RELEASE
+    ? gt(latestRelease.version, RELEASE)
+    : false;
   const insecure =
     WG_ENV.INSECURE || (await Database.general.getAllowInsecureHttpLogin());
   const wgInterface = await Database.interfaces.get();

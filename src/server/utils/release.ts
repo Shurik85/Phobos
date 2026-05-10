@@ -10,7 +10,7 @@ async function fetchLatestRelease() {
       { method: 'get', timeout: 5000 }
     );
     if (!response) {
-      throw new Error('Empty Response');
+      return { version: RELEASE, changelog: '' };
     }
     const changelog = response.body.split('\r\n\r\n')[0] ?? '';
     return {
@@ -19,10 +19,7 @@ async function fetchLatestRelease() {
     };
   } catch (e) {
     SERVER_DEBUG('Failed to fetch latest releases: ', e);
-    throw createError({
-      statusCode: 500,
-      statusMessage: 'Failed to fetch latest release',
-    });
+    return { version: RELEASE, changelog: '' };
   }
 }
 

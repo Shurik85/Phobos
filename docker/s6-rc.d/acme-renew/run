@@ -1,8 +1,47 @@
 #!/command/with-contenv sh
 ACME="${HOME}/.acme.sh/acme.sh"
+ACME_HOME="${HOME}/.acme.sh"
+PORT_HINT="/app/certs/acme-http-port"
+
+is_port_free() {
+  ! nc -z 127.0.0.1 "$1" 2>/dev/null
+}
+
+pick_free_port() {
+  if is_port_free 80; then
+    echo 80
+    return
+  fi
+  port=8080
+  while [ "$port" -le 65535 ]; do
+    if is_port_free "$port"; then
+      echo "$port"
+      return
+    fi
+    port=$((port + 1))
+  done
+  echo 80
+}
+
+patch_acme_port() {
+  free_port=$(pick_free_port)
+  patched=0
+  for conf in "$ACME_HOME"/*/*.conf; do
+    [ -f "$conf" ] || continue
+    if grep -q "Le_Httpport=" "$conf" 2>/dev/null; then
+      sed -i "s/Le_Httpport='[^']*'/Le_Httpport='$free_port'/" "$conf"
+      patched=1
+    fi
+  done
+  if [ "$patched" -eq 1 ]; then
+    echo "$free_port" > "$PORT_HINT"
+  fi
+}
+
 while true; do
   if [ -f "$ACME" ]; then
-    "$ACME" --cron --home "${HOME}/.acme.sh"
+    patch_acme_port
+    "$ACME" --cron --home "$ACME_HOME"
   fi
   sleep 86400
 done

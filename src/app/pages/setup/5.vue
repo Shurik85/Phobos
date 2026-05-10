@@ -180,7 +180,7 @@ async function submit() {
       countdown.value = 25;
       resume();
     } else {
-      await navigateTo('/setup/success');
+      window.location.href = '/login';
     }
   } catch (e: unknown) {
     const msg =
