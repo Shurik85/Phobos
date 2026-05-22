@@ -149,10 +149,12 @@ export default defineNuxtConfig({
       useCookie: true,
     },
   },
+  experimental: {
+    payloadExtraction: false,
+  },
   nitro: {
     esbuild: {
       options: {
-        // to support big int
         target: 'node20',
       },
     },
@@ -161,6 +163,22 @@ export default defineNuxtConfig({
     },
     externals: {
       traceInclude: [fileURLToPath(new URL('./cli/index.ts', import.meta.url))],
+    },
+  },
+  vite: {
+    build: {
+      rollupOptions: {
+        output: {
+          manualChunks(id) {
+            if (id.includes('node_modules')) {
+              if (id.includes('radix-vue') || id.includes('@radix-ui')) return 'ui';
+              if (id.includes('vue-i18n') || id.includes('@intlify')) return 'i18n';
+              if (id.includes('pinia')) return 'pinia';
+              return 'vendor';
+            }
+          },
+        },
+      },
     },
   },
   alias: {

@@ -24,7 +24,7 @@ const totpCode = z
 export const UserLoginSchema = z.object({
   username: username,
   password: password,
-  remember: remember,
+  remember: remember.optional().default(true),
   totpCode: totpCode.optional(),
 });
 

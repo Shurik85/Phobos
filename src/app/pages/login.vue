@@ -42,14 +42,6 @@
         pattern="\d{6}"
       />
 
-      <label
-        class="flex gap-2 whitespace-nowrap"
-        :title="$t('login.rememberMeDesc')"
-      >
-        <BaseSwitch v-model="remember" />
-        <span class="text-sm">{{ $t('login.rememberMe') }}</span>
-      </label>
-
       <button
         class="rounded py-2 text-sm text-white shadow transition dark:text-white"
         :class="{
@@ -71,7 +63,6 @@ const toast = useToast();
 const { t } = useI18n();
 
 const authenticating = ref(false);
-const remember = ref(false);
 const username = ref<string>('');
 const password = ref<string>('');
 const totpRequired = ref(false);
@@ -122,7 +113,7 @@ async function submit() {
   return _submit({
     username: username.value,
     password: password.value,
-    remember: remember.value,
+    remember: true,
     totpCode: totpRequired.value ? totp.value : undefined,
   });
 }
