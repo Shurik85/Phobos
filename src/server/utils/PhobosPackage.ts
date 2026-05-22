@@ -88,7 +88,7 @@ class PhobosPackageService {
       enableIpv6: !WG_ENV.DISABLE_IPV6,
     });
 
-    const obfConf = this.#buildClientObfConf(iface);
+    const obfConf = Obfuscator.buildClientObfConf(iface);
 
     const templatesDir = resolveTemplatesDir();
     const binDir = resolveBinDir();
@@ -143,21 +143,6 @@ class PhobosPackageService {
     this.#cache.set(clientId, gzipped);
     PACKAGE_DEBUG(`built package for client ${clientId} (${gzipped.length} B)`);
     return gzipped;
-  }
-
-  #buildClientObfConf(iface: InterfaceType): string {
-    return [
-      '[instance]',
-      'source-if = 127.0.0.1',
-      `source-lport = ${iface.clientWgLocalPort}`,
-      `target = ${iface.serverPublicIpV4}:${iface.obfuscatorExtPort}`,
-      `key = ${iface.obfuscatorKey}`,
-      `masking = ${iface.obfuscatorMasking}`,
-      'verbose = INFO',
-      `idle-timeout = ${iface.obfuscatorIdle}`,
-      `max-dummy = ${iface.obfuscatorDummy}`,
-      '',
-    ].join('\n');
   }
 
   invalidate(clientId?: ID): void {

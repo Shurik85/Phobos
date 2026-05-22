@@ -175,8 +175,16 @@ class WireGuard {
     });
   }
 
+  async getClientFullConfig({ clientId }: { clientId: ID }) {
+    const [wgConfig, iface] = await Promise.all([
+      this.getClientConfiguration({ clientId }),
+      Database.interfaces.get(),
+    ]);
+    return `${wgConfig}\n${Obfuscator.buildClientObfConf(iface)}`;
+  }
+
   async getClientQRCodeSVG({ clientId }: { clientId: ID }) {
-    const config = await this.getClientConfiguration({ clientId });
+    const config = await this.getClientFullConfig({ clientId });
     return encodeQRCode(config);
   }
 

@@ -308,6 +308,7 @@
     "notSupported": "Copy is not supported",
     "copied": "Copied!",
     "failed": "Copy failed",
-    "copy": "Copy"
+    "copy": "Copy",
+    "copyConfig": "Click to copy config to clipboard"
   }
 }

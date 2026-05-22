@@ -107,6 +107,21 @@ class ObfuscatorService {
     throw new Error('No free UDP port in range');
   }
 
+  buildClientObfConf(iface: InterfaceType): string {
+    return [
+      '[instance]',
+      'source-if = 127.0.0.1',
+      `source-lport = ${iface.clientWgLocalPort}`,
+      `target = ${iface.serverPublicIpV4}:${iface.obfuscatorExtPort}`,
+      `key = ${iface.obfuscatorKey}`,
+      `masking = ${iface.obfuscatorMasking}`,
+      'verbose = INFO',
+      `idle-timeout = ${iface.obfuscatorIdle}`,
+      `max-dummy = ${iface.obfuscatorDummy}`,
+      '',
+    ].join('\n');
+  }
+
   async apply(iface: InterfaceType): Promise<void> {
     await this.writeArgs(iface);
     await this.restart();

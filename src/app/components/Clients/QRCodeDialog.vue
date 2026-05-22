@@ -5,7 +5,13 @@
     </template>
     <template #description>
       <div class="bg-white">
-        <img ref="img" :src="qrCode" />
+        <img
+          ref="img"
+          :src="qrCode"
+          class="cursor-pointer"
+          :title="$t('copy.copyConfig')"
+          @click="copyConfig"
+        />
       </div>
     </template>
     <template #actions>
@@ -31,10 +37,28 @@
 </template>
 
 <script setup lang="ts">
-defineProps<{ qrCode: string }>();
+const props = defineProps<{ qrCode: string; configUrl: string }>();
 
 const toast = useToast();
+const { t } = useI18n();
 const img = useTemplateRef('img');
+
+async function copyConfig() {
+  try {
+    const config = await $fetch<string>(props.configUrl);
+    await navigator.clipboard.writeText(config);
+    toast.showToast({
+      type: 'success',
+      message: t('copy.copied'),
+    });
+  } catch (e) {
+    console.error('failed to copy config', e);
+    toast.showToast({
+      type: 'error',
+      message: t('copy.failed'),
+    });
+  }
+}
 
 async function svgToPng() {
   if (!img.value || !img.value.complete || img.value.naturalWidth === 0) {
