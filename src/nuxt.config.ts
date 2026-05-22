@@ -165,22 +165,6 @@ export default defineNuxtConfig({
       traceInclude: [fileURLToPath(new URL('./cli/index.ts', import.meta.url))],
     },
   },
-  vite: {
-    build: {
-      rollupOptions: {
-        output: {
-          manualChunks(id) {
-            if (id.includes('node_modules')) {
-              if (id.includes('radix-vue') || id.includes('@radix-ui')) return 'ui';
-              if (id.includes('vue-i18n') || id.includes('@intlify')) return 'i18n';
-              if (id.includes('pinia')) return 'pinia';
-              return 'vendor';
-            }
-          },
-        },
-      },
-    },
-  },
   alias: {
     // for typecheck reasons (https://github.com/nuxt/cli/issues/323)
     '#db': fileURLToPath(new URL('./server/database/', import.meta.url)),

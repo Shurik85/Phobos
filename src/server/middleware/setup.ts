@@ -2,8 +2,13 @@
 export default defineEventHandler(async (event) => {
   const url = getRequestURL(event);
 
-  // User can't be logged in, and public routes can be accessed whenever
-  if (url.pathname.startsWith('/api/') || url.pathname.startsWith('/_i18n/')) {
+  if (
+    url.pathname.startsWith('/api/') ||
+    url.pathname.startsWith('/_i18n/') ||
+    url.pathname.startsWith('/_nuxt/') ||
+    url.pathname.startsWith('/__nuxt') ||
+    url.pathname === '/favicon.ico'
+  ) {
     return;
   }
 
