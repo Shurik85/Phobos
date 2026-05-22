@@ -1,23 +1,30 @@
 import type { H3Event } from 'h3';
 import type { UserType } from '#db/repositories/user/types';
+import { hasActiveTlsCert } from '~~/server/utils/TlsInfo';
 
 export type WGSession = Partial<{
   userId: ID;
 }>;
 
-const name = 'phobos';
 const DEFAULT_SESSION_MAX_AGE = 24 * 60 * 60;
+
+function resolveSessionParams(allowInsecureHttpLogin: boolean) {
+  const allowPlainHttp = WG_ENV.INSECURE || allowInsecureHttpLogin || !hasActiveTlsCert();
+  return {
+    name: allowPlainHttp ? 'phobos-h' : 'phobos-s',
+    secure: !allowPlainHttp,
+  };
+}
 
 export async function useWGSession(event: H3Event, rememberMe = false) {
   const sessionConfig = await Database.general.getSessionConfig();
-  const allowPlainHttp =
-    WG_ENV.INSECURE || sessionConfig.allowInsecureHttpLogin;
+  const { name, secure } = resolveSessionParams(sessionConfig.allowInsecureHttpLogin);
   return useSession<WGSession>(event, {
     password: sessionConfig.sessionPassword,
     name,
     cookie: {
       maxAge: rememberMe ? sessionConfig.sessionTimeout : DEFAULT_SESSION_MAX_AGE,
-      secure: !allowPlainHttp,
+      secure,
       sameSite: 'lax',
     },
   });
@@ -25,13 +32,12 @@ export async function useWGSession(event: H3Event, rememberMe = false) {
 
 export async function getWGSession(event: H3Event) {
   const sessionConfig = await Database.general.getSessionConfig();
-  const allowPlainHttp =
-    WG_ENV.INSECURE || sessionConfig.allowInsecureHttpLogin;
+  const { name, secure } = resolveSessionParams(sessionConfig.allowInsecureHttpLogin);
   return getSession<WGSession>(event, {
     password: sessionConfig.sessionPassword,
     name,
     cookie: {
-      secure: !allowPlainHttp,
+      secure,
       sameSite: 'lax',
     },
   });
@@ -47,13 +53,9 @@ export async function getCurrentUser(event: H3Event) {
 
   let user: UserType | undefined = undefined;
   if (session.data.userId) {
-    // Handle if authenticating using Session
     user = await Database.users.get(session.data.userId);
   } else if (authorization) {
-    // Handle if authenticating using Header
     const [method, value] = authorization.split(' ');
-    // Support Basic Authentication
-    // TODO: support personal access token or similar
     if (method !== 'Basic' || !value) {
       throw createError({
         statusCode: 400,
@@ -63,7 +65,6 @@ export async function getCurrentUser(event: H3Event) {
 
     const basicValue = Buffer.from(value, 'base64').toString('utf-8');
 
-    // Split by first ":"
     const index = basicValue.indexOf(':');
     const username = basicValue.substring(0, index);
     const password = basicValue.substring(index + 1);
@@ -74,8 +75,6 @@ export async function getCurrentUser(event: H3Event) {
         statusMessage: 'Invalid Basic Authorization',
       });
     }
-
-    // TODO: timing can be used to enumerate usernames
 
     const foundUser = await Database.users.getByUsername(username);
 
