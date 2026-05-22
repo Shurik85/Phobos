@@ -57,10 +57,6 @@
     "hostDesc": "Veřejný název hostitele, ke kterému se budou klienti připojovat",
     "portDesc": "Veřejný UDP port, ke kterému se budou klienti připojovat a na kterém bude WireGuard naslouchat"
   },
-  "update": {
-    "updateAvailable": "Je k dispozici aktualizace!",
-    "update": "Aktualizovat"
-  },
   "theme": {
     "dark": "Tmavý režim",
     "light": "Světlý režim",

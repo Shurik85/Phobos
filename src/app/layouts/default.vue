@@ -19,7 +19,6 @@
           <UiUserMenu v-if="loggedIn" />
         </div>
       </div>
-      <HeaderUpdate class="my-4" />
     </header>
     <slot />
     <UiFooter />

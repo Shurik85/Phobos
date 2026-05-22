@@ -57,10 +57,6 @@
     "hostDesc": "用戶端將連線的公開主機名稱",
     "portDesc": "用戶端將連線的公開 UDP 連接埠，且 WireGuard 會在此監聽"
   },
-  "update": {
-    "updateAvailable": "已有更新可供使用!",
-    "update": "更新"
-  },
   "theme": {
     "dark": "深色佈景主題",
     "light": "淺色佈景主題",

@@ -57,10 +57,6 @@
     "hostDesc": "Hostname publik yang akan digunakan klien untuk terhubung",
     "portDesc": "Port UDP publik yang akan digunakan klien untuk terhubung dan dibaca oleh WireGuard"
   },
-  "update": {
-    "updateAvailable": "Ada pembaruan tersedia!",
-    "update": "Pembaruan"
-  },
   "theme": {
     "dark": "Tema gelap",
     "light": "Tema terang",

@@ -1,4 +1,3 @@
-import { gt } from 'semver';
 import {
   readTlsOrigin,
   isUntrustedTls,
@@ -6,10 +5,6 @@ import {
 } from '~~/server/utils/TlsInfo';
 
 export default defineEventHandler(async () => {
-  const latestRelease = await cachedFetchLatestRelease();
-  const updateAvailable = latestRelease.version !== RELEASE
-    ? gt(latestRelease.version, RELEASE)
-    : false;
   const insecure =
     WG_ENV.INSECURE || (await Database.general.getAllowInsecureHttpLogin());
   const wgInterface = await Database.interfaces.get();
@@ -24,8 +19,6 @@ export default defineEventHandler(async () => {
 
   return {
     currentRelease: RELEASE,
-    latestRelease: latestRelease,
-    updateAvailable,
     insecure,
     firewallEnabled: wgInterface.firewallEnabled,
     obfuscatorPortPinned,

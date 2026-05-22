@@ -5,7 +5,8 @@ export type WGSession = Partial<{
   userId: ID;
 }>;
 
-const name = 'wg-easy';
+const name = 'phobos';
+const DEFAULT_SESSION_MAX_AGE = 24 * 60 * 60;
 
 export async function useWGSession(event: H3Event, rememberMe = false) {
   const sessionConfig = await Database.general.getSessionConfig();
@@ -14,11 +15,10 @@ export async function useWGSession(event: H3Event, rememberMe = false) {
   return useSession<WGSession>(event, {
     password: sessionConfig.sessionPassword,
     name,
-    // TODO: add session expiration
-    // maxAge: undefined
     cookie: {
-      maxAge: rememberMe ? sessionConfig.sessionTimeout : undefined,
+      maxAge: rememberMe ? sessionConfig.sessionTimeout : DEFAULT_SESSION_MAX_AGE,
       secure: !allowPlainHttp,
+      sameSite: 'lax',
     },
   });
 }
@@ -32,6 +32,7 @@ export async function getWGSession(event: H3Event) {
     name,
     cookie: {
       secure: !allowPlainHttp,
+      sameSite: 'lax',
     },
   });
 }

@@ -110,7 +110,7 @@ download_stack_files() {
 }
 
 wait_healthy() {
-  local ctr="${WAIT_HEALTHY_CONTAINER:-wg-easy}"
+  local ctr="${WAIT_HEALTHY_CONTAINER:-phobos}"
   local poll_s="${WAIT_HEALTHY_POLL_SEC:-2}"
   local timeout_s="${WAIT_HEALTHY_TIMEOUT_SEC:-360}"
   local start_ts now_ts elapsed i=0 status
@@ -200,7 +200,7 @@ wait_healthy
 
 printf '\n'
 printf '\e[1;32m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\e[0m\n'
-printf '\e[1;32m  wg-easy deployed successfully\e[0m\n'
+printf '\e[1;32m  Phobos deployed successfully\e[0m\n'
 printf '\e[1;32m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\e[0m\n'
 printf '\n'
 

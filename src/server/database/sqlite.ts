@@ -99,6 +99,8 @@ async function seedMigrationTracking() {
 
 async function migrate() {
   await db.run(sql`PRAGMA journal_mode=WAL`);
+  await db.run(sql`PRAGMA wal_autocheckpoint=1000`);
+  await db.run(sql`PRAGMA wal_checkpoint(PASSIVE)`);
 
   const migrationsFolder = resolveMigrationsFolder();
 

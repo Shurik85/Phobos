@@ -16,10 +16,10 @@ printf '┌───────────────────────
 printf '│  DESTRUCTIVE OPERATION — NO UNDO POSSIBLE   │\n'
 printf '│                                             │\n'
 printf '│  Will permanently remove:                   │\n'
-printf '│    • wg-easy container                      │\n'
+printf '│    • Phobos container                       │\n'
 printf '│    • Docker volumes (wireguard keys, DB)    │\n'
-printf '│    • Docker network wg-easy_wg              │\n'
-printf '│    • Docker image wg-easy:local             │\n'
+printf '│    • Docker networks phobos_wg / wg-easy_wg │\n'
+printf '│    • Docker image ground-zerro/phobos       │\n'
 printf '│    • Deploy directory %s          │\n' "$DEPLOY_DIR"
 printf '│    • /var/log/wg-easy (if present)          │\n'
 printf '└─────────────────────────────────────────────┘\n'
@@ -35,7 +35,7 @@ if [ -d "$DEPLOY_DIR" ] && [ -f "$DEPLOY_DIR/$COMPOSE_FILE" ]; then
         --remove-orphans --timeout 15 2>/dev/null || true
     ok "Compose stack torn down"
 else
-    docker stop wg-easy 2>/dev/null && docker rm wg-easy 2>/dev/null || true
+    docker stop phobos 2>/dev/null && docker rm phobos 2>/dev/null || true
     warn "No compose file found — stopped container directly"
 fi
 
@@ -52,7 +52,7 @@ done
 
 # ── 3. Remove Docker network ─────────────────────────────────────────────────
 log "Removing Docker network"
-for NET in wg-easy_wg wg_easy_wg; do
+for NET in phobos_wg wg-easy_wg wg_easy_wg; do
     if docker network inspect "$NET" >/dev/null 2>&1; then
         docker network rm "$NET"
         ok "Network removed: $NET"
@@ -94,12 +94,6 @@ for ENV_FILE in /root/.wg-easy.env /etc/wg-easy.env; do
     fi
 done
 
-# ── 8. Prune dangling build cache (optional) ─────────────────────────────────
-log "Pruning dangling Docker build cache"
-docker builder prune -f --filter type=exec.cachemount 2>/dev/null || \
-    docker builder prune -f 2>/dev/null || true
-ok "Build cache pruned"
-
 printf '\n\e[1;32m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\e[0m\n'
-printf '\e[1;32m  wg-easy fully removed from this server\e[0m\n'
+printf '\e[1;32m  Phobos fully removed from this server\e[0m\n'
 printf '\e[1;32m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\e[0m\n\n'

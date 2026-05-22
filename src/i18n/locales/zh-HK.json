@@ -57,10 +57,6 @@
     "hostDesc": "客戶端連接的公共主機名稱",
     "portDesc": "客戶端和WireGuard使用的公共UDP連接埠"
   },
-  "update": {
-    "updateAvailable": "有新版本更新！",
-    "update": "更新"
-  },
   "theme": {
     "dark": "深色模式",
     "light": "淺色模式",

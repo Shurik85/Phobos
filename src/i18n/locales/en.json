@@ -81,10 +81,6 @@
       "errorKey": "Private key validation failed"
     }
   },
-  "update": {
-    "updateAvailable": "There is an update available!",
-    "update": "Update"
-  },
   "theme": {
     "dark": "Dark theme",
     "light": "Light theme",

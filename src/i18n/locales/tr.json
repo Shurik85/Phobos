@@ -57,10 +57,6 @@
     "hostDesc": "İstemcilerin bağlanacağı public hostname/IP",
     "portDesc": "WireGuard'ın dinleyeceği public UDP portu"
   },
-  "update": {
-    "updateAvailable": "Yeni bir güncelleme mevcut!",
-    "update": "Güncelle"
-  },
   "theme": {
     "dark": "Koyu Tema",
     "light": "Açık Tema",

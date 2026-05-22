@@ -5,9 +5,9 @@ volumes:
   acme_data:
 
 services:
-  wg-easy:
+  phobos:
     image: ${WG_EASY_IMAGE:-ghcr.io/ground-zerro/phobos:latest}
-    container_name: wg-easy
+    container_name: phobos
     environment:
       - OBF_PORT=${OBF_PORT:-51822}
       - WG_HOST=${WG_HOST:-}

@@ -57,10 +57,6 @@
     "hostDesc": "Publieke hostnaam waar clients verbinding mee maken",
     "portDesc": "Publieke UDP-poort waarop clients verbinding maken en waarop WireGuard luistert"
   },
-  "update": {
-    "updateAvailable": "Er is een update beschikbaar!",
-    "update": "Bijwerken"
-  },
   "theme": {
     "dark": "Donker thema",
     "light": "Licht thema",

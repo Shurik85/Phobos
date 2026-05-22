@@ -57,10 +57,6 @@
     "hostDesc": "Publiczna nazwa hosta, z którą będą łączyć się klienci",
     "portDesc": "Publiczny port UDP, na którym WireGuard będzie nasłuchiwać i z którym połączą się klienci"
   },
-  "update": {
-    "updateAvailable": "Dostępna jest aktualizacja!",
-    "update": "Aktualizuj"
-  },
   "theme": {
     "dark": "Ciemny motyw",
     "light": "Jasny motyw",

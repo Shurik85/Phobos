@@ -57,10 +57,6 @@
     "hostDesc": "Offentlig vertsnavn klienter vil koble seg til",
     "portDesc": "Offentlig UDP-port klienter vil koble til og WireGuard vil lytte på"
   },
-  "update": {
-    "updateAvailable": "En oppdatering er tilgjengelig!",
-    "update": "Oppdater"
-  },
   "theme": {
     "dark": "Mørkt tema",
     "light": "Lyst tema",

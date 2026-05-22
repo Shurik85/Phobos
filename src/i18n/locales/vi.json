@@ -57,10 +57,6 @@
     "hostDesc": "Tên miền công khai mà thiết bị sẽ kết nối tới",
     "portDesc": "Cổng UDP công khai mà thiết bị sẽ kết nối và WireGuard sẽ sử dụng"
   },
-  "update": {
-    "updateAvailable": "Có bản cập nhật mới!",
-    "update": "Cập nhật"
-  },
   "theme": {
     "dark": "Giao diện tối",
     "light": "Giao diện sáng",
