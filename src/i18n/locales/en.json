@@ -65,7 +65,7 @@
       "importPathDesc": "Provide absolute paths to existing certificate and key files on disk (e.g. /etc/letsencrypt/live/example.com/*.pem). Files must be readable from inside the container.",
       "certPathLabel": "Certificate file path (PEM fullchain)",
       "keyPathLabel": "Private key file path (PEM)",
-      "importPathHint": "Files are read once and copied into the certificate store. If you renew them on the host later, re-apply this section to refresh.",
+      "importPathHint": "Files are symlinked, not copied. When the source files change on disk (e.g. after certbot renew), the server detects it within ~30s and restarts automatically to pick up the new certificate.",
       "skip": "Skip (no HTTPS)",
       "skipDesc": "Stay on HTTP. Login requires the INSECURE=true environment variable.",
       "certLabel": "Certificate (PEM fullchain)",
@@ -198,7 +198,8 @@
       "externalManaged": "TLS is managed by an external reverse proxy (TLS_TERMINATION=external). The certificate must be issued and rotated outside of PhobosWG.",
       "origin": {
         "self-signed": "Self-signed",
-        "imported": "Imported",
+        "imported": "Imported (inline PEM)",
+        "imported-path": "Imported from path (symlinked, auto-reloaded)",
         "none": "None (HTTP)"
       }
     },

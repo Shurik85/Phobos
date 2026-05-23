@@ -115,7 +115,7 @@
 </template>
 
 <script setup lang="ts">
-type Origin = 'self-signed' | 'imported' | 'none';
+type Origin = 'self-signed' | 'imported' | 'imported-path' | 'none';
 type Mode = 'self-signed' | 'import' | 'import-path' | 'skip';
 type TlsState = { origin: Origin; hasCert: boolean; externalManaged: boolean };
 

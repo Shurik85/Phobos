@@ -6,6 +6,7 @@ import {
   existsSync,
   readFileSync,
   symlinkSync,
+  rmSync,
 } from 'node:fs';
 import { join, isAbsolute } from 'node:path';
 import { tmpdir } from 'node:os';
@@ -77,7 +78,7 @@ export function importCert(certPem: string, keyPem: string) {
   activateCert(name);
 }
 
-function readPemFile(path: string, kind: 'certificate' | 'key'): string {
+function assertReadablePem(path: string, kind: 'certificate' | 'key') {
   if (!isAbsolute(path)) {
     throw new Error(`${kind} path must be absolute: ${path}`);
   }
@@ -85,7 +86,7 @@ function readPemFile(path: string, kind: 'certificate' | 'key'): string {
     throw new Error(`${kind} file not found: ${path}`);
   }
   try {
-    return readFileSync(path, 'utf8');
+    readFileSync(path, 'utf8');
   } catch (e) {
     throw new Error(
       `Failed to read ${kind} file at ${path}: ${(e as Error).message}`
@@ -94,9 +95,32 @@ function readPemFile(path: string, kind: 'certificate' | 'key'): string {
 }
 
 export function importCertFromPath(certPath: string, keyPath: string) {
-  const certPem = readPemFile(certPath, 'certificate');
-  const keyPem = readPemFile(keyPath, 'key');
-  importCert(certPem, keyPem);
+  assertReadablePem(certPath, 'certificate');
+  assertReadablePem(keyPath, 'key');
+
+  execFileSync('openssl', ['x509', '-noout', '-in', certPath], {
+    stdio: ['pipe', 'pipe', 'pipe'],
+  });
+  execFileSync('openssl', ['pkey', '-noout', '-in', keyPath], {
+    stdio: ['pipe', 'pipe', 'pipe'],
+  });
+
+  const name = 'path-imported';
+  const dir = join(CERT_ROOT, name);
+
+  try { rmSync(dir, { recursive: true, force: true }); } catch {}
+  mkdirSync(dir, { recursive: true });
+
+  symlinkSync(certPath, join(dir, 'fullchain.pem'));
+  symlinkSync(keyPath, join(dir, 'privkey.pem'));
+
+  writeFileSync(
+    join(dir, 'origin'),
+    `imported-path\ncert=${certPath}\nkey=${keyPath}\n`,
+    { mode: 0o644 }
+  );
+
+  activateCert(name);
 }
 
 export function scheduleNodeRestart() {
