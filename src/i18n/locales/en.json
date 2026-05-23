@@ -146,8 +146,7 @@
     "viewConfig": "View Configuration",
     "firewallIps": "Firewall Allowed IPs",
     "firewallIpsDesc": "Destination IPs/CIDRs this client can access (server-side enforcement). Leave empty to use Allowed IPs. Supports optional port and protocol filtering. See docs for syntax.",
-    "downloadPng": "Download PNG",
-    "copyPng": "Copy PNG"
+    "downloadPng": "Download PNG"
   },
   "dialog": {
     "change": "Change",

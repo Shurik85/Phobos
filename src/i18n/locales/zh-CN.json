@@ -118,7 +118,6 @@
     "firewallIps": "防火墙允许的IP",
     "firewallIpsDesc": "客户端可访问的目标 IP/CIDR 范围（由服务器端进行限制）。留空时将使用 服务端允许的IP 设置。支持按 端口 和 协议 进行过滤。具体语法请查看文档。",
     "downloadPng": "下载图片",
-    "copyPng": "复制图片",
     "copyInstallLink": "Copy install command",
     "installLinkCopied": "Install command copied to clipboard",
     "installLinkFailed": "Failed to generate install link",

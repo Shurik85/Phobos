@@ -117,7 +117,6 @@
     "firewallIps": "IPs permitidas del cortafuegos",
     "firewallIpsDesc": "IPs/CIDRs de destino a las que este cliente puede acceder (aplicado en el servidor). Deja vacío para usar IPs permitidas. Admite filtrado opcional de puertos y protocolos. Consulta la documentación para la sintaxis.",
     "downloadPng": "Descargar PNG",
-    "copyPng": "Copiar PNG",
     "copyInstallLink": "Copy install command",
     "installLinkCopied": "Install command copied to clipboard",
     "installLinkFailed": "Failed to generate install link",

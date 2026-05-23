@@ -118,7 +118,6 @@
     "firewallIps": "Firewall Allowed IPs",
     "firewallIpsDesc": "İstemcinin erişebileceği hedef IP/CIDR'ler (isteğe bağlı port/protokol filtreleme ile). Boş bırakılırsa Allowed IPs kullanılır. Ayrıntılı söz dizimi için dokümantasyona bakın.",
     "downloadPng": "PNG İndir",
-    "copyPng": "PNG Kopyala",
     "copyInstallLink": "Copy install command",
     "installLinkCopied": "Install command copied to clipboard",
     "installLinkFailed": "Failed to generate install link",

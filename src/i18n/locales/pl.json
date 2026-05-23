@@ -118,7 +118,6 @@
     "firewallIps": "Dozwolone IP zapory",
     "firewallIpsDesc": "Docelowe adresy IP/CIDR, do których ten klient ma dostęp (wymuszane po stronie serwera). Pozostaw puste, aby użyć Dozwolonych IP. Obsługuje opcjonalne filtrowanie portów i protokołów. Zobacz dokumentację dla składni.",
     "downloadPng": "Pobierz PNG",
-    "copyPng": "Kopiuj PNG",
     "copyInstallLink": "Copy install command",
     "installLinkCopied": "Install command copied to clipboard",
     "installLinkFailed": "Failed to generate install link",

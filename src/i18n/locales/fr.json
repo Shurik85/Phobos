@@ -118,7 +118,6 @@
     "firewallIps": "IPs autorisées par le pare-feu",
     "firewallIpsDesc": "IPs/CIDRs de destination auxquels ce client peut accéder (application côté serveur). Laissez vide pour utiliser les IPs autorisées. Prend en charge le filtrage optionnel par port et protocole. Voir la documentation pour la syntaxe.",
     "downloadPng": "Télécharger le PNG",
-    "copyPng": "Copier le PNG",
     "copyInstallLink": "Copy install command",
     "installLinkCopied": "Install command copied to clipboard",
     "installLinkFailed": "Failed to generate install link",

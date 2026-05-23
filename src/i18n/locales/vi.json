@@ -118,7 +118,6 @@
     "firewallIps": "IP được phép qua tường lửa",
     "firewallIpsDesc": "Địa chỉ IP/CIDR đích mà người dùng này có thể truy cập (kiểm soát phía máy chủ). Để trống để dùng giá trị IP được phép. Hỗ trợ lọc theo cổng và giao thức tùy chọn. Xem tài liệu để hiểu cú pháp.",
     "downloadPng": "Tải PNG",
-    "copyPng": "Sao chép PNG",
     "copyInstallLink": "Copy install command",
     "installLinkCopied": "Install command copied to clipboard",
     "installLinkFailed": "Failed to generate install link",

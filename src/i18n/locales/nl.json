@@ -118,7 +118,6 @@
     "firewallIps": "Firewall-toegestane IPs",
     "firewallIpsDesc": "Bestemmings-IP's/CIDR's waartoe deze client toegang heeft (handhaving aan de serverzijde). Laat leeg om Toegestane IP's te gebruiken. Ondersteunt optionele poort - en protocolfiltering. Zie documentatie voor syntaxis.",
     "downloadPng": "PNG downloaden",
-    "copyPng": "PNG kopiëren",
     "copyInstallLink": "Copy install command",
     "installLinkCopied": "Install command copied to clipboard",
     "installLinkFailed": "Failed to generate install link",

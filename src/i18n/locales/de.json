@@ -118,7 +118,6 @@
     "firewallIps": "Firewall erlaubte IPs",
     "firewallIpsDesc": "Ziel-IPs/CIDRs, auf die dieser Client zugreifen darf (serverseitig erzwingen). Lassen Sie das Feld leer, um die Liste der zugelassenen IPs zu verwenden. Unterstützt optionale Port- und Protokollfilterung. Die Syntax finden Sie in der Dokumentation.",
     "downloadPng": "Herunterladen PNG",
-    "copyPng": "Kopieren PNG",
     "copyInstallLink": "Copy install command",
     "installLinkCopied": "Install command copied to clipboard",
     "installLinkFailed": "Failed to generate install link",

@@ -118,7 +118,6 @@
     "firewallIps": "Дозволені IP-адреси брандмауера",
     "firewallIpsDesc": "IP-адреси/ CIDR призначення, до яких цей клієнт має доступ (контроль на стороні сервера). Залиште порожнім, щоб використовувати дозволені IP-адреси. Підтримує необов’язкову фільтрацію за портом і протоколом. Див. документацію щодо синтаксису.",
     "downloadPng": "Завантажити PNG",
-    "copyPng": "Скопіювати PNG",
     "copyInstallLink": "Copy install command",
     "installLinkCopied": "Install command copied to clipboard",
     "installLinkFailed": "Failed to generate install link",

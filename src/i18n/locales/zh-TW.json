@@ -118,7 +118,6 @@
     "firewallIps": "防火牆允許的 IP",
     "firewallIpsDesc": "此用戶端可存取的目標 IP/CIDR (由伺服器端強制執行)，留白則使用「允許的 IP」中的設定。支援選用的連接埠與協定篩選，語法請參閱說明文件。",
     "downloadPng": "下載 PNG",
-    "copyPng": "複製 PNG",
     "copyInstallLink": "Copy install command",
     "installLinkCopied": "Install command copied to clipboard",
     "installLinkFailed": "Failed to generate install link",
