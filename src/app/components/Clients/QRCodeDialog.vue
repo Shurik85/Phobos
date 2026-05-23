@@ -1,5 +1,5 @@
 <template>
-  <BaseDialog>
+  <BaseDialog v-model:open="open">
     <template #trigger>
       <slot />
     </template>
@@ -44,11 +44,42 @@ const { t } = useI18n();
 const img = useTemplateRef('img');
 const copy = useCopyToClipboard();
 
-async function copyConfig() {
+const open = ref(false);
+const configText = ref<string | null>(null);
+const configLoading = ref(false);
+
+async function loadConfig() {
+  if (configText.value || configLoading.value) return;
+  configLoading.value = true;
   try {
-    await copy(() =>
-      $fetch<string>(props.configUrl, { responseType: 'text' })
-    );
+    const text = await $fetch<string>(props.configUrl, {
+      responseType: 'text',
+    });
+    configText.value = typeof text === 'string' ? text : String(text ?? '');
+  } catch (e) {
+    console.error('failed to fetch config', e);
+  } finally {
+    configLoading.value = false;
+  }
+}
+
+watch(open, (isOpen) => {
+  if (isOpen) {
+    loadConfig();
+  }
+});
+
+async function copyConfig() {
+  const text = configText.value;
+  if (!text) {
+    if (!configLoading.value) {
+      loadConfig();
+    }
+    toast.showToast({ type: 'error', message: t('copy.failed') });
+    return;
+  }
+  try {
+    await copy(text);
     toast.showToast({ type: 'success', message: t('copy.copied') });
   } catch (e) {
     console.error('failed to copy config', e);

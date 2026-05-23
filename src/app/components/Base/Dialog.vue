@@ -1,5 +1,5 @@
 <template>
-  <DialogRoot :modal="true">
+  <DialogRoot v-model:open="open" :modal="true">
     <DialogTrigger :class="triggerClass"><slot name="trigger" /></DialogTrigger>
     <DialogPortal>
       <DialogOverlay
@@ -28,4 +28,5 @@
 
 <script lang="ts" setup>
 defineProps<{ triggerClass?: string }>();
+const open = defineModel<boolean>('open', { default: false });
 </script>

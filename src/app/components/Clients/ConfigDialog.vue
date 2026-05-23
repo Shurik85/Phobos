@@ -1,5 +1,5 @@
 <template>
-  <BaseDialog :trigger-class="triggerClass">
+  <BaseDialog v-model:open="open" :trigger-class="triggerClass">
     <template #trigger>
       <slot />
     </template>
@@ -7,8 +7,8 @@
       {{ $t('client.config') }}
     </template>
     <template #description>
-      <div v-if="status === 'success'">
-        <BaseCodeBlock :code="config ?? ''" />
+      <div v-if="config">
+        <BaseCodeBlock :code="config" />
       </div>
       <div v-else>
         <span>{{ $t('general.loading') }}</span>
@@ -34,21 +34,39 @@ const toast = useToast();
 const { t } = useI18n();
 const copy = useCopyToClipboard();
 
-const { data: config, status } = useFetch(
-  `/api/client/${props.clientId}/config`,
-  {
-    responseType: 'text',
-    server: false,
+const open = ref(false);
+const config = ref<string | null>(null);
+const loading = ref(false);
+
+async function loadConfig() {
+  if (config.value || loading.value) return;
+  loading.value = true;
+  try {
+    const text = await $fetch<string>(`/api/client/${props.clientId}/config`, {
+      responseType: 'text',
+    });
+    config.value = typeof text === 'string' ? text : String(text ?? '');
+  } catch (e) {
+    console.error('failed to fetch config', e);
+  } finally {
+    loading.value = false;
   }
-);
+}
+
+watch(open, (isOpen) => {
+  if (isOpen) {
+    loadConfig();
+  }
+});
 
 async function copyCode() {
-  if (status.value !== 'success') {
+  const text = config.value;
+  if (!text) {
+    toast.showToast({ type: 'error', message: t('copy.failed') });
     return;
   }
-
   try {
-    await copy(config.value ?? '');
+    await copy(text);
     toast.showToast({ type: 'success', message: t('copy.copied') });
   } catch (e) {
     console.error('failed to copy config', e);
