@@ -170,8 +170,13 @@ class WireGuard {
       throw new Error('Client not found');
     }
 
+    const preset = await Database.obfuscatorPresets.getForClient(
+      client.presetId ?? null
+    );
+
     return wg.generateClientConfig(wgInterface, userConfig, client, {
       enableIpv6: !WG_ENV.DISABLE_IPV6,
+      clientWgLocalPort: preset.clientWgLocalPort,
     });
   }
 
