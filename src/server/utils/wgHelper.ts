@@ -11,7 +11,11 @@ import type { HooksType } from '#db/repositories/hooks/types';
 
 type Options = {
   enableIpv6?: boolean;
+  /** Local WG port on the client side, from the preset bound to this client. */
+  clientWgLocalPort?: number;
 };
+
+const DEFAULT_CLIENT_WG_LOCAL_PORT = 13255;
 
 const wgExecutable =
   typeof WG_ENV !== 'undefined' ? WG_ENV.WG_EXECUTABLE : 'wg';
@@ -103,7 +107,10 @@ PostDown = ${iptablesTemplate(hooks.postDown, wgInterface)}`;
     client: ClientType,
     options: Options = {}
   ) => {
-    const { enableIpv6 = true } = options;
+    const {
+      enableIpv6 = true,
+      clientWgLocalPort = DEFAULT_CLIENT_WG_LOCAL_PORT,
+    } = options;
 
     const address =
       `${client.ipv4Address}/32` +
@@ -134,7 +141,7 @@ PublicKey = ${wgInterface.publicKey}
 PresharedKey = ${client.preSharedKey}
 AllowedIPs = ${(client.allowedIps ?? userConfig.defaultAllowedIps).join(', ')}
 PersistentKeepalive = ${client.persistentKeepalive}
-Endpoint = 127.0.0.1:${wgInterface.clientWgLocalPort}`;
+Endpoint = 127.0.0.1:${clientWgLocalPort}`;
   },
 
   generatePrivateKey: () => {

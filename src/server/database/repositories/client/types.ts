@@ -45,9 +45,16 @@ const serverAllowedIps = z.array(AddressSchema, {
   message: t('zod.client.serverAllowedIps'),
 });
 
+const presetIdSchema = z
+  .number({ message: t('zod.client.presetId') })
+  .int()
+  .nullable()
+  .optional();
+
 export const ClientCreateSchema = z.object({
   name: name,
   expiresAt: expiresAt,
+  presetId: presetIdSchema,
 });
 
 export type ClientCreateType = z.infer<typeof ClientCreateSchema>;
@@ -76,6 +83,7 @@ export const ClientUpdateSchema = schemaForType<UpdateClientType>()(
     persistentKeepalive: PersistentKeepaliveSchema,
     serverEndpoint: AddressSchema.nullable(),
     dns: DnsSchema.nullable(),
+    presetId: z.number().int().nullable(),
   })
 );
 

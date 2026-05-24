@@ -9,6 +9,7 @@ export default defineNitroPlugin((nitroApp) => {
   console.log(`====================================================`);
   nitroApp.hooks.hook('close', async () => {
     console.log('Shutting down');
+    await Obfuscator.Shutdown();
     await WireGuard.Shutdown();
   });
 });

@@ -88,9 +88,7 @@ RUN ARCH=$(uname -m) && \
 
 COPY docker/s6-rc.d /etc/s6-overlay/s6-rc.d
 RUN chmod +x /etc/s6-overlay/s6-rc.d/node/run \
-    /etc/s6-overlay/s6-rc.d/node/finish \
-    /etc/s6-overlay/s6-rc.d/wg-obfuscator/run \
-    /etc/s6-overlay/s6-rc.d/wg-obfuscator/finish
+    /etc/s6-overlay/s6-rc.d/node/finish
 
 HEALTHCHECK --interval=30s --timeout=8s --start-period=60s --retries=5 CMD \
     /usr/bin/timeout 8s /bin/sh -c \
