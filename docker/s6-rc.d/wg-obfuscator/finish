@@ -1,2 +1,3 @@
-#!/command/execlineb -S0
+#!/command/with-contenv sh
+pkill -f '/usr/local/bin/wg-obfuscator' 2>/dev/null
 exit 0

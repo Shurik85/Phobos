@@ -176,11 +176,15 @@ class WireGuard {
   }
 
   async getClientFullConfig({ clientId }: { clientId: ID }) {
-    const [wgConfig, iface] = await Promise.all([
+    const [wgConfig, iface, client] = await Promise.all([
       this.getClientConfiguration({ clientId }),
       Database.interfaces.get(),
+      Database.clients.get(clientId),
     ]);
-    return `${wgConfig.replace(/\s+$/, '')}\n\n${Obfuscator.buildClientObfConf(iface)}`;
+    const preset = await Database.obfuscatorPresets.getForClient(
+      client?.presetId ?? null
+    );
+    return `${wgConfig.replace(/\s+$/, '')}\n\n${Obfuscator.buildClientObfConf(preset, iface)}`;
   }
 
   async getClientQRCodeSVG({ clientId }: { clientId: ID }) {
