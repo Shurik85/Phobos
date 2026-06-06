@@ -159,7 +159,8 @@
   "dialog": {
     "change": "Change",
     "cancel": "Cancel",
-    "create": "Create"
+    "create": "Create",
+    "delete": "Delete"
   },
   "toast": {
     "success": "Success",
@@ -224,6 +225,11 @@
       "restartDesc": "Restart the WireGuard interface",
       "restartWarn": "Are you sure to restart the interface? This will disconnect all clients.",
       "restartSuccess": "Interface restarted",
+      "subnet": "WireGuard subnet",
+      "ipv4Cidr": "WireGuard IPv4 subnet (CIDR)",
+      "ipv4CidrDesc": "Address pool for clients (e.g. 10.8.0.0/24). Widen the mask (e.g. /16) to allow more clients or different ranges. Changing it reassigns every client's IPv4 address.",
+      "ipv6Cidr": "WireGuard IPv6 subnet (CIDR)",
+      "ipv6CidrDesc": "IPv6 address pool for clients. Changing it reassigns every client's IPv6 address.",
       "firewall": "Traffic Filtering",
       "firewallEnabled": "Enable Per-Client Firewall",
       "firewallEnabledDesc": "Restrict client traffic to specific destination IPs using iptables. When enabled, each client can be configured with allowed destinations.",

@@ -11,7 +11,7 @@ CREATE TABLE `__new_obfuscator_presets_table` (
   `masking` text NOT NULL DEFAULT 'STUN',
   `obfuscate_bytes` integer NOT NULL DEFAULT 0,
   `dummy` integer NOT NULL DEFAULT 40,
-  `verbose` text NOT NULL DEFAULT 'info',
+  `verbose` text NOT NULL DEFAULT 'error',
   `client_wg_local_port` integer NOT NULL DEFAULT 13255,
   `created_at` text DEFAULT (CURRENT_TIMESTAMP) NOT NULL,
   `updated_at` text DEFAULT (CURRENT_TIMESTAMP) NOT NULL

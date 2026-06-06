@@ -25,6 +25,37 @@
         />
       </FormGroup>
       <FormGroup>
+        <FormHeading>{{ $t('admin.interface.subnet') }}</FormHeading>
+        <FormTextField
+          id="ipv4Cidr"
+          :model-value="data.ipv4Cidr"
+          :on-update:model-value="() => {}"
+          :disabled="true"
+          :label="$t('admin.interface.ipv4Cidr')"
+          :description="$t('admin.interface.ipv4CidrDesc')"
+        />
+        <FormTextField
+          id="ipv6Cidr"
+          :model-value="data.ipv6Cidr"
+          :on-update:model-value="() => {}"
+          :disabled="true"
+          :label="$t('admin.interface.ipv6Cidr')"
+          :description="$t('admin.interface.ipv6CidrDesc')"
+        />
+        <AdminCidrDialog
+          trigger-class="col-span-2"
+          :ipv4-cidr="data.ipv4Cidr"
+          :ipv6-cidr="data.ipv6Cidr"
+          @change="changeCidr"
+        >
+          <FormSecondaryActionField
+            :label="$t('admin.interface.changeCidr')"
+            class="w-full"
+            tabindex="-1"
+          />
+        </AdminCidrDialog>
+      </FormGroup>
+      <FormGroup>
         <FormHeading>{{ $t('admin.interface.publicAddress') }}</FormHeading>
         <FormTextField
           id="serverPublicIpV4"
@@ -43,18 +74,6 @@
         <FormHeading>{{ $t('form.actions') }}</FormHeading>
         <FormPrimaryActionField type="submit" :label="$t('form.save')" />
         <FormSecondaryActionField :label="$t('form.revert')" @click="revert" />
-        <AdminCidrDialog
-          trigger-class="col-span-2"
-          :ipv4-cidr="data.ipv4Cidr"
-          :ipv6-cidr="data.ipv6Cidr"
-          @change="changeCidr"
-        >
-          <FormSecondaryActionField
-            :label="$t('admin.interface.changeCidr')"
-            class="w-full"
-            tabindex="-1"
-          />
-        </AdminCidrDialog>
         <AdminRestartInterfaceDialog
           trigger-class="col-span-2"
           @restart="restartInterface"

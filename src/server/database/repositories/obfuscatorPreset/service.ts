@@ -109,7 +109,7 @@ export class ObfuscatorPresetService {
         masking: data.masking ?? 'STUN',
         obfuscateBytes: data.obfuscateBytes ?? 0,
         dummy: data.dummy ?? 40,
-        verbose: data.verbose ?? 'info',
+        verbose: data.verbose ?? 'error',
         clientWgLocalPort: data.clientWgLocalPort ?? 13255,
       })
       .returning()

@@ -219,7 +219,7 @@ class ObfuscatorService {
       masking: 'STUN',
       obfuscateBytes: 0,
       dummy: 40,
-      verbose: 'info',
+      verbose: 'error',
       clientWgLocalPort: 13255,
     });
 

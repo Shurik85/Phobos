@@ -261,11 +261,17 @@ export class ClientService {
       }
 
       if (!containsCidr(clientInterface.ipv4Cidr, data.ipv4Address)) {
-        throw new Error('IPv4 address is not within the CIDR range');
+        throw createError({
+          statusCode: 400,
+          statusMessage: `IPv4 address ${data.ipv4Address} is not within the interface subnet ${clientInterface.ipv4Cidr}. Widen the WireGuard IPv4 subnet under Admin → Network Interface to use this range.`,
+        });
       }
 
       if (!containsCidr(clientInterface.ipv6Cidr, data.ipv6Address)) {
-        throw new Error('IPv6 address is not within the CIDR range');
+        throw createError({
+          statusCode: 400,
+          statusMessage: `IPv6 address ${data.ipv6Address} is not within the interface subnet ${clientInterface.ipv6Cidr}. Widen the WireGuard IPv6 subnet under Admin → Network Interface to use this range.`,
+        });
       }
 
       await tx.update(client).set(data).where(eq(client.id, id)).execute();

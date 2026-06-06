@@ -20,7 +20,7 @@ export const obfuscatorPreset = sqliteTable(
     dummy: int().notNull().default(40),
     verbose: text({ enum: ['error', 'warn', 'info', 'debug', 'trace'] })
       .notNull()
-      .default('info'),
+      .default('error'),
     clientWgLocalPort: int('client_wg_local_port').notNull().default(13255),
     createdAt: text('created_at')
       .notNull()
