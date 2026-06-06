@@ -213,7 +213,7 @@ const name = decodeURIComponent(url.hash.slice(1));
 
 ## 7. Эталонные реализации
 
-Серверная (Node/TypeScript) — см. `src/server/utils/PhobosLink.ts` (создаётся в рамках плана интеграции в `docs/plans/`).
+Серверная (Node/TypeScript) — см. `src/server/utils/PhobosLink.ts`.
 
 Клиентская (минимальная, для проверки):
 
