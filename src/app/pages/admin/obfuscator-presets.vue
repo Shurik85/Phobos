@@ -14,37 +14,15 @@
         </template>
         <template #description>
           <div class="flex flex-col gap-3">
+            <p class="text-sm text-gray-600 dark:text-neutral-300">
+              {{ $t('admin.obfuscatorPresets.addDesc') }}
+            </p>
             <div class="flex flex-col gap-1">
-              <label class="text-sm">{{ $t('admin.obfuscatorPresets.nameLabel') }}</label>
+              <FormFieldLabel
+                :label="$t('admin.obfuscatorPresets.nameLabel')"
+                :hint="$t('admin.obfuscatorPresets.nameDesc')"
+              />
               <BaseInput v-model.trim="newPreset.name" type="text" placeholder="custom" />
-            </div>
-            <div class="flex flex-col gap-1">
-              <label class="text-sm">{{ $t('admin.obfuscatorPresets.extPortLabel') }}</label>
-              <BaseInput v-model.number="newPreset.extPort" type="number" :placeholder="`${PORT_MIN}-${PORT_MAX} (auto if empty)`" />
-            </div>
-            <div class="flex flex-col gap-1">
-              <label class="text-sm">{{ $t('admin.obfuscatorPresets.maskingLabel') }}</label>
-              <select
-                v-model="newPreset.masking"
-                class="rounded border-2 border-gray-100 px-3 py-2 text-sm dark:border-neutral-700 dark:bg-neutral-800"
-              >
-                <option value="STUN">STUN</option>
-                <option value="MEDIA">MEDIA</option>
-                <option value="AUTO">AUTO</option>
-                <option value="NONE">NONE</option>
-              </select>
-            </div>
-            <div class="flex flex-col gap-1">
-              <label class="text-sm">{{ $t('admin.obfuscatorPresets.idleLabel') }}</label>
-              <BaseInput v-model.number="newPreset.idle" type="number" placeholder="300" />
-            </div>
-            <div class="flex flex-col gap-1">
-              <label class="text-sm">{{ $t('admin.obfuscatorPresets.dummyLabel') }}</label>
-              <BaseInput v-model.number="newPreset.dummy" type="number" placeholder="40" />
-            </div>
-            <div class="flex flex-col gap-1">
-              <label class="text-sm">{{ $t('admin.obfuscatorPresets.clientLocalPortLabel') }}</label>
-              <BaseInput v-model.number="newPreset.clientWgLocalPort" type="number" placeholder="13255" />
             </div>
           </div>
         </template>
@@ -80,11 +58,17 @@
 
         <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
           <div class="flex flex-col gap-1">
-            <label class="text-sm">{{ $t('admin.obfuscatorPresets.nameLabel') }}</label>
+            <FormFieldLabel
+              :label="$t('admin.obfuscatorPresets.nameLabel')"
+              :hint="$t('admin.obfuscatorPresets.nameDesc')"
+            />
             <BaseInput v-model.trim="p.name" type="text" />
           </div>
           <div class="flex flex-col gap-1">
-            <label class="text-sm">{{ $t('admin.obfuscatorPresets.extPortLabel') }}</label>
+            <FormFieldLabel
+              :label="$t('admin.obfuscatorPresets.sourceLportLabel')"
+              :hint="$t('admin.obfuscatorPresets.sourceLportDesc')"
+            />
             <div class="flex gap-2">
               <BaseInput v-model.number="p.extPort" type="number" class="flex-1" />
               <BaseSecondaryButton @click="regeneratePort(p.id)">
@@ -92,8 +76,29 @@
               </BaseSecondaryButton>
             </div>
           </div>
+          <div class="flex flex-col gap-1">
+            <FormFieldLabel
+              :label="$t('admin.obfuscatorPresets.targetLabel')"
+              :hint="$t('admin.obfuscatorPresets.targetDesc')"
+            />
+            <BaseInput
+              v-model.trim="p.target"
+              type="text"
+              :placeholder="$t('admin.obfuscatorPresets.targetPlaceholder')"
+            />
+          </div>
+          <div class="flex flex-col gap-1">
+            <FormFieldLabel
+              :label="$t('admin.obfuscatorPresets.sourceIfLabel')"
+              :hint="$t('admin.obfuscatorPresets.sourceIfDesc')"
+            />
+            <BaseInput v-model.trim="p.sourceIf" type="text" placeholder="0.0.0.0" />
+          </div>
           <div class="flex flex-col gap-1 sm:col-span-2">
-            <label class="text-sm">{{ $t('admin.obfuscatorPresets.keyLabel') }}</label>
+            <FormFieldLabel
+              :label="$t('admin.obfuscatorPresets.keyLabel')"
+              :hint="$t('admin.obfuscatorPresets.keyDesc')"
+            />
             <div class="flex gap-2">
               <BaseInput v-model.trim="p.key" type="text" class="flex-1 font-mono text-xs" />
               <BaseSecondaryButton @click="regenerateKey(p.id)">
@@ -102,7 +107,10 @@
             </div>
           </div>
           <div class="flex flex-col gap-1">
-            <label class="text-sm">{{ $t('admin.obfuscatorPresets.maskingLabel') }}</label>
+            <FormFieldLabel
+              :label="$t('admin.obfuscatorPresets.maskingLabel')"
+              :hint="$t('admin.obfuscatorPresets.maskingDesc')"
+            />
             <select
               v-model="p.masking"
               class="rounded border-2 border-gray-100 px-3 py-2 text-sm dark:border-neutral-700 dark:bg-neutral-800"
@@ -114,15 +122,52 @@
             </select>
           </div>
           <div class="flex flex-col gap-1">
-            <label class="text-sm">{{ $t('admin.obfuscatorPresets.idleLabel') }}</label>
-            <BaseInput v-model.number="p.idle" type="number" />
+            <FormFieldLabel
+              :label="$t('admin.obfuscatorPresets.verboseLabel')"
+              :hint="$t('admin.obfuscatorPresets.verboseDesc')"
+            />
+            <select
+              v-model="p.verbose"
+              class="rounded border-2 border-gray-100 px-3 py-2 text-sm dark:border-neutral-700 dark:bg-neutral-800"
+            >
+              <option value="error">error</option>
+              <option value="warn">warn</option>
+              <option value="info">info</option>
+              <option value="debug">debug</option>
+              <option value="trace">trace</option>
+            </select>
           </div>
           <div class="flex flex-col gap-1">
-            <label class="text-sm">{{ $t('admin.obfuscatorPresets.dummyLabel') }}</label>
-            <BaseInput v-model.number="p.dummy" type="number" />
+            <FormFieldLabel
+              :label="$t('admin.obfuscatorPresets.obfuscateBytesLabel')"
+              :hint="$t('admin.obfuscatorPresets.obfuscateBytesDesc')"
+            />
+            <BaseInput v-model.number="p.obfuscateBytes" type="number" min="0" />
           </div>
           <div class="flex flex-col gap-1">
-            <label class="text-sm">{{ $t('admin.obfuscatorPresets.clientLocalPortLabel') }}</label>
+            <FormFieldLabel
+              :label="$t('admin.obfuscatorPresets.dummyLabel')"
+              :hint="$t('admin.obfuscatorPresets.dummyDesc')"
+            />
+            <BaseInput
+              v-model.number="p.dummy"
+              type="number"
+              min="0"
+              :disabled="dummyDisabled(p)"
+              :class="dummyDisabled(p) ? 'opacity-50' : ''"
+            />
+            <span
+              v-if="dummyDisabled(p)"
+              class="text-xs text-gray-500 dark:text-neutral-400"
+            >
+              {{ $t('admin.obfuscatorPresets.dummyDisabledNote') }}
+            </span>
+          </div>
+          <div class="flex flex-col gap-1">
+            <FormFieldLabel
+              :label="$t('admin.obfuscatorPresets.clientLocalPortLabel')"
+              :hint="$t('admin.obfuscatorPresets.clientLocalPortDesc')"
+            />
             <BaseInput v-model.number="p.clientWgLocalPort" type="number" />
           </div>
         </div>
@@ -151,24 +196,25 @@
 
 <script setup lang="ts">
 type Masking = 'STUN' | 'MEDIA' | 'AUTO' | 'NONE';
+type Verbose = 'error' | 'warn' | 'info' | 'debug' | 'trace';
 type Preset = {
   id: number;
   name: string;
   isDefault: boolean;
   extPort: number;
+  sourceIf: string;
+  target: string | null;
   key: string;
   masking: Masking;
-  idle: number;
+  obfuscateBytes: number;
   dummy: number;
+  verbose: Verbose;
   clientWgLocalPort: number;
   clientCount: number;
 };
 
 const { t } = useI18n();
 const toast = useToast();
-
-const PORT_MIN = 51822;
-const PORT_MAX = 51921;
 
 const { data: presets, refresh } = await useFetch<Preset[]>(
   '/api/admin/obfuscator-presets',
@@ -177,48 +223,25 @@ const { data: presets, refresh } = await useFetch<Preset[]>(
 
 const createOpen = ref(false);
 const creating = ref(false);
-const newPreset = ref<{
-  name: string;
-  extPort: number | null;
-  masking: Masking;
-  idle: number;
-  dummy: number;
-  clientWgLocalPort: number;
-}>({
-  name: '',
-  extPort: null,
-  masking: 'STUN',
-  idle: 300,
-  dummy: 40,
-  clientWgLocalPort: 13255,
-});
+const newPreset = ref<{ name: string }>({ name: '' });
 
 const canCreate = computed(() => newPreset.value.name.trim().length > 0);
+
+function dummyDisabled(p: Preset): boolean {
+  return p.masking === 'MEDIA' || p.obfuscateBytes > 0;
+}
 
 async function create() {
   if (!canCreate.value) return;
   creating.value = true;
   try {
-    const body: Record<string, unknown> = {
-      name: newPreset.value.name.trim(),
-      masking: newPreset.value.masking,
-      idle: newPreset.value.idle,
-      dummy: newPreset.value.dummy,
-      clientWgLocalPort: newPreset.value.clientWgLocalPort,
-    };
-    if (newPreset.value.extPort) body.extPort = newPreset.value.extPort;
-
-    await $fetch('/api/admin/obfuscator-presets', { method: 'post', body });
+    await $fetch('/api/admin/obfuscator-presets', {
+      method: 'post',
+      body: { name: newPreset.value.name.trim() },
+    });
     await refresh();
     createOpen.value = false;
-    newPreset.value = {
-      name: '',
-      extPort: null,
-      masking: 'STUN',
-      idle: 300,
-      dummy: 40,
-      clientWgLocalPort: 13255,
-    };
+    newPreset.value = { name: '' };
     toast.showToast({ type: 'success', message: t('toast.saved') });
   } catch (e) {
     toast.showToast({ type: 'error', message: extractMessage(e) });
@@ -234,10 +257,13 @@ async function save(p: Preset) {
       body: {
         name: p.name,
         extPort: p.extPort,
+        sourceIf: p.sourceIf,
+        target: p.target ?? '',
         key: p.key,
         masking: p.masking,
-        idle: p.idle,
+        obfuscateBytes: p.obfuscateBytes,
         dummy: p.dummy,
+        verbose: p.verbose,
         clientWgLocalPort: p.clientWgLocalPort,
       },
     });

@@ -103,10 +103,13 @@ export class ObfuscatorPresetService {
         name: data.name,
         isDefault: false,
         extPort,
+        sourceIf: data.sourceIf ?? '0.0.0.0',
+        target: data.target?.trim() ? data.target.trim() : null,
         key: data.key ?? generateObfuscatorKey(),
         masking: data.masking ?? 'STUN',
-        idle: data.idle ?? 300,
+        obfuscateBytes: data.obfuscateBytes ?? 0,
         dummy: data.dummy ?? 40,
+        verbose: data.verbose ?? 'info',
         clientWgLocalPort: data.clientWgLocalPort ?? 13255,
       })
       .returning()
@@ -131,9 +134,13 @@ export class ObfuscatorPresetService {
         );
       }
     }
+    const values: Partial<ObfuscatorPresetType> = { ...data };
+    if (data.target !== undefined) {
+      values.target = data.target.trim() ? data.target.trim() : null;
+    }
     const updated = await this.#db
       .update(obfuscatorPreset)
-      .set(data)
+      .set(values)
       .where(eq(obfuscatorPreset.id, id))
       .returning()
       .execute();
@@ -188,10 +195,13 @@ export class ObfuscatorPresetService {
 
   async ensureDefault(seed: {
     extPort: number;
+    sourceIf: string;
+    target: string | null;
     key: string;
     masking: 'STUN' | 'MEDIA' | 'AUTO' | 'NONE';
-    idle: number;
+    obfuscateBytes: number;
     dummy: number;
+    verbose: 'error' | 'warn' | 'info' | 'debug' | 'trace';
     clientWgLocalPort: number;
   }): Promise<void> {
     const existing = await this.#db.query.obfuscatorPreset
@@ -205,10 +215,13 @@ export class ObfuscatorPresetService {
         name: 'default',
         isDefault: true,
         extPort: seed.extPort,
+        sourceIf: seed.sourceIf,
+        target: seed.target,
         key: seed.key,
         masking: seed.masking,
-        idle: seed.idle,
+        obfuscateBytes: seed.obfuscateBytes,
         dummy: seed.dummy,
+        verbose: seed.verbose,
         clientWgLocalPort: seed.clientWgLocalPort,
       })
       .execute();

@@ -36,26 +36,33 @@ type RunningPreset = { child: ChildProcess; fingerprint: string };
 class ObfuscatorService {
   #processes = new Map<number, RunningPreset>();
 
+  serverTarget(preset: ObfuscatorPresetType, wgPort: number): string {
+    return preset.target?.trim() || `127.0.0.1:${wgPort}`;
+  }
+
   buildArgs(preset: ObfuscatorPresetType, wgPort: number): string[] {
     return [
-      '--source-if=0.0.0.0',
+      `--source-if=${preset.sourceIf}`,
       `--source-lport=${preset.extPort}`,
-      `--target=127.0.0.1:${wgPort}`,
+      `--target=${this.serverTarget(preset, wgPort)}`,
       `--key=${preset.key}`,
       `--masking=${preset.masking}`,
-      '--verbose=INFO',
-      `--idle-timeout=${preset.idle}`,
+      `--obfuscate-bytes=${preset.obfuscateBytes}`,
       `--max-dummy=${preset.dummy}`,
+      `--verbose=${preset.verbose}`,
     ];
   }
 
   fingerprint(preset: ObfuscatorPresetType, wgPort: number): string {
     return [
       preset.extPort,
+      preset.sourceIf,
+      this.serverTarget(preset, wgPort),
       preset.key,
       preset.masking,
-      preset.idle,
+      preset.obfuscateBytes,
       preset.dummy,
+      preset.verbose,
       wgPort,
     ].join('|');
   }
@@ -181,9 +188,9 @@ class ObfuscatorService {
       `target = ${iface.serverPublicIpV4}:${preset.extPort}`,
       `key = ${preset.key}`,
       `masking = ${preset.masking}`,
-      'verbose = INFO',
-      `idle-timeout = ${preset.idle}`,
+      `obfuscate-bytes = ${preset.obfuscateBytes}`,
       `max-dummy = ${preset.dummy}`,
+      `verbose = ${preset.verbose}`,
       '',
     ].join('\n');
   }
@@ -206,10 +213,13 @@ class ObfuscatorService {
 
     await Database.obfuscatorPresets.ensureDefault({
       extPort: OBFUSCATOR_PORT_MIN,
+      sourceIf: '0.0.0.0',
+      target: null,
       key: generateObfuscatorKey(),
       masking: 'STUN',
-      idle: 300,
+      obfuscateBytes: 0,
       dummy: 40,
+      verbose: 'info',
       clientWgLocalPort: 13255,
     });
 

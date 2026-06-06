@@ -10,12 +10,17 @@ export const obfuscatorPreset = sqliteTable(
     name: text().notNull().unique(),
     isDefault: int('is_default', { mode: 'boolean' }).notNull().default(false),
     extPort: int('ext_port').notNull().unique(),
+    sourceIf: text('source_if').notNull().default('0.0.0.0'),
+    target: text(),
     key: text().notNull(),
     masking: text({ enum: ['STUN', 'MEDIA', 'AUTO', 'NONE'] })
       .notNull()
       .default('STUN'),
-    idle: int().notNull().default(300),
+    obfuscateBytes: int('obfuscate_bytes').notNull().default(0),
     dummy: int().notNull().default(40),
+    verbose: text({ enum: ['error', 'warn', 'info', 'debug', 'trace'] })
+      .notNull()
+      .default('info'),
     clientWgLocalPort: int('client_wg_local_port').notNull().default(13255),
     createdAt: text('created_at')
       .notNull()
