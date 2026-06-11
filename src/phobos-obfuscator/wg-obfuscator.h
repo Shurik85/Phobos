@@ -12,7 +12,6 @@
 
 #ifdef USE_EPOLL
 #include <sys/epoll.h>
-#define MAX_EVENTS              1024
 #else
 #include <poll.h>
 #endif
@@ -24,7 +23,6 @@
 
 #define BUFFER_SIZE                     65535
 #define MAX_STATIC_BINDINGS             256
-#define POLL_TIMEOUT                    5000
 #define HANDSHAKE_TIMEOUT               5000
 #define ITERATE_INTERVAL                1000
 #define MAX_DUMMY_LENGTH_TOTAL          1024
@@ -95,8 +93,6 @@ typedef struct {
     uint32_t media_ssrc;
     uint16_t media_ts_step;
 
-    uint8_t reuseport;
-
     uint8_t listen_port_set;
     uint8_t forward_host_port_set;
     uint8_t xor_key_set;
@@ -109,7 +105,6 @@ typedef struct {
     struct sockaddr_in client_addr;
     int server_sock;
     masking_handler_t *masking_handler;
-    struct sockaddr_in our_addr;
     uint8_t version;
     uint8_t handshaked          : 1;
     uint8_t handshake_direction : 1;
@@ -118,7 +113,6 @@ typedef struct {
     uint8_t is_static           : 1;
     long last_activity_time;
     long last_handshake_request_time;
-    long last_handshake_time;
     long last_masking_timer_time;
     uint8_t masking_priv[32];
     UT_hash_handle hh;

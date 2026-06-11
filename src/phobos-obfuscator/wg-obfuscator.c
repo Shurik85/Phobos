@@ -6,7 +6,6 @@
 #include <unistd.h>
 #include <signal.h>
 #include <time.h>
-#include <stdarg.h>
 #include "wg-obfuscator.h"
 #include "config.h"
 #include "obfuscation.h"

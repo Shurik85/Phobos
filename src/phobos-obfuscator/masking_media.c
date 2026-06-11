@@ -86,9 +86,11 @@ static int media_on_data_unwrap(uint8_t *buffer, int length,
                                 const struct sockaddr_in *src_addr,
                                 const struct sockaddr_in *dest_addr,
                                 send_data_callback_t send_back_callback,
-                                send_data_callback_t send_forward_callback) {
+                                send_data_callback_t send_forward_callback,
+                                int *out_offset) {
+    *out_offset = 0;
     if (stun_check_magic(buffer, length)) {
-        return stun_on_data_unwrap(buffer, length, config, client, direction, src_addr, dest_addr, send_back_callback, send_forward_callback);
+        return stun_on_data_unwrap(buffer, length, config, client, direction, src_addr, dest_addr, send_back_callback, send_forward_callback, out_offset);
     }
 
     if (length < RTP_HEADER_SIZE + 4) {
@@ -108,9 +110,8 @@ static int media_on_data_unwrap(uint8_t *buffer, int length,
         }
     }
 
-    int data_len = length - RTP_HEADER_SIZE;
-    memmove(buffer, buffer + RTP_HEADER_SIZE, data_len);
-    return data_len;
+    *out_offset = RTP_HEADER_SIZE;
+    return length - RTP_HEADER_SIZE;
 }
 
 masking_handler_t media_masking_handler = {
