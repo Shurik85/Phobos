@@ -1,6 +1,6 @@
 # wg-easy + Phobos obfuscator
 
-[![Build & Publish Image](https://github.com/Ground-Zerro/Phobos/actions/workflows/publish-image.yml/badge.svg?branch=ph-wg-easy)](https://github.com/Ground-Zerro/Phobos/actions/workflows/publish-image.yml)
+[![Build & Publish Image](https://github.com/Ground-Zerro/Phobos/actions/workflows/publish-image.yml/badge.svg?branch=main)](https://github.com/Ground-Zerro/Phobos/actions/workflows/publish-image.yml)
 [![GitHub Stars](https://img.shields.io/github/stars/Ground-Zerro/Phobos)](https://github.com/Ground-Zerro/Phobos/stargazers)
 [![License](https://img.shields.io/github/license/Ground-Zerro/Phobos)](LICENSE)
 
@@ -57,7 +57,7 @@ Open `http://<host>:51831`, complete the initial setup, create a client.
 Run one command on a fresh server:
 
 ```shell
-curl -fsSL https://raw.githubusercontent.com/Ground-Zerro/Phobos/ph-wg-easy/deploy.sh | sudo bash
+curl -fsSL https://raw.githubusercontent.com/Ground-Zerro/Phobos/main/deploy.sh | sudo bash
 ```
 
 Script behavior:
@@ -78,7 +78,7 @@ Optional parameters:
 ```shell
 WG_HOST=<PUBLIC_IP_OR_DOMAIN> \
 WG_EASY_IMAGE=ghcr.io/ground-zerro/phobos:latest \
-curl -fsSL https://raw.githubusercontent.com/Ground-Zerro/Phobos/ph-wg-easy/deploy.sh | sudo bash
+curl -fsSL https://raw.githubusercontent.com/Ground-Zerro/Phobos/main/deploy.sh | sudo bash
 ```
 
 To skip the wizard and pre-configure admin credentials via environment:
@@ -88,7 +88,7 @@ INIT_ENABLED=true \
 INIT_USERNAME=admin \
 INIT_PASSWORD=YourPassword \
 WG_HOST=<PUBLIC_IP_OR_DOMAIN> \
-curl -fsSL https://raw.githubusercontent.com/Ground-Zerro/Phobos/ph-wg-easy/deploy.sh | sudo bash
+curl -fsSL https://raw.githubusercontent.com/Ground-Zerro/Phobos/main/deploy.sh | sudo bash
 ```
 
 Ports:

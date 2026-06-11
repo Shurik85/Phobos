@@ -5,7 +5,7 @@ DEPLOY_DIR="${DEPLOY_DIR:-/opt/phoboswg}"
 UI_PORT="${UI_PORT:-51831}"
 WG_HOST="${WG_HOST:-}"
 WG_EASY_IMAGE="${WG_EASY_IMAGE:-ghcr.io/ground-zerro/phobos:latest}"
-REPO_RAW_BASE="${REPO_RAW_BASE:-https://raw.githubusercontent.com/Ground-Zerro/Phobos/ph-wg-easy}"
+REPO_RAW_BASE="${REPO_RAW_BASE:-https://raw.githubusercontent.com/Ground-Zerro/Phobos/main}"
 COMPOSE_FILE="docker-compose.yml"
 COMPOSE_PROJECT_NAME="${COMPOSE_PROJECT_NAME:-phoboswg}"
 export COMPOSE_PROJECT_NAME
