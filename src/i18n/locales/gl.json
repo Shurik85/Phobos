@@ -7,7 +7,8 @@
       "general": "Xeral",
       "config": "Configuración",
       "interface": "Interface",
-      "hooks": "Hooks"
+      "hooks": "Hooks",
+      "warp": "WARP"
     }
   },
   "user": {
@@ -139,5 +140,59 @@
     "noItems": "Sen elementos",
     "nullNoItems": "Sen elementos. Usando a configuración global",
     "add": "Engadir"
+  },
+  "admin": {
+    "interface": {
+      "egress": "Saída",
+      "egressWarp": "Ruta o tráfico dos clientes a través de WARP",
+      "egressWarpDesc": "Cando está activado, os clientes saen a través de Cloudflare WARP en vez do WAN do servidor, ocultando o IP do servidor. Require unha configuración WARP rexistrada. Pode ser necesario un MTU de cliente máis baixo."
+    },
+    "warp": {
+      "title": "Cloudflare WARP",
+      "intro": "Rexistra unha conta gratuíta de Cloudflare WARP para usala como saída para os teus clientes. Os clientes sairán cun IP de Cloudflare en vez do IP do servidor.",
+      "register": "Obter WARP",
+      "registerSuccess": "WARP rexistrado",
+      "status": "Estado",
+      "deviceId": "ID de dispositivo",
+      "addressV4": "Enderezo IPv4",
+      "addressV6": "Enderezo IPv6",
+      "endpoint": "Punto de acceso",
+      "egress": "Saída",
+      "egressDesc": "Cambia a saída a WARP na sección Interface.",
+      "egressActive": "WARP (activo)",
+      "egressInactive": "WAN (inactivo)",
+      "license": "Licenza WARP+",
+      "licenseKey": "Chave de licenza",
+      "licenseKeyDesc": "Introduce unha chave de licenza WARP+ para activar WARP+.",
+      "licenseSet": "Licenza establecida",
+      "licenseUnset": "Sen licenza",
+      "licenseSuccess": "Licenza aplicada",
+      "applyLicense": "Aplicar licenza",
+      "autoRotate": "Rotación automática de IP",
+      "intervalDays": "Intervalo (días)",
+      "intervalDaysDesc": "0 para desactivar. Rota o IP de WARP automaticamente.",
+      "changeIp": "Cambiar IP",
+      "changeIpSuccess": "IP de WARP cambiado",
+      "delete": "Eliminar WARP",
+      "deleteSuccess": "Configuración de WARP eliminada",
+      "importConfig": "Editar configuración",
+      "importTitle": "Configuración WARP manual",
+      "importDesc": "Pegue unha configuración WireGuard. O sistema probará a conexión — se o handshake ten éxito, a configuración gardarase. Table, PostUp e PostDown xestionanse automaticamente.",
+      "importApply": "Aplicar",
+      "importSuccess": "Configuración WARP aplicada"
+    }
+  },
+  "zod": {
+    "interface": {
+      "egressMode": "Modo de saída"
+    },
+    "warp": {
+      "addressV4": "Enderezo IPv4",
+      "addressV6": "Enderezo IPv6",
+      "endpoint": "Punto de acceso (host:porto)",
+      "interval": "Intervalo de actualización (días)",
+      "key": "Chave WireGuard",
+      "license": "Chave de licenza WARP+ (mín. 26 caracteres)"
+    }
   }
 }

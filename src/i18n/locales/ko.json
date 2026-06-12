@@ -7,7 +7,8 @@
       "general": "일반",
       "config": "구성",
       "interface": "인터페이스",
-      "hooks": "후크"
+      "hooks": "후크",
+      "warp": "WARP"
     }
   },
   "user": {
@@ -167,9 +168,46 @@
       "restart": "인터페이스 재시작",
       "restartDesc": "WireGuard 인터페이스를 재시작합니다.",
       "restartWarn": "인터페이스를 재시작하시겠습니까? 이 작업은 모든 클라이언트를 연결 해제합니다.",
-      "restartSuccess": "인터페이스가 재시작되었습니다"
+      "restartSuccess": "인터페이스가 재시작되었습니다",
+      "egress": "이그레스",
+      "egressWarp": "WARP를 통해 클라이언트 트래픽 라우팅",
+      "egressWarpDesc": "활성화하면 클라이언트가 서버의 WAN 대신 Cloudflare WARP를 통해 인터넷에 접속하여 서버 IP가 숨겨집니다. 등록된 WARP 설정이 필요합니다. 클라이언트 MTU를 낮춰야 할 수 있습니다."
     },
-    "introText": "관리 패널에 오신 것을 환영합니다.\n\n여기에서 일반 설정, 구성, 인터페이스 설정 및 후크를 관리할 수 있습니다.\n\n사이드바에서 섹션 중 하나를 선택하여 시작하세요."
+    "introText": "관리 패널에 오신 것을 환영합니다.\n\n여기에서 일반 설정, 구성, 인터페이스 설정 및 후크를 관리할 수 있습니다.\n\n사이드바에서 섹션 중 하나를 선택하여 시작하세요.",
+    "warp": {
+      "title": "Cloudflare WARP",
+      "intro": "무료 Cloudflare WARP 계정을 등록하여 클라이언트의 이그레스로 사용하세요. 클라이언트는 서버 IP 대신 Cloudflare IP로 인터넷에 접속합니다.",
+      "register": "WARP 가져오기",
+      "registerSuccess": "WARP 등록됨",
+      "status": "상태",
+      "deviceId": "기기 ID",
+      "addressV4": "IPv4 주소",
+      "addressV6": "IPv6 주소",
+      "endpoint": "엔드포인트",
+      "egress": "이그레스",
+      "egressDesc": "인터페이스 섹션에서 이그레스를 WARP로 전환하세요.",
+      "egressActive": "WARP (활성)",
+      "egressInactive": "WAN (비활성)",
+      "license": "WARP+ 라이선스",
+      "licenseKey": "라이선스 키",
+      "licenseKeyDesc": "WARP+를 활성화하려면 WARP+ 라이선스 키를 입력하세요.",
+      "licenseSet": "라이선스 설정됨",
+      "licenseUnset": "라이선스 없음",
+      "licenseSuccess": "라이선스 적용됨",
+      "applyLicense": "라이선스 적용",
+      "autoRotate": "자동 IP 교체",
+      "intervalDays": "간격 (일)",
+      "intervalDaysDesc": "0은 비활성화. WARP IP를 자동으로 교체합니다.",
+      "changeIp": "IP 변경",
+      "changeIpSuccess": "WARP IP 변경됨",
+      "delete": "WARP 삭제",
+      "deleteSuccess": "WARP 설정 삭제됨",
+      "importConfig": "설정 편집",
+      "importTitle": "수동 WARP 설정",
+      "importDesc": "WireGuard 설정을 붙여 넣으세요. 시스템이 연결을 테스트하여 핸드셰이크가 성립되면 설정이 저장됩니다. Table, PostUp, PostDown은 자동으로 관리됩니다.",
+      "importApply": "적용",
+      "importSuccess": "WARP 설정이 적용되었습니다"
+    }
   },
   "zod": {
     "generic": {
@@ -212,7 +250,8 @@
     "interface": {
       "cidr": "CIDR",
       "device": "장치",
-      "cidrValid": "CIDR는 유효해야 합니다."
+      "cidrValid": "CIDR는 유효해야 합니다.",
+      "egressMode": "이그레스 모드"
     },
     "stringMalformed": "문자열이 잘못되었습니다.",
     "body": "본문은 유효한 객체여야 합니다",
@@ -237,6 +276,14 @@
       "publicIpV4": "Server public IPv4",
       "publicIpV6": "Server public IPv6",
       "clientWgLocalPort": "Client local WG port"
+    },
+    "warp": {
+      "addressV4": "IPv4 주소",
+      "addressV6": "IPv6 주소",
+      "endpoint": "엔드포인트 (호스트:포트)",
+      "interval": "업데이트 간격 (일)",
+      "key": "WireGuard 키",
+      "license": "WARP+ 라이선스 키 (최소 26자)"
     }
   },
   "hooks": {

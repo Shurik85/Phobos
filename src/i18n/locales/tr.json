@@ -7,7 +7,8 @@
       "general": "Genel",
       "config": "Yapılandırma",
       "interface": "Arayüz",
-      "hooks": "Hooks"
+      "hooks": "Hooks",
+      "warp": "WARP"
     }
   },
   "user": {
@@ -178,9 +179,46 @@
       "restartSuccess": "Arayüz yeniden başlatıldı",
       "firewall": "Trafik Filtreleme",
       "firewallEnabled": "İstemci Bazlı Firewall",
-      "firewallEnabledDesc": "iptables kullanarak istemci trafiğini kısıtlayın."
+      "firewallEnabledDesc": "iptables kullanarak istemci trafiğini kısıtlayın.",
+      "egress": "Çıkış",
+      "egressWarp": "İstemci trafiğini WARP üzerinden yönlendir",
+      "egressWarpDesc": "Etkinleştirildiğinde, istemciler sunucu IP'sini gizleyerek sunucunun WAN'ı yerine Cloudflare WARP üzerinden çıkar. Kayıtlı bir WARP yapılandırması gerektirir. Daha düşük istemci MTU'su gerekebilir."
     },
-    "introText": "Yönetici paneline hoş geldiniz.\n\nBuradan sistem ayarlarını, WireGuard yapılandırmasını ve Hooks ayarlarını yönetebilirsiniz."
+    "introText": "Yönetici paneline hoş geldiniz.\n\nBuradan sistem ayarlarını, WireGuard yapılandırmasını ve Hooks ayarlarını yönetebilirsiniz.",
+    "warp": {
+      "title": "Cloudflare WARP",
+      "intro": "İstemcileriniz için çıkış olarak kullanmak üzere ücretsiz bir Cloudflare WARP hesabı kaydedin. İstemciler, sunucu IP'si yerine Cloudflare IP'si ile internete çıkacak.",
+      "register": "WARP'ı Al",
+      "registerSuccess": "WARP kaydedildi",
+      "status": "Durum",
+      "deviceId": "Cihaz ID'si",
+      "addressV4": "IPv4 adresi",
+      "addressV6": "IPv6 adresi",
+      "endpoint": "Uç nokta",
+      "egress": "Çıkış",
+      "egressDesc": "Arayüz bölümünde çıkışı WARP'a geçirin.",
+      "egressActive": "WARP (aktif)",
+      "egressInactive": "WAN (inaktif)",
+      "license": "WARP+ lisansı",
+      "licenseKey": "Lisans anahtarı",
+      "licenseKeyDesc": "WARP+ etkinleştirmek için bir WARP+ lisans anahtarı girin.",
+      "licenseSet": "Lisans ayarlı",
+      "licenseUnset": "Lisans yok",
+      "licenseSuccess": "Lisans uygulandı",
+      "applyLicense": "Lisansı uygula",
+      "autoRotate": "Otomatik IP rotasyonu",
+      "intervalDays": "Aralık (gün)",
+      "intervalDaysDesc": "Devre dışı bırakmak için 0. WARP IP'sini otomatik olarak döndürür.",
+      "changeIp": "IP değiştir",
+      "changeIpSuccess": "WARP IP'si değiştirildi",
+      "delete": "WARP'ı Sil",
+      "deleteSuccess": "WARP yapılandırması silindi",
+      "importConfig": "Yapılandırmayı düzenle",
+      "importTitle": "Manuel WARP yapılandırması",
+      "importDesc": "WireGuard yapılandırması yapıştırın. Sistem bağlantıyı test eder — el sıkışma kurulursa yapılandırma kaydedilir. Table, PostUp ve PostDown otomatik yönetilir.",
+      "importApply": "Uygula",
+      "importSuccess": "WARP yapılandırması uygulandı"
+    }
   },
   "zod": {
     "generic": {
@@ -226,7 +264,8 @@
     "interface": {
       "cidr": "CIDR",
       "device": "Aygıt",
-      "cidrValid": "Geçersiz CIDR"
+      "cidrValid": "Geçersiz CIDR",
+      "egressMode": "Çıkış modu"
     },
     "stringMalformed": "Hatalı format",
     "body": "Body geçerli bir obje olmalıdır",
@@ -251,6 +290,14 @@
       "publicIpV4": "Server public IPv4",
       "publicIpV6": "Server public IPv6",
       "clientWgLocalPort": "Client local WG port"
+    },
+    "warp": {
+      "addressV4": "IPv4 adresi",
+      "addressV6": "IPv6 adresi",
+      "endpoint": "Uç nokta (host:port)",
+      "interval": "Güncelleme aralığı (gün)",
+      "key": "WireGuard anahtarı",
+      "license": "WARP+ lisans anahtarı (en az 26 karakter)"
     }
   },
   "hooks": {

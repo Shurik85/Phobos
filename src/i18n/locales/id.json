@@ -7,7 +7,8 @@
       "general": "General",
       "config": "Umum",
       "interface": "Antarmuka",
-      "hooks": "Hooks"
+      "hooks": "Hooks",
+      "warp": "WARP"
     }
   },
   "user": {
@@ -167,9 +168,46 @@
       "restart": "Mulai Ulang Antarmuka",
       "restartDesc": "Mulai ulang antarmuka WireGuard",
       "restartWarn": "Apakah Anda yakin ingin memulai ulang antarmuka? Ini akan membuat semua klien menjadi terputus.",
-      "restartSuccess": "Antarmuka telah dimulai ulang."
+      "restartSuccess": "Antarmuka telah dimulai ulang.",
+      "egress": "Keluar",
+      "egressWarp": "Rute lalu lintas klien melalui WARP",
+      "egressWarpDesc": "Jika diaktifkan, klien keluar melalui Cloudflare WARP alih-alih WAN server, menyembunyikan IP server. Memerlukan konfigurasi WARP yang terdaftar. MTU klien yang lebih rendah mungkin diperlukan."
     },
-    "introText": "Selamat datang di panel admin.\n\nDi sini Anda dapat mengelola pengaturan umum, konfigurasi, pengaturan antarmuka, dan hooks.\n\nMulailah dengan memilih salah satu bagian di bilah samping."
+    "introText": "Selamat datang di panel admin.\n\nDi sini Anda dapat mengelola pengaturan umum, konfigurasi, pengaturan antarmuka, dan hooks.\n\nMulailah dengan memilih salah satu bagian di bilah samping.",
+    "warp": {
+      "title": "Cloudflare WARP",
+      "intro": "Daftarkan akun Cloudflare WARP gratis untuk digunakan sebagai jalur keluar klien Anda. Klien akan keluar dengan IP Cloudflare, bukan IP server.",
+      "register": "Dapatkan WARP",
+      "registerSuccess": "WARP terdaftar",
+      "status": "Status",
+      "deviceId": "ID Perangkat",
+      "addressV4": "Alamat IPv4",
+      "addressV6": "Alamat IPv6",
+      "endpoint": "Endpoint",
+      "egress": "Keluar",
+      "egressDesc": "Ganti keluar ke WARP di bagian Antarmuka.",
+      "egressActive": "WARP (aktif)",
+      "egressInactive": "WAN (tidak aktif)",
+      "license": "Lisensi WARP+",
+      "licenseKey": "Kunci lisensi",
+      "licenseKeyDesc": "Masukkan kunci lisensi WARP+ untuk mengaktifkan WARP+.",
+      "licenseSet": "Lisensi telah diatur",
+      "licenseUnset": "Tidak ada lisensi",
+      "licenseSuccess": "Lisensi diterapkan",
+      "applyLicense": "Terapkan lisensi",
+      "autoRotate": "Rotasi IP otomatis",
+      "intervalDays": "Interval (hari)",
+      "intervalDaysDesc": "0 untuk menonaktifkan. Memutar IP WARP secara otomatis.",
+      "changeIp": "Ganti IP",
+      "changeIpSuccess": "IP WARP diubah",
+      "delete": "Hapus WARP",
+      "deleteSuccess": "Konfigurasi WARP dihapus",
+      "importConfig": "Edit konfigurasi",
+      "importTitle": "Konfigurasi WARP manual",
+      "importDesc": "Tempelkan konfigurasi WireGuard. Sistem akan menguji koneksi — jika handshake berhasil, konfigurasi akan disimpan. Table, PostUp, dan PostDown dikelola secara otomatis.",
+      "importApply": "Terapkan",
+      "importSuccess": "Konfigurasi WARP diterapkan"
+    }
   },
   "zod": {
     "generic": {
@@ -212,7 +250,8 @@
     "interface": {
       "cidr": "CIDR",
       "device": "Perangkat",
-      "cidrValid": "CIDR harus valid"
+      "cidrValid": "CIDR harus valid",
+      "egressMode": "Mode keluar"
     },
     "stringMalformed": "String tidak terformat dengan benar",
     "body": "Body harus berupa objek yang valid",
@@ -237,6 +276,14 @@
       "publicIpV4": "Server public IPv4",
       "publicIpV6": "Server public IPv6",
       "clientWgLocalPort": "Client local WG port"
+    },
+    "warp": {
+      "addressV4": "Alamat IPv4",
+      "addressV6": "Alamat IPv6",
+      "endpoint": "Endpoint (host:port)",
+      "interval": "Interval pembaruan (hari)",
+      "key": "Kunci WireGuard",
+      "license": "Kunci lisensi WARP+ (min. 26 karakter)"
     }
   },
   "hooks": {

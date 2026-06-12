@@ -16,6 +16,7 @@ import { InterfaceService } from './repositories/interface/service';
 import { HooksService } from './repositories/hooks/service';
 import { InstallLinkService } from './repositories/installLink/service';
 import { ObfuscatorPresetService } from './repositories/obfuscatorPreset/service';
+import { WarpService } from './repositories/warp/service';
 
 const DB_DEBUG = debug('Database');
 
@@ -47,6 +48,7 @@ class DBService {
   hooks: HooksService;
   installLinks: InstallLinkService;
   obfuscatorPresets: ObfuscatorPresetService;
+  warp: WarpService;
 
   constructor(db: DBType) {
     this.clients = new ClientService(db);
@@ -57,6 +59,7 @@ class DBService {
     this.hooks = new HooksService(db);
     this.installLinks = new InstallLinkService(db);
     this.obfuscatorPresets = new ObfuscatorPresetService(db);
+    this.warp = new WarpService(db);
   }
 }
 

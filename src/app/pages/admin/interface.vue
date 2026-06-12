@@ -25,6 +25,15 @@
         />
       </FormGroup>
       <FormGroup>
+        <FormHeading>{{ $t('admin.interface.egress') }}</FormHeading>
+        <FormSwitchField
+          id="egressWarp"
+          v-model="warpEgress"
+          :label="$t('admin.interface.egressWarp')"
+          :description="$t('admin.interface.egressWarpDesc')"
+        />
+      </FormGroup>
+      <FormGroup>
         <FormHeading>{{ $t('admin.interface.subnet') }}</FormHeading>
         <FormTextField
           id="ipv4Cidr"
@@ -98,6 +107,15 @@ const { data: _data, refresh } = await useFetch(`/api/admin/interface`, {
 });
 
 const data = toRef(_data.value);
+
+const warpEgress = computed({
+  get: () => data.value?.egressMode === 'warp',
+  set: (value) => {
+    if (data.value) {
+      data.value.egressMode = value ? 'warp' : 'wan';
+    }
+  },
+});
 
 const _submit = useSubmit(
   `/api/admin/interface`,

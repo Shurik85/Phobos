@@ -16,6 +16,9 @@ export const wgInterface = sqliteTable('interfaces_table', {
   firewallEnabled: int('firewall_enabled', { mode: 'boolean' })
     .notNull()
     .default(false),
+  egressMode: text('egress_mode', { enum: ['wan', 'warp'] })
+    .notNull()
+    .default('wan'),
   serverPublicIpV4: text('server_public_ip_v4').notNull().default(''),
   serverPublicIpV6: text('server_public_ip_v6'),
   createdAt: text('created_at')

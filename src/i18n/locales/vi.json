@@ -7,7 +7,8 @@
       "general": "Chung",
       "config": "Cấu hình",
       "interface": "Giao diện mạng",
-      "hooks": "Hooks"
+      "hooks": "Hooks",
+      "warp": "WARP"
     }
   },
   "user": {
@@ -178,9 +179,46 @@
       "restartSuccess": "Đã khởi động lại giao diện mạng",
       "firewall": "Lọc lưu lượng",
       "firewallEnabled": "Bật tường lửa theo từng người dùng",
-      "firewallEnabledDesc": "Áp dụng iptables để giới hạn người dùng chỉ truy cập các IP đích xác định. Sau khi kích hoạt, cho phép cấu hình điểm đến riêng cho từng người dùng."
+      "firewallEnabledDesc": "Áp dụng iptables để giới hạn người dùng chỉ truy cập các IP đích xác định. Sau khi kích hoạt, cho phép cấu hình điểm đến riêng cho từng người dùng.",
+      "egress": "Đầu ra",
+      "egressWarp": "Định tuyến lưu lượng khách qua WARP",
+      "egressWarpDesc": "Khi được bật, khách kết nối internet qua Cloudflare WARP thay vì WAN của máy chủ, ẩn IP máy chủ. Yêu cầu cấu hình WARP đã đăng ký. Có thể cần giảm MTU của khách."
     },
-    "introText": "Chào mừng đến bảng quản trị.\n\nTại đây bạn có thể quản lý cài đặt chung, cấu hình, cài đặt giao diện mạng và hooks.\n\nBắt đầu bằng cách chọn một trong các mục trong thanh bên."
+    "introText": "Chào mừng đến bảng quản trị.\n\nTại đây bạn có thể quản lý cài đặt chung, cấu hình, cài đặt giao diện mạng và hooks.\n\nBắt đầu bằng cách chọn một trong các mục trong thanh bên.",
+    "warp": {
+      "title": "Cloudflare WARP",
+      "intro": "Đăng ký tài khoản Cloudflare WARP miễn phí để dùng làm đầu ra cho các khách của bạn. Khách sẽ kết nối internet với IP Cloudflare thay vì IP máy chủ.",
+      "register": "Lấy WARP",
+      "registerSuccess": "Đã đăng ký WARP",
+      "status": "Trạng thái",
+      "deviceId": "ID thiết bị",
+      "addressV4": "Địa chỉ IPv4",
+      "addressV6": "Địa chỉ IPv6",
+      "endpoint": "Điểm cuối",
+      "egress": "Đầu ra",
+      "egressDesc": "Chuyển đầu ra sang WARP trong phần Giao diện.",
+      "egressActive": "WARP (đang hoạt động)",
+      "egressInactive": "WAN (không hoạt động)",
+      "license": "Giấy phép WARP+",
+      "licenseKey": "Khóa giấy phép",
+      "licenseKeyDesc": "Nhập khóa giấy phép WARP+ để kích hoạt WARP+.",
+      "licenseSet": "Giấy phép đã được đặt",
+      "licenseUnset": "Không có giấy phép",
+      "licenseSuccess": "Giấy phép đã được áp dụng",
+      "applyLicense": "Áp dụng giấy phép",
+      "autoRotate": "Tự động xoay IP",
+      "intervalDays": "Khoảng thời gian (ngày)",
+      "intervalDaysDesc": "0 để tắt. Tự động xoay IP WARP.",
+      "changeIp": "Đổi IP",
+      "changeIpSuccess": "IP WARP đã thay đổi",
+      "delete": "Xóa WARP",
+      "deleteSuccess": "Cấu hình WARP đã bị xóa",
+      "importConfig": "Chỉnh sửa cấu hình",
+      "importTitle": "Cấu hình WARP thủ công",
+      "importDesc": "Dán cấu hình WireGuard. Hệ thống sẽ kiểm tra kết nối — nếu bắt tay thành công, cấu hình sẽ được lưu. Table, PostUp và PostDown được quản lý tự động.",
+      "importApply": "Áp dụng",
+      "importSuccess": "Cấu hình WARP đã được áp dụng"
+    }
   },
   "zod": {
     "generic": {
@@ -226,7 +264,8 @@
     "interface": {
       "cidr": "CIDR",
       "device": "Thiết bị mạng",
-      "cidrValid": "CIDR phải hợp lệ"
+      "cidrValid": "CIDR phải hợp lệ",
+      "egressMode": "Chế độ đầu ra"
     },
     "stringMalformed": "Chuỗi không đúng định dạng",
     "body": "Body phải là đối tượng hợp lệ",
@@ -251,6 +290,14 @@
       "publicIpV4": "Server public IPv4",
       "publicIpV6": "Server public IPv6",
       "clientWgLocalPort": "Client local WG port"
+    },
+    "warp": {
+      "addressV4": "Địa chỉ IPv4",
+      "addressV6": "Địa chỉ IPv6",
+      "endpoint": "Điểm cuối (máy chủ:cổng)",
+      "interval": "Khoảng thời gian cập nhật (ngày)",
+      "key": "Khóa WireGuard",
+      "license": "Khóa giấy phép WARP+ (tối thiểu 26 ký tự)"
     }
   },
   "hooks": {

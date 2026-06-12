@@ -51,6 +51,9 @@ export const InterfaceUpdateSchema = schemaForType<InterfaceAdminUpdateType>()(
     device: device,
     enabled: EnabledSchema,
     firewallEnabled: EnabledSchema,
+    egressMode: z.enum(['wan', 'warp'], {
+      message: t('zod.interface.egressMode'),
+    }),
     serverPublicIpV4: ServerPublicIpV4Schema,
     serverPublicIpV6: ServerPublicIpV6Schema,
   })

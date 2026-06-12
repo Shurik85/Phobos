@@ -7,7 +7,8 @@
       "general": "Obecné",
       "config": "Konfigurace",
       "interface": "Rozhraní",
-      "hooks": "Nastavení reakcí"
+      "hooks": "Nastavení reakcí",
+      "warp": "WARP"
     }
   },
   "user": {
@@ -171,9 +172,46 @@
       "restart": "Restartovat rozhraní",
       "restartDesc": "Restartovat rozhraní WireGuard",
       "restartWarn": "Opravdu chcete restartovat rozhraní? Dojde k odpojení všech klientů.",
-      "restartSuccess": "Rozhraní bylo restartováno"
+      "restartSuccess": "Rozhraní bylo restartováno",
+      "egress": "Výstup",
+      "egressWarp": "Směrovat provoz klientů přes WARP",
+      "egressWarpDesc": "Po aktivaci klienti vycházejí přes Cloudflare WARP místo přes WAN serveru, čímž se skryje IP serveru. Vyžaduje registrovanou konfiguraci WARP. Může být nutné snížit MTU klientů."
     },
-    "introText": "Vítejte v administraci.\n\nZde můžete spravovat obecná nastavení, konfiguraci, nastavení rozhraní a hooky.\n\nZačněte výběrem jedné ze sekcí v bočním panelu."
+    "introText": "Vítejte v administraci.\n\nZde můžete spravovat obecná nastavení, konfiguraci, nastavení rozhraní a hooky.\n\nZačněte výběrem jedné ze sekcí v bočním panelu.",
+    "warp": {
+      "title": "Cloudflare WARP",
+      "intro": "Zaregistrujte bezplatný účet Cloudflare WARP a použijte ho jako výstup pro vaše klienty. Klienti budou vycházet s IP Cloudflare místo IP serveru.",
+      "register": "Získat WARP",
+      "registerSuccess": "WARP zaregistrován",
+      "status": "Stav",
+      "deviceId": "ID zařízení",
+      "addressV4": "Adresa IPv4",
+      "addressV6": "Adresa IPv6",
+      "endpoint": "Endpoint",
+      "egress": "Výstup",
+      "egressDesc": "Přepněte výstup na WARP v sekci Rozhraní.",
+      "egressActive": "WARP (aktivní)",
+      "egressInactive": "WAN (neaktivní)",
+      "license": "Licence WARP+",
+      "licenseKey": "Licenční klíč",
+      "licenseKeyDesc": "Zadejte licenční klíč WARP+ pro aktivaci WARP+.",
+      "licenseSet": "Licence je nastavena",
+      "licenseUnset": "Žádná licence",
+      "licenseSuccess": "Licence použita",
+      "applyLicense": "Použít licenci",
+      "autoRotate": "Automatická rotace IP",
+      "intervalDays": "Interval (dny)",
+      "intervalDaysDesc": "0 pro deaktivaci. Automaticky rotuje IP adresy WARP.",
+      "changeIp": "Změnit IP",
+      "changeIpSuccess": "IP WARP změněna",
+      "delete": "Smazat WARP",
+      "deleteSuccess": "Konfigurace WARP smazána",
+      "importConfig": "Upravit konfiguraci",
+      "importTitle": "Ruční konfigurace WARP",
+      "importDesc": "Vložte konfiguraci WireGuard. Systém otestuje připojení — pokud se handshake podaří, konfigurace bude uložena. Table, PostUp a PostDown jsou spravovány automaticky.",
+      "importApply": "Použít",
+      "importSuccess": "Konfigurace WARP použita"
+    }
   },
   "zod": {
     "generic": {
@@ -217,7 +255,8 @@
     "interface": {
       "cidr": "CIDR",
       "device": "Zařízení",
-      "cidrValid": "CIDR musí být platný"
+      "cidrValid": "CIDR musí být platný",
+      "egressMode": "Výstupní režim"
     },
     "stringMalformed": "Řetězec má nesprávný formát",
     "body": "Tělo požadavku musí být platný objekt",
@@ -242,6 +281,14 @@
       "publicIpV4": "Server public IPv4",
       "publicIpV6": "Server public IPv6",
       "clientWgLocalPort": "Client local WG port"
+    },
+    "warp": {
+      "addressV4": "Adresa IPv4",
+      "addressV6": "Adresa IPv6",
+      "endpoint": "Endpoint (host:port)",
+      "interval": "Interval aktualizace (dny)",
+      "key": "Klíč WireGuard",
+      "license": "Licenční klíč WARP+ (min. 26 znaků)"
     }
   },
   "hooks": {

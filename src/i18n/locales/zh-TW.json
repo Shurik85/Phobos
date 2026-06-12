@@ -7,7 +7,8 @@
       "general": "一般設定",
       "config": "組態設定",
       "interface": "介面設定",
-      "hooks": "Hook 設定"
+      "hooks": "Hook 設定",
+      "warp": "WARP"
     }
   },
   "user": {
@@ -178,9 +179,46 @@
       "restartSuccess": "介面已重新啟動",
       "firewall": "流量過濾",
       "firewallEnabled": "啟用個別用戶端防火牆",
-      "firewallEnabledDesc": "使用 iptables 限制用戶端流量僅能存取特定 IP。啟用後，可針對每個用戶端設定其允許的存取範圍。"
+      "firewallEnabledDesc": "使用 iptables 限制用戶端流量僅能存取特定 IP。啟用後，可針對每個用戶端設定其允許的存取範圍。",
+      "egress": "出口",
+      "egressWarp": "透過 WARP 路由用戶端流量",
+      "egressWarpDesc": "啟用後，用戶端透過 Cloudflare WARP 而非伺服器 WAN 存取網際網路，隱藏伺服器 IP。需要已註冊的 WARP 設定。可能需要降低用戶端 MTU。"
     },
-    "introText": "歡迎使用管理面板。\n\n您可在此管理一般、組態、介面與 Hook 設定。\n\n請從側邊欄選擇任一項目開始。"
+    "introText": "歡迎使用管理面板。\n\n您可在此管理一般、組態、介面與 Hook 設定。\n\n請從側邊欄選擇任一項目開始。",
+    "warp": {
+      "title": "Cloudflare WARP",
+      "intro": "註冊免費的 Cloudflare WARP 帳號，將其用作用戶端的出口。用戶端將使用 Cloudflare IP 而非伺服器 IP 存取網際網路。",
+      "register": "取得 WARP",
+      "registerSuccess": "WARP 已註冊",
+      "status": "狀態",
+      "deviceId": "裝置 ID",
+      "addressV4": "IPv4 位址",
+      "addressV6": "IPv6 位址",
+      "endpoint": "端點",
+      "egress": "出口",
+      "egressDesc": "在「網路介面」區段將出口切換至 WARP。",
+      "egressActive": "WARP（啟用）",
+      "egressInactive": "WAN（未啟用）",
+      "license": "WARP+ 授權",
+      "licenseKey": "授權金鑰",
+      "licenseKeyDesc": "輸入 WARP+ 授權金鑰以啟用 WARP+。",
+      "licenseSet": "已設定授權",
+      "licenseUnset": "無授權",
+      "licenseSuccess": "授權已套用",
+      "applyLicense": "套用授權",
+      "autoRotate": "自動輪換 IP",
+      "intervalDays": "間隔（天）",
+      "intervalDaysDesc": "0 表示停用。自動輪換 WARP IP。",
+      "changeIp": "更換 IP",
+      "changeIpSuccess": "WARP IP 已更換",
+      "delete": "刪除 WARP",
+      "deleteSuccess": "WARP 設定已刪除",
+      "importConfig": "編輯設定",
+      "importTitle": "手動 WARP 設定",
+      "importDesc": "貼上 WireGuard 設定。系統將測試連線——握手成功後設定將被儲存。Table、PostUp 和 PostDown 由系統自動管理，無需填寫。",
+      "importApply": "套用",
+      "importSuccess": "WARP 設定已套用"
+    }
   },
   "zod": {
     "generic": {
@@ -226,7 +264,8 @@
     "interface": {
       "cidr": "CIDR",
       "device": "裝置",
-      "cidrValid": "CIDR 格式無效"
+      "cidrValid": "CIDR 格式無效",
+      "egressMode": "出口模式"
     },
     "stringMalformed": "字串格式錯誤",
     "body": "Body 必須為有效的物件",
@@ -251,6 +290,14 @@
       "publicIpV4": "Server public IPv4",
       "publicIpV6": "Server public IPv6",
       "clientWgLocalPort": "Client local WG port"
+    },
+    "warp": {
+      "addressV4": "IPv4 位址",
+      "addressV6": "IPv6 位址",
+      "endpoint": "端點（主機:連接埠）",
+      "interval": "更新間隔（天）",
+      "key": "WireGuard 金鑰",
+      "license": "WARP+ 授權金鑰（最少 26 個字元）"
     }
   },
   "hooks": {

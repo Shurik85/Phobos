@@ -7,7 +7,8 @@
       "general": "Allgemein",
       "config": "Konfiguration",
       "interface": "Oberfläche",
-      "hooks": "Hooks"
+      "hooks": "Hooks",
+      "warp": "WARP"
     }
   },
   "user": {
@@ -178,9 +179,46 @@
       "restartSuccess": "Interface neu gestartet",
       "firewall": "Datenverkehr Filterung",
       "firewallEnabled": "Firewall pro Client aktivieren",
-      "firewallEnabledDesc": "Beschränken Sie den Client-Datenverkehr mithilfe von iptables auf bestimmte Ziel-IP-Adressen. Bei Aktivierung kann für jeden Client eine Liste der zulässigen Ziele konfiguriert werden."
+      "firewallEnabledDesc": "Beschränken Sie den Client-Datenverkehr mithilfe von iptables auf bestimmte Ziel-IP-Adressen. Bei Aktivierung kann für jeden Client eine Liste der zulässigen Ziele konfiguriert werden.",
+      "egress": "Ausgang",
+      "egressWarp": "Client-Datenverkehr über WARP leiten",
+      "egressWarpDesc": "Wenn aktiviert, verlassen Clients das Netzwerk über Cloudflare WARP statt über das WAN des Servers, wodurch die Server-IP verborgen bleibt. Erfordert eine registrierte WARP-Konfiguration. Ein niedrigerer Client-MTU kann erforderlich sein."
     },
-    "introText": "Willkommen in der Admin-Konsole.\n\nHier können Sie die allgemeinen Einstellungen, die Konfiguration, die Schnittstelleneinstellungen und die Hooks verwalten.\n\nBeginnen Sie, indem Sie einen der Bereiche in der Seitenleiste auswählen."
+    "introText": "Willkommen in der Admin-Konsole.\n\nHier können Sie die allgemeinen Einstellungen, die Konfiguration, die Schnittstelleneinstellungen und die Hooks verwalten.\n\nBeginnen Sie, indem Sie einen der Bereiche in der Seitenleiste auswählen.",
+    "warp": {
+      "title": "Cloudflare WARP",
+      "intro": "Registrieren Sie ein kostenloses Cloudflare-WARP-Konto, um es als Ausgang für Ihre Clients zu nutzen. Clients verlassen das Netzwerk mit einer Cloudflare-IP statt mit der Server-IP.",
+      "register": "WARP einrichten",
+      "registerSuccess": "WARP registriert",
+      "status": "Status",
+      "deviceId": "Geräte-ID",
+      "addressV4": "IPv4-Adresse",
+      "addressV6": "IPv6-Adresse",
+      "endpoint": "Endpunkt",
+      "egress": "Ausgang",
+      "egressDesc": "Ausgang im Bereich Schnittstelle auf WARP umschalten.",
+      "egressActive": "WARP (aktiv)",
+      "egressInactive": "WAN (inaktiv)",
+      "license": "WARP+-Lizenz",
+      "licenseKey": "Lizenzschlüssel",
+      "licenseKeyDesc": "Geben Sie einen WARP+-Lizenzschlüssel ein, um WARP+ zu aktivieren.",
+      "licenseSet": "Lizenz ist gesetzt",
+      "licenseUnset": "Keine Lizenz",
+      "licenseSuccess": "Lizenz angewendet",
+      "applyLicense": "Lizenz anwenden",
+      "autoRotate": "Automatische IP-Rotation",
+      "intervalDays": "Intervall (Tage)",
+      "intervalDaysDesc": "0 zum Deaktivieren. Rotiert die WARP-IP automatisch.",
+      "changeIp": "IP wechseln",
+      "changeIpSuccess": "WARP-IP geändert",
+      "delete": "WARP löschen",
+      "deleteSuccess": "WARP-Konfiguration gelöscht",
+      "importConfig": "Konfiguration bearbeiten",
+      "importTitle": "Manuelle WARP-Konfiguration",
+      "importDesc": "WireGuard-Konfiguration einfügen. Das System testet die Verbindung — bei erfolgreichem Handshake wird die Konfiguration gespeichert. Table, PostUp und PostDown werden automatisch verwaltet.",
+      "importApply": "Anwenden",
+      "importSuccess": "WARP-Konfiguration angewendet"
+    }
   },
   "zod": {
     "generic": {
@@ -226,7 +264,8 @@
     "interface": {
       "cidr": "CIDR",
       "device": "Gerät",
-      "cidrValid": "CIDR muss gültig sein"
+      "cidrValid": "CIDR muss gültig sein",
+      "egressMode": "Ausgangsmodus"
     },
     "stringMalformed": "Zeichenkette ist fehlerhaft",
     "body": "Body muss ein gültiges Objekt sein",
@@ -251,6 +290,14 @@
       "publicIpV4": "Server public IPv4",
       "publicIpV6": "Server public IPv6",
       "clientWgLocalPort": "Client local WG port"
+    },
+    "warp": {
+      "addressV4": "IPv4-Adresse",
+      "addressV6": "IPv6-Adresse",
+      "endpoint": "Endpunkt (Host:Port)",
+      "interval": "Aktualisierungsintervall (Tage)",
+      "key": "WireGuard-Schlüssel",
+      "license": "WARP+-Lizenzschlüssel (min. 26 Zeichen)"
     }
   },
   "hooks": {

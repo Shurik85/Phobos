@@ -7,7 +7,8 @@
       "general": "Generelt",
       "config": "Oppsett",
       "interface": "Grensesnitt",
-      "hooks": "Hooks"
+      "hooks": "Hooks",
+      "warp": "WARP"
     }
   },
   "user": {
@@ -171,9 +172,46 @@
       "restart": "Start grensesnitt på nytt",
       "restartDesc": "Start WireGuard-grensesnittet på nytt",
       "restartWarn": "Er du sikker på at du vil starte grensesnittet på nytt? Dette vil koble fra alle klienter.",
-      "restartSuccess": "Grensesnitt startet på nytt"
+      "restartSuccess": "Grensesnitt startet på nytt",
+      "egress": "Utgangspunkt",
+      "egressWarp": "Rute klienttrafikk gjennom WARP",
+      "egressWarpDesc": "Når aktivert, kobler klienter til internett via Cloudflare WARP i stedet for serverens WAN, noe som skjuler server-IP. Krever en registrert WARP-konfigurasjon. En lavere klient-MTU kan være nødvendig."
     },
-    "introText": "Velkommen til adminpanelet.\n\nHer kan du administrere de generelle innstillingene, konfigurasjonen, grensesnittinnstillingene og hooks.\n\nStart med å velge en av seksjonene i sidepanelet."
+    "introText": "Velkommen til adminpanelet.\n\nHer kan du administrere de generelle innstillingene, konfigurasjonen, grensesnittinnstillingene og hooks.\n\nStart med å velge en av seksjonene i sidepanelet.",
+    "warp": {
+      "title": "Cloudflare WARP",
+      "intro": "Registrer en gratis Cloudflare WARP-konto for å bruke den som utgangspunkt for klientene dine. Klienter vil koble til internett med en Cloudflare IP i stedet for server-IP.",
+      "register": "Hent WARP",
+      "registerSuccess": "WARP registrert",
+      "status": "Status",
+      "deviceId": "Enhets-ID",
+      "addressV4": "IPv4-adresse",
+      "addressV6": "IPv6-adresse",
+      "endpoint": "Endepunkt",
+      "egress": "Utgangspunkt",
+      "egressDesc": "Bytt utgangspunkt til WARP i Grensesnitt-seksjonen.",
+      "egressActive": "WARP (aktiv)",
+      "egressInactive": "WAN (inaktiv)",
+      "license": "WARP+-lisens",
+      "licenseKey": "Lisensnøkkel",
+      "licenseKeyDesc": "Skriv inn en WARP+-lisensnøkkel for å aktivere WARP+.",
+      "licenseSet": "Lisens er satt",
+      "licenseUnset": "Ingen lisens",
+      "licenseSuccess": "Lisens brukt",
+      "applyLicense": "Bruk lisens",
+      "autoRotate": "Automatisk IP-rotasjon",
+      "intervalDays": "Intervall (dager)",
+      "intervalDaysDesc": "0 for å deaktivere. Roterer WARP IP automatisk.",
+      "changeIp": "Bytt IP",
+      "changeIpSuccess": "WARP IP endret",
+      "delete": "Slett WARP",
+      "deleteSuccess": "WARP-konfigurasjon slettet",
+      "importConfig": "Rediger konfigurasjon",
+      "importTitle": "Manuell WARP-konfigurasjon",
+      "importDesc": "Lim inn en WireGuard-konfigurasjon. Systemet tester tilkoblingen — hvis handshake lykkes, lagres konfigurasjonen. Table, PostUp og PostDown administreres automatisk.",
+      "importApply": "Bruk",
+      "importSuccess": "WARP-konfigurasjon brukt"
+    }
   },
   "zod": {
     "generic": {
@@ -216,7 +254,8 @@
     "interface": {
       "cidr": "CIDR",
       "device": "Enhet",
-      "cidrValid": "CIDR må være gyldig"
+      "cidrValid": "CIDR må være gyldig",
+      "egressMode": "Utgangsmodus"
     },
     "stringMalformed": "Strengen er ugyldig",
     "body": "Innholdet må være et gyldig objekt",
@@ -241,6 +280,14 @@
       "publicIpV4": "Server public IPv4",
       "publicIpV6": "Server public IPv6",
       "clientWgLocalPort": "Client local WG port"
+    },
+    "warp": {
+      "addressV4": "IPv4-adresse",
+      "addressV6": "IPv6-adresse",
+      "endpoint": "Endepunkt (vert:port)",
+      "interval": "Oppdateringsintervall (dager)",
+      "key": "WireGuard-nøkkel",
+      "license": "WARP+-lisensnøkkel (min. 26 tegn)"
     }
   },
   "hooks": {

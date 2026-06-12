@@ -7,7 +7,8 @@
       "general": "General",
       "config": "Configuración",
       "interface": "Interfaz",
-      "hooks": "Hooks"
+      "hooks": "Hooks",
+      "warp": "WARP"
     }
   },
   "user": {
@@ -177,9 +178,46 @@
       "restartSuccess": "Interfaz reiniciada",
       "firewall": "Filtrado de tráfico",
       "firewallEnabled": "Habilitar cortafuegos por cliente",
-      "firewallEnabledDesc": "Restringe el tráfico del cliente a IPs de destino específicas usando iptables. Cuando está activado, cada cliente puede configurarse con destinos permitidos."
+      "firewallEnabledDesc": "Restringe el tráfico del cliente a IPs de destino específicas usando iptables. Cuando está activado, cada cliente puede configurarse con destinos permitidos.",
+      "egress": "Salida",
+      "egressWarp": "Enrutar tráfico de clientes a través de WARP",
+      "egressWarpDesc": "Cuando está activado, los clientes salen a través de Cloudflare WARP en lugar del WAN del servidor, ocultando la IP del servidor. Requiere una configuración WARP registrada. Es posible que se necesite un MTU de cliente más bajo."
     },
-    "introText": "Bienvenido al panel de administración.\n\nAquí puedes gestionar los ajustes generales, la configuración, la interfaz y los hooks.\n\nEmpieza eligiendo una de las secciones en la barra lateral."
+    "introText": "Bienvenido al panel de administración.\n\nAquí puedes gestionar los ajustes generales, la configuración, la interfaz y los hooks.\n\nEmpieza eligiendo una de las secciones en la barra lateral.",
+    "warp": {
+      "title": "Cloudflare WARP",
+      "intro": "Registre una cuenta gratuita de Cloudflare WARP para usarla como salida para sus clientes. Los clientes saldrán con una IP de Cloudflare en lugar de la IP del servidor.",
+      "register": "Obtener WARP",
+      "registerSuccess": "WARP registrado",
+      "status": "Estado",
+      "deviceId": "ID de dispositivo",
+      "addressV4": "Dirección IPv4",
+      "addressV6": "Dirección IPv6",
+      "endpoint": "Punto de acceso",
+      "egress": "Salida",
+      "egressDesc": "Cambie la salida a WARP en la sección Interfaz.",
+      "egressActive": "WARP (activo)",
+      "egressInactive": "WAN (inactivo)",
+      "license": "Licencia WARP+",
+      "licenseKey": "Clave de licencia",
+      "licenseKeyDesc": "Ingrese una clave de licencia WARP+ para habilitar WARP+.",
+      "licenseSet": "Licencia configurada",
+      "licenseUnset": "Sin licencia",
+      "licenseSuccess": "Licencia aplicada",
+      "applyLicense": "Aplicar licencia",
+      "autoRotate": "Rotación automática de IP",
+      "intervalDays": "Intervalo (días)",
+      "intervalDaysDesc": "0 para desactivar. Rota la IP de WARP automáticamente.",
+      "changeIp": "Cambiar IP",
+      "changeIpSuccess": "IP de WARP cambiada",
+      "delete": "Eliminar WARP",
+      "deleteSuccess": "Configuración de WARP eliminada",
+      "importConfig": "Editar configuración",
+      "importTitle": "Configuración WARP manual",
+      "importDesc": "Pegue una configuración WireGuard. El sistema comprobará la conexión — si se establece el handshake, se guardará la configuración. Table, PostUp y PostDown se gestionan automáticamente.",
+      "importApply": "Aplicar",
+      "importSuccess": "Configuración WARP aplicada"
+    }
   },
   "zod": {
     "generic": {
@@ -225,7 +263,8 @@
     "interface": {
       "cidr": "CIDR",
       "device": "Dispositivo",
-      "cidrValid": "El CIDR debe ser válido"
+      "cidrValid": "El CIDR debe ser válido",
+      "egressMode": "Modo de salida"
     },
     "stringMalformed": "Cadena malformada",
     "body": "El cuerpo debe ser un objeto válido",
@@ -250,6 +289,14 @@
       "publicIpV4": "Server public IPv4",
       "publicIpV6": "Server public IPv6",
       "clientWgLocalPort": "Client local WG port"
+    },
+    "warp": {
+      "addressV4": "Dirección IPv4",
+      "addressV6": "Dirección IPv6",
+      "endpoint": "Punto de acceso (host:puerto)",
+      "interval": "Intervalo de actualización (días)",
+      "key": "Clave WireGuard",
+      "license": "Clave de licencia WARP+ (mín. 26 caracteres)"
     }
   },
   "hooks": {

@@ -11,6 +11,7 @@ CREATE TABLE `interfaces_table` (
 	`mtu` integer NOT NULL,
 	`enabled` integer NOT NULL,
 	`firewall_enabled` integer DEFAULT false NOT NULL,
+	`egress_mode` text DEFAULT 'wan' NOT NULL,
 	`obfuscator_ext_port` integer DEFAULT 51822 NOT NULL,
 	`obfuscator_key` text DEFAULT '' NOT NULL,
 	`obfuscator_masking` text DEFAULT 'STUN' NOT NULL,
@@ -121,6 +122,26 @@ CREATE TABLE `install_links_table` (
 );
 --> statement-breakpoint
 CREATE UNIQUE INDEX `install_links_table_token_unique` ON `install_links_table` (`token`);
+--> statement-breakpoint
+CREATE TABLE `warp_table` (
+	`id` integer PRIMARY KEY DEFAULT 1,
+	`access_token` text DEFAULT '' NOT NULL,
+	`device_id` text DEFAULT '' NOT NULL,
+	`license_key` text DEFAULT '' NOT NULL,
+	`private_key` text DEFAULT '' NOT NULL,
+	`client_id` text DEFAULT '' NOT NULL,
+	`peer_public_key` text DEFAULT '' NOT NULL,
+	`endpoint` text DEFAULT 'engage.cloudflareclient.com:2408' NOT NULL,
+	`address_v4` text DEFAULT '' NOT NULL,
+	`address_v6` text DEFAULT '' NOT NULL,
+	`mtu` integer DEFAULT 1280 NOT NULL,
+	`update_interval_days` integer DEFAULT 0 NOT NULL,
+	`last_update_at` text,
+	`created_at` text DEFAULT (CURRENT_TIMESTAMP) NOT NULL,
+	`updated_at` text DEFAULT (CURRENT_TIMESTAMP) NOT NULL
+);
+--> statement-breakpoint
+INSERT INTO `warp_table` (`id`) VALUES (1);
 --> statement-breakpoint
 INSERT INTO `interfaces_table` (`name`, `device`, `port`, `private_key`, `public_key`, `ipv4_cidr`, `ipv6_cidr`, `mtu`, `enabled`)
 VALUES ('wg0', 'eth0', 51820, '---default---', '---default---', '10.8.0.0/24', 'fdcc:ad94:bacf:61a4::cafe:0/112', 1420, 1);

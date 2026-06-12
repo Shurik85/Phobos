@@ -20,6 +20,7 @@ connect().then(async (db) => {
   provider = db;
   await WireGuard.Startup();
   await Obfuscator.Startup();
+  await WarpInterface.Startup();
 });
 
 export default provider;

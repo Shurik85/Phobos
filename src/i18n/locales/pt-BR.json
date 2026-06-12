@@ -7,7 +7,8 @@
       "general": "Geral",
       "config": "Configuração",
       "interface": "Interface",
-      "hooks": "Hooks"
+      "hooks": "Hooks",
+      "warp": "WARP"
     }
   },
   "user": {
@@ -167,9 +168,46 @@
       "restart": "Reiniciar interface",
       "restartDesc": "Reiniciar a interface do WireGuard",
       "restartWarn": "Tem certeza de que deseja reiniciar a interface? Isso desconectará todos os clientes.",
-      "restartSuccess": "Interface reiniciada"
+      "restartSuccess": "Interface reiniciada",
+      "egress": "Saída",
+      "egressWarp": "Rotear tráfego de clientes pelo WARP",
+      "egressWarpDesc": "Quando ativado, os clientes saem pela Cloudflare WARP em vez do WAN do servidor, ocultando o IP do servidor. Requer uma configuração WARP registrada. Um MTU de cliente mais baixo pode ser necessário."
     },
-    "introText": "Bem-vindo ao painel de administração.\n\nAqui você pode gerenciar as configurações gerais, a configuração, as configurações da interface e os hooks.\n\nComece escolhendo uma das seções na barra lateral."
+    "introText": "Bem-vindo ao painel de administração.\n\nAqui você pode gerenciar as configurações gerais, a configuração, as configurações da interface e os hooks.\n\nComece escolhendo uma das seções na barra lateral.",
+    "warp": {
+      "title": "Cloudflare WARP",
+      "intro": "Registre uma conta gratuita do Cloudflare WARP para usá-la como saída para seus clientes. Os clientes sairão com um IP da Cloudflare em vez do IP do servidor.",
+      "register": "Obter WARP",
+      "registerSuccess": "WARP registrado",
+      "status": "Status",
+      "deviceId": "ID do dispositivo",
+      "addressV4": "Endereço IPv4",
+      "addressV6": "Endereço IPv6",
+      "endpoint": "Ponto de extremidade",
+      "egress": "Saída",
+      "egressDesc": "Mude a saída para WARP na seção Interface.",
+      "egressActive": "WARP (ativo)",
+      "egressInactive": "WAN (inativo)",
+      "license": "Licença WARP+",
+      "licenseKey": "Chave de licença",
+      "licenseKeyDesc": "Insira uma chave de licença WARP+ para habilitar o WARP+.",
+      "licenseSet": "Licença configurada",
+      "licenseUnset": "Sem licença",
+      "licenseSuccess": "Licença aplicada",
+      "applyLicense": "Aplicar licença",
+      "autoRotate": "Rotação automática de IP",
+      "intervalDays": "Intervalo (dias)",
+      "intervalDaysDesc": "0 para desativar. Rotaciona o IP do WARP automaticamente.",
+      "changeIp": "Trocar IP",
+      "changeIpSuccess": "IP do WARP alterado",
+      "delete": "Excluir WARP",
+      "deleteSuccess": "Configuração do WARP excluída",
+      "importConfig": "Editar configuração",
+      "importTitle": "Configuração WARP manual",
+      "importDesc": "Cole uma configuração WireGuard. O sistema testará a conexão — se o handshake for estabelecido, a configuração será salva. Table, PostUp e PostDown são gerenciados automaticamente.",
+      "importApply": "Aplicar",
+      "importSuccess": "Configuração WARP aplicada"
+    }
   },
   "zod": {
     "generic": {
@@ -212,7 +250,8 @@
     "interface": {
       "cidr": "CIDR",
       "device": "Dispositivo",
-      "cidrValid": "O CIDR deve ser válido"
+      "cidrValid": "O CIDR deve ser válido",
+      "egressMode": "Modo de saída"
     },
     "stringMalformed": "A string está malformada",
     "body": "O corpo deve ser um objeto válido",
@@ -237,6 +276,14 @@
       "publicIpV4": "Server public IPv4",
       "publicIpV6": "Server public IPv6",
       "clientWgLocalPort": "Client local WG port"
+    },
+    "warp": {
+      "addressV4": "Endereço IPv4",
+      "addressV6": "Endereço IPv6",
+      "endpoint": "Ponto de extremidade (host:porta)",
+      "interval": "Intervalo de atualização (dias)",
+      "key": "Chave WireGuard",
+      "license": "Chave de licença WARP+ (mín. 26 caracteres)"
     }
   },
   "hooks": {

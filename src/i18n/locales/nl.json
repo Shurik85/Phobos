@@ -7,7 +7,8 @@
       "general": "Algemeen",
       "config": "Configuratie",
       "interface": "Interface",
-      "hooks": "Hooks"
+      "hooks": "Hooks",
+      "warp": "WARP"
     }
   },
   "user": {
@@ -178,9 +179,46 @@
       "restartSuccess": "Interface opnieuw gestart",
       "firewall": "Traffic-filtering",
       "firewallEnabled": "Per-Client Firewall inschakelen",
-      "firewallEnabledDesc": "Beperk het cliëntverkeer tot specifieke bestemmings-IP's met behulp van iptables. Indien ingeschakeld, kan elke cliënt worden geconfigureerd met toegestane bestemmingen."
+      "firewallEnabledDesc": "Beperk het cliëntverkeer tot specifieke bestemmings-IP's met behulp van iptables. Indien ingeschakeld, kan elke cliënt worden geconfigureerd met toegestane bestemmingen.",
+      "egress": "Uitgang",
+      "egressWarp": "Clientverkeer via WARP routeren",
+      "egressWarpDesc": "Wanneer ingeschakeld, verlaten clients het netwerk via Cloudflare WARP in plaats van de WAN van de server, waardoor het server-IP wordt verborgen. Vereist een geregistreerde WARP-configuratie. Een lagere client-MTU kan nodig zijn."
     },
-    "introText": "Welkom bij het Admin-paneel.\n\nHier kunt u de algemene instellingen, de configuratie, de interface-instellingen en de hooks beheren.\n\nBegin met het kiezen van een van de secties in de zijbalk."
+    "introText": "Welkom bij het Admin-paneel.\n\nHier kunt u de algemene instellingen, de configuratie, de interface-instellingen en de hooks beheren.\n\nBegin met het kiezen van een van de secties in de zijbalk.",
+    "warp": {
+      "title": "Cloudflare WARP",
+      "intro": "Registreer een gratis Cloudflare WARP-account om het te gebruiken als uitgang voor uw clients. Clients gaan het netwerk in met een Cloudflare IP in plaats van het server-IP.",
+      "register": "WARP ophalen",
+      "registerSuccess": "WARP geregistreerd",
+      "status": "Status",
+      "deviceId": "Apparaat-ID",
+      "addressV4": "IPv4-adres",
+      "addressV6": "IPv6-adres",
+      "endpoint": "Eindpunt",
+      "egress": "Uitgang",
+      "egressDesc": "Schakel uitgang naar WARP in de sectie Interface.",
+      "egressActive": "WARP (actief)",
+      "egressInactive": "WAN (inactief)",
+      "license": "WARP+-licentie",
+      "licenseKey": "Licentiesleutel",
+      "licenseKeyDesc": "Voer een WARP+-licentiesleutel in om WARP+ in te schakelen.",
+      "licenseSet": "Licentie is ingesteld",
+      "licenseUnset": "Geen licentie",
+      "licenseSuccess": "Licentie toegepast",
+      "applyLicense": "Licentie toepassen",
+      "autoRotate": "Automatische IP-rotatie",
+      "intervalDays": "Interval (dagen)",
+      "intervalDaysDesc": "0 om uit te schakelen. Roteert het WARP IP automatisch.",
+      "changeIp": "IP wijzigen",
+      "changeIpSuccess": "WARP IP gewijzigd",
+      "delete": "WARP verwijderen",
+      "deleteSuccess": "WARP-configuratie verwijderd",
+      "importConfig": "Configuratie bewerken",
+      "importTitle": "Handmatige WARP-configuratie",
+      "importDesc": "Plak een WireGuard-configuratie. Het systeem test de verbinding — als de handshake slaagt, wordt de configuratie opgeslagen. Table, PostUp en PostDown worden automatisch beheerd.",
+      "importApply": "Toepassen",
+      "importSuccess": "WARP-configuratie toegepast"
+    }
   },
   "zod": {
     "generic": {
@@ -226,7 +264,8 @@
     "interface": {
       "cidr": "CIDR",
       "device": "Apparaat",
-      "cidrValid": "CIDR moet geldig zijn"
+      "cidrValid": "CIDR moet geldig zijn",
+      "egressMode": "Uitgangsmodus"
     },
     "stringMalformed": "Tekenreeks is beschadigd",
     "body": "Body moet een geldig object bevatten",
@@ -251,6 +290,14 @@
       "publicIpV4": "Server public IPv4",
       "publicIpV6": "Server public IPv6",
       "clientWgLocalPort": "Client local WG port"
+    },
+    "warp": {
+      "addressV4": "IPv4-adres",
+      "addressV6": "IPv6-adres",
+      "endpoint": "Eindpunt (host:poort)",
+      "interval": "Updateinterval (dagen)",
+      "key": "WireGuard-sleutel",
+      "license": "WARP+-licentiesleutel (min. 26 tekens)"
     }
   },
   "hooks": {

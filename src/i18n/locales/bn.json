@@ -7,7 +7,8 @@
       "general": "সাধারণ",
       "config": "কনফিগ",
       "interface": "ইন্টারফেস",
-      "hooks": "হুকস"
+      "hooks": "হুকস",
+      "warp": "WARP"
     }
   },
   "user": {
@@ -167,9 +168,46 @@
       "restart": "ইন্টারফেস রিস্টার্ট করুন",
       "restartDesc": "WireGuard ইন্টারফেস রিস্টার্ট করুন",
       "restartWarn": "আপনি কি নিশ্চিতভাবে ইন্টারফেস রিস্টার্ট করতে চান? এতে সব ক্লায়েন্ট সংযোগ বিচ্ছিন্ন হবে।",
-      "restartSuccess": "ইন্টারফেস রিস্টার্ট হয়েছে"
+      "restartSuccess": "ইন্টারফেস রিস্টার্ট হয়েছে",
+      "egress": "বহির্গমন",
+      "egressWarp": "WARP-এর মাধ্যমে ক্লায়েন্ট ট্র্যাফিক রুট করুন",
+      "egressWarpDesc": "সক্ষম হলে, ক্লায়েন্টরা সার্ভারের WAN-এর পরিবর্তে Cloudflare WARP-এর মাধ্যমে ইন্টারনেটে সংযুক্ত হবে, সার্ভারের IP লুকিয়ে রাখবে। নিবন্ধিত WARP কনফিগারেশন প্রয়োজন। ক্লায়েন্ট MTU কমানোর প্রয়োজন হতে পারে।"
     },
-    "introText": "অ্যাডমিন প্যানেলে স্বাগতম।\n\nএখানে আপনি সাধারণ সেটিংস, কনফিগারেশন, ইন্টারফেস সেটিংস এবং হুকস পরিচালনা করতে পারবেন।\n\nসাইডবার থেকে একটি বিভাগ নির্বাচন করে শুরু করুন।"
+    "introText": "অ্যাডমিন প্যানেলে স্বাগতম।\n\nএখানে আপনি সাধারণ সেটিংস, কনফিগারেশন, ইন্টারফেস সেটিংস এবং হুকস পরিচালনা করতে পারবেন।\n\nসাইডবার থেকে একটি বিভাগ নির্বাচন করে শুরু করুন।",
+    "warp": {
+      "title": "Cloudflare WARP",
+      "intro": "আপনার ক্লায়েন্টদের জন্য বহির্গমন হিসেবে ব্যবহার করতে একটি বিনামূল্যে Cloudflare WARP অ্যাকাউন্ট নিবন্ধন করুন। ক্লায়েন্টরা সার্ভারের IP-এর পরিবর্তে Cloudflare IP দিয়ে ইন্টারনেটে যাবে।",
+      "register": "WARP নিন",
+      "registerSuccess": "WARP নিবন্ধিত",
+      "status": "অবস্থা",
+      "deviceId": "ডিভাইস ID",
+      "addressV4": "IPv4 ঠিকানা",
+      "addressV6": "IPv6 ঠিকানা",
+      "endpoint": "এন্ডপয়েন্ট",
+      "egress": "বহির্গমন",
+      "egressDesc": "ইন্টারফেস বিভাগে বহির্গমন WARP-এ পরিবর্তন করুন।",
+      "egressActive": "WARP (সক্রিয়)",
+      "egressInactive": "WAN (নিষ্ক্রিয়)",
+      "license": "WARP+ লাইসেন্স",
+      "licenseKey": "লাইসেন্স কী",
+      "licenseKeyDesc": "WARP+ সক্ষম করতে একটি WARP+ লাইসেন্স কী প্রবেশ করান।",
+      "licenseSet": "লাইসেন্স সেট করা আছে",
+      "licenseUnset": "কোনো লাইসেন্স নেই",
+      "licenseSuccess": "লাইসেন্স প্রয়োগ করা হয়েছে",
+      "applyLicense": "লাইসেন্স প্রয়োগ করুন",
+      "autoRotate": "স্বয়ংক্রিয় IP রোটেশন",
+      "intervalDays": "বিরতি (দিন)",
+      "intervalDaysDesc": "নিষ্ক্রিয় করতে 0। স্বয়ংক্রিয়ভাবে WARP IP পরিবর্তন করে।",
+      "changeIp": "IP পরিবর্তন করুন",
+      "changeIpSuccess": "WARP IP পরিবর্তিত",
+      "delete": "WARP মুছুন",
+      "deleteSuccess": "WARP কনফিগারেশন মুছে ফেলা হয়েছে",
+      "importConfig": "কনফিগ সম্পাদনা করুন",
+      "importTitle": "ম্যানুয়াল WARP কনফিগারেশন",
+      "importDesc": "একটি WireGuard কনফিগ পেস্ট করুন। সিস্টেম সংযোগ পরীক্ষা করবে — হ্যান্ডশেক সফল হলে কনফিগারেশন সংরক্ষিত হবে। Table, PostUp এবং PostDown স্বয়ংক্রিয়ভাবে পরিচালিত হয়।",
+      "importApply": "প্রয়োগ করুন",
+      "importSuccess": "WARP কনফিগারেশন প্রয়োগ করা হয়েছে"
+    }
   },
   "zod": {
     "generic": {
@@ -212,7 +250,8 @@
     "interface": {
       "cidr": "CIDR",
       "device": "ডিভাইস",
-      "cidrValid": "CIDR বৈধ হতে হবে"
+      "cidrValid": "CIDR বৈধ হতে হবে",
+      "egressMode": "বহির্গমন মোড"
     },
     "stringMalformed": "স্ট্রিং বিকৃত",
     "body": "বডি একটি বৈধ অবজেক্ট হতে হবে",
@@ -237,6 +276,14 @@
       "publicIpV4": "Server public IPv4",
       "publicIpV6": "Server public IPv6",
       "clientWgLocalPort": "Client local WG port"
+    },
+    "warp": {
+      "addressV4": "IPv4 ঠিকানা",
+      "addressV6": "IPv6 ঠিকানা",
+      "endpoint": "এন্ডপয়েন্ট (হোস্ট:পোর্ট)",
+      "interval": "আপডেট বিরতি (দিন)",
+      "key": "WireGuard কী",
+      "license": "WARP+ লাইসেন্স কী (সর্বনিম্ন 26 অক্ষর)"
     }
   },
   "hooks": {

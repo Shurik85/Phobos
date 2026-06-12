@@ -7,7 +7,8 @@
       "general": "通用设置",
       "config": "网络配置",
       "interface": "接口配置",
-      "hooks": "钩子脚本"
+      "hooks": "钩子脚本",
+      "warp": "WARP"
     }
   },
   "user": {
@@ -178,9 +179,46 @@
       "restartSuccess": "接口重启成功",
       "firewall": "流量过滤",
       "firewallEnabled": "启用客户端防火墙",
-      "firewallEnabledDesc": "通过 iptables 限制客户端只能访问指定的目标 IP。启用后，可以为每个客户端单独配置允许访问的目标地址列表。"
+      "firewallEnabledDesc": "通过 iptables 限制客户端只能访问指定的目标 IP。启用后，可以为每个客户端单独配置允许访问的目标地址列表。",
+      "egress": "出口",
+      "egressWarp": "通过 WARP 路由客户端流量",
+      "egressWarpDesc": "启用后，客户端通过 Cloudflare WARP 而非服务器 WAN 访问互联网，隐藏服务器 IP。需要已注册的 WARP 配置。可能需要降低客户端 MTU。"
     },
-    "introText": "欢迎使用管理控制台。\n\n您可以在这里管理通用设置、网络配置、接口配置和钩子脚本。\n\n请从侧边栏选择一个功能模块开始。"
+    "introText": "欢迎使用管理控制台。\n\n您可以在这里管理通用设置、网络配置、接口配置和钩子脚本。\n\n请从侧边栏选择一个功能模块开始。",
+    "warp": {
+      "title": "Cloudflare WARP",
+      "intro": "注册免费的 Cloudflare WARP 账号，将其用作客户端的出口。客户端将使用 Cloudflare IP 而非服务器 IP 访问互联网。",
+      "register": "获取 WARP",
+      "registerSuccess": "WARP 已注册",
+      "status": "状态",
+      "deviceId": "设备 ID",
+      "addressV4": "IPv4 地址",
+      "addressV6": "IPv6 地址",
+      "endpoint": "端点",
+      "egress": "出口",
+      "egressDesc": "在「网络接口」部分将出口切换至 WARP。",
+      "egressActive": "WARP（活跃）",
+      "egressInactive": "WAN（非活跃）",
+      "license": "WARP+ 许可证",
+      "licenseKey": "许可证密钥",
+      "licenseKeyDesc": "输入 WARP+ 许可证密钥以启用 WARP+。",
+      "licenseSet": "已设置许可证",
+      "licenseUnset": "无许可证",
+      "licenseSuccess": "许可证已应用",
+      "applyLicense": "应用许可证",
+      "autoRotate": "自动轮换 IP",
+      "intervalDays": "间隔（天）",
+      "intervalDaysDesc": "0 表示禁用。自动轮换 WARP IP。",
+      "changeIp": "更换 IP",
+      "changeIpSuccess": "WARP IP 已更换",
+      "delete": "删除 WARP",
+      "deleteSuccess": "WARP 配置已删除",
+      "importConfig": "编辑配置",
+      "importTitle": "手动 WARP 配置",
+      "importDesc": "粘贴 WireGuard 配置。系统将测试连接——握手成功后配置将被保存。Table、PostUp 和 PostDown 由系统自动管理，无需填写。",
+      "importApply": "应用",
+      "importSuccess": "WARP 配置已应用"
+    }
   },
   "zod": {
     "generic": {
@@ -226,7 +264,8 @@
     "interface": {
       "cidr": "CIDR",
       "device": "网络设备",
-      "cidrValid": "CIDR必须有效"
+      "cidrValid": "CIDR必须有效",
+      "egressMode": "出口模式"
     },
     "stringMalformed": "文本格式错误",
     "body": "请求体必须是有效对象",
@@ -251,6 +290,14 @@
       "publicIpV4": "Server public IPv4",
       "publicIpV6": "Server public IPv6",
       "clientWgLocalPort": "Client local WG port"
+    },
+    "warp": {
+      "addressV4": "IPv4 地址",
+      "addressV6": "IPv6 地址",
+      "endpoint": "端点（主机:端口）",
+      "interval": "更新间隔（天）",
+      "key": "WireGuard 密钥",
+      "license": "WARP+ 许可证密钥（最少 26 个字符）"
     }
   },
   "hooks": {

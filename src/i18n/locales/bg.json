@@ -7,7 +7,8 @@
       "general": "Общи",
       "config": "Конфигурация",
       "interface": "Интерфейс",
-      "hooks": "Hooks"
+      "hooks": "Hooks",
+      "warp": "WARP"
     }
   },
   "user": {
@@ -171,9 +172,46 @@
       "restart": "Рестартирай интерфейс",
       "restartDesc": "Рестартиране на WireGuard интерфейса",
       "restartWarn": "Сигурен ли си, че искаш да рестартираш интерфейса? Всички клиенти ще бъдат изключени.",
-      "restartSuccess": "Интерфейсът е рестартиран"
+      "restartSuccess": "Интерфейсът е рестартиран",
+      "egress": "Изход",
+      "egressWarp": "Насочване на трафика на клиентите през WARP",
+      "egressWarpDesc": "При активиране клиентите излизат в интернет чрез Cloudflare WARP, а не чрез WAN на сървъра, скривайки IP адреса на сървъра. Изисква регистрирана конфигурация на WARP. Може да е необходим по-нисък MTU за клиентите."
     },
-    "introText": "Добре дошъл в административния панел.\n\nТук можеш да управляваш общите настройки, конфигурацията, настройките на интерфейса и hooks.\n\nЗапочни, като избереш някоя от секциите в страничното меню."
+    "introText": "Добре дошъл в административния панел.\n\nТук можеш да управляваш общите настройки, конфигурацията, настройките на интерфейса и hooks.\n\nЗапочни, като избереш някоя от секциите в страничното меню.",
+    "warp": {
+      "title": "Cloudflare WARP",
+      "intro": "Регистрирайте безплатен акаунт за Cloudflare WARP, за да го използвате като изход за вашите клиенти. Клиентите ще излизат в интернет с IP адрес на Cloudflare, а не с IP адреса на сървъра.",
+      "register": "Вземи WARP",
+      "registerSuccess": "WARP е регистриран",
+      "status": "Статус",
+      "deviceId": "ID на устройство",
+      "addressV4": "IPv4 адрес",
+      "addressV6": "IPv6 адрес",
+      "endpoint": "Крайна точка",
+      "egress": "Изход",
+      "egressDesc": "Превключете изхода към WARP в раздела Интерфейс.",
+      "egressActive": "WARP (активен)",
+      "egressInactive": "WAN (неактивен)",
+      "license": "Лиценз WARP+",
+      "licenseKey": "Лицензен ключ",
+      "licenseKeyDesc": "Въведете лицензен ключ WARP+, за да активирате WARP+.",
+      "licenseSet": "Лицензът е зададен",
+      "licenseUnset": "Няма лиценз",
+      "licenseSuccess": "Лицензът е приложен",
+      "applyLicense": "Приложи лиценз",
+      "autoRotate": "Автоматична ротация на IP",
+      "intervalDays": "Интервал (дни)",
+      "intervalDaysDesc": "0 за деактивиране. Автоматично сменя IP адреса на WARP.",
+      "changeIp": "Смяна на IP",
+      "changeIpSuccess": "IP адресът на WARP е сменен",
+      "delete": "Изтриване на WARP",
+      "deleteSuccess": "Конфигурацията на WARP е изтрита",
+      "importConfig": "Редактирай конфигурацията",
+      "importTitle": "Ръчна WARP конфигурация",
+      "importDesc": "Поставете WireGuard конфигурация. Системата ще тества връзката — ако ръкостискането е успешно, конфигурацията ще бъде запазена. Table, PostUp и PostDown се управляват автоматично.",
+      "importApply": "Приложи",
+      "importSuccess": "WARP конфигурацията е приложена"
+    }
   },
   "zod": {
     "generic": {
@@ -216,7 +254,8 @@
     "interface": {
       "cidr": "CIDR",
       "device": "Устройство",
-      "cidrValid": "CIDR трябва да е валиден"
+      "cidrValid": "CIDR трябва да е валиден",
+      "egressMode": "Режим на изход"
     },
     "stringMalformed": "Невалиден формат на низа",
     "body": "Тялото трябва да е валиден обект",
@@ -241,6 +280,14 @@
       "publicIpV4": "Server public IPv4",
       "publicIpV6": "Server public IPv6",
       "clientWgLocalPort": "Client local WG port"
+    },
+    "warp": {
+      "addressV4": "IPv4 адрес",
+      "addressV6": "IPv6 адрес",
+      "endpoint": "Крайна точка (хост:порт)",
+      "interval": "Интервал за обновяване (дни)",
+      "key": "WireGuard ключ",
+      "license": "Лицензен ключ WARP+ (мин. 26 символа)"
     }
   },
   "hooks": {

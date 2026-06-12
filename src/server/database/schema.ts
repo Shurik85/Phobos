@@ -7,3 +7,4 @@ export * from './repositories/installLink/schema';
 export * from './repositories/obfuscatorPreset/schema';
 export * from './repositories/user/schema';
 export * from './repositories/userConfig/schema';
+export * from './repositories/warp/schema';

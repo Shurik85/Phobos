@@ -7,6 +7,7 @@
       "general": "General",
       "config": "Config",
       "interface": "Interface",
+      "warp": "WARP",
       "obfuscatorPresets": "Obfuscator presets",
       "hooks": "Hooks"
     }
@@ -237,7 +238,10 @@
       "publicIpV4": "Server public IPv4",
       "publicIpV4Desc": "Used as target in client obfuscator config.",
       "publicIpV6": "Server public IPv6",
-      "publicIpV6Desc": "Optional IPv6 target."
+      "publicIpV6Desc": "Optional IPv6 target.",
+      "egress": "Egress",
+      "egressWarp": "Route client traffic through WARP",
+      "egressWarpDesc": "When enabled, clients exit via Cloudflare WARP instead of the server's WAN, hiding the server IP. Requires a registered WARP configuration. A lower client MTU may be needed."
     },
     "obfuscatorPresets": {
       "title": "Obfuscator presets",
@@ -273,7 +277,41 @@
       "clientLocalPortDesc": "Local UDP port the client WireGuard sends to (Endpoint 127.0.0.1:<port>) and the client obfuscator's source-lport. Default 13255.",
       "clientCount": "{n} client(s)"
     },
-    "introText": "Welcome to the admin panel.\n\nHere you can manage general settings, configuration, the interface, obfuscator presets and the hooks.\n\nStart by choosing one of the sections in the sidebar."
+    "introText": "Welcome to the admin panel.\n\nHere you can manage general settings, configuration, the interface, obfuscator presets and the hooks.\n\nStart by choosing one of the sections in the sidebar.",
+    "warp": {
+      "title": "Cloudflare WARP",
+      "intro": "Register a free Cloudflare WARP account to use it as the egress for your clients. Clients will exit with a Cloudflare IP instead of the server IP.",
+      "register": "Get WARP",
+      "registerSuccess": "WARP registered",
+      "status": "Status",
+      "deviceId": "Device ID",
+      "addressV4": "IPv4 address",
+      "addressV6": "IPv6 address",
+      "endpoint": "Endpoint",
+      "egress": "Egress",
+      "egressDesc": "Switch egress to WARP in the Interface section.",
+      "egressActive": "WARP (active)",
+      "egressInactive": "WAN (inactive)",
+      "license": "WARP+ license",
+      "licenseKey": "License key",
+      "licenseKeyDesc": "Enter a WARP+ license key to enable WARP+.",
+      "licenseSet": "License is set",
+      "licenseUnset": "No license",
+      "applyLicense": "Apply license",
+      "licenseSuccess": "License applied",
+      "autoRotate": "Automatic IP rotation",
+      "intervalDays": "Interval (days)",
+      "intervalDaysDesc": "0 to disable. Rotates the WARP IP automatically.",
+      "changeIp": "Change IP",
+      "changeIpSuccess": "WARP IP changed",
+      "delete": "Delete WARP",
+      "deleteSuccess": "WARP configuration deleted",
+      "importConfig": "Edit Config",
+      "importTitle": "Manual WARP Configuration",
+      "importDesc": "Paste a WireGuard config. The system will test the connection — if a handshake is established, the configuration will be saved. Table, PostUp and PostDown are managed automatically and should not be included.",
+      "importApply": "Apply",
+      "importSuccess": "WARP configuration applied"
+    }
   },
   "zod": {
     "generic": {
@@ -335,7 +373,8 @@
     "interface": {
       "cidr": "CIDR",
       "device": "Device",
-      "cidrValid": "CIDR must be valid"
+      "cidrValid": "CIDR must be valid",
+      "egressMode": "Egress mode"
     },
     "installLink": {
       "token": "Install token"
@@ -358,7 +397,15 @@
     "address": "IP Address",
     "dns": "DNS",
     "allowedIps": "Allowed IPs",
-    "file": "File"
+    "file": "File",
+    "warp": {
+      "key": "WireGuard key",
+      "endpoint": "Endpoint (host:port)",
+      "addressV4": "IPv4 address",
+      "addressV6": "IPv6 address",
+      "license": "WARP+ license key (min 26 chars)",
+      "interval": "Update interval (days)"
+    }
   },
   "hooks": {
     "preUp": "PreUp",

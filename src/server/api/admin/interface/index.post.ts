@@ -31,8 +31,29 @@ export default definePermissionEventHandler(
       prev.serverPublicIpV4 !== data.serverPublicIpV4 ||
       prev.serverPublicIpV6 !== data.serverPublicIpV6;
 
+    if (data.egressMode === 'warp' && !(await Database.warp.isRegistered())) {
+      throw createError({
+        statusCode: 400,
+        statusMessage:
+          'WARP egress requires a registered WARP configuration. Register WARP first.',
+      });
+    }
+
     await Database.interfaces.update(data);
     await WireGuard.saveConfig();
+
+    if (data.egressMode === 'warp' && prev.egressMode !== 'warp') {
+      try {
+        await WarpInterface.enable();
+      } catch (e) {
+        throw createError({
+          statusCode: 400,
+          statusMessage: (e as Error).message,
+        });
+      }
+    } else if (data.egressMode !== 'warp' && prev.egressMode === 'warp') {
+      await WarpInterface.disable();
+    }
 
     if (publicIpChanged) {
       await Obfuscator.applyAll();

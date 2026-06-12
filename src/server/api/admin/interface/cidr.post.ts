@@ -11,6 +11,7 @@ export default definePermissionEventHandler(
 
     await Database.interfaces.updateCidr(data);
     await WireGuard.saveConfig();
+    await WarpInterface.reapply();
     PhobosPackage.invalidate();
     return { success: true };
   }
