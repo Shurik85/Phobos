@@ -191,6 +191,18 @@ export class ClientService {
 
     return this.#db.transaction(async (tx) => {
       const clients = await tx.query.client.findMany().execute();
+
+      const normalized = normalizeClientName(name);
+      const duplicate = clients.find(
+        (c) => normalizeClientName(c.name) === normalized
+      );
+      if (duplicate) {
+        throw createError({
+          statusCode: 409,
+          statusMessage: `A client named "${duplicate.name}" already exists. Client names must be unique (case-insensitive).`,
+        });
+      }
+
       const clientInterface = await tx.query.wgInterface
         .findFirst({
           where: eq(wgInterface.name, 'wg0'),
@@ -250,6 +262,18 @@ export class ClientService {
 
   update(id: ID, data: UpdateClientType) {
     return this.#db.transaction(async (tx) => {
+      const clients = await tx.query.client.findMany().execute();
+      const normalized = normalizeClientName(data.name);
+      const duplicate = clients.find(
+        (c) => c.id !== id && normalizeClientName(c.name) === normalized
+      );
+      if (duplicate) {
+        throw createError({
+          statusCode: 409,
+          statusMessage: `A client named "${duplicate.name}" already exists. Client names must be unique (case-insensitive).`,
+        });
+      }
+
       const clientInterface = await tx.query.wgInterface
         .findFirst({
           where: eq(wgInterface.name, 'wg0'),

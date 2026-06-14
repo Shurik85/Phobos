@@ -399,20 +399,6 @@ main() {
     log "Description: Phobos-${CLIENT_NAME}"
 
     log ""
-    log "Проверка статуса wg-obfuscator..."
-    if [ -f /opt/etc/init.d/S49wg-obfuscator ]; then
-        local obf_status=$(/opt/etc/init.d/S49wg-obfuscator status 2>&1)
-        if echo "${obf_status}" | grep -q "dead"; then
-            log "⚠ wg-obfuscator остановлен, перезапускаем..."
-            /opt/etc/init.d/S49wg-obfuscator start
-            sleep 2
-            log "✓ wg-obfuscator перезапущен"
-        else
-            log "✓ wg-obfuscator работает"
-        fi
-    fi
-
-    log ""
     log "Ожидание применения конфигурации..."
     sleep 5
 

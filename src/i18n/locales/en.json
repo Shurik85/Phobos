@@ -155,7 +155,13 @@
     "linkFailed": "Failed to copy phobos:// link",
     "preset": "Obfuscator preset",
     "presetDesc": "Choose which obfuscator preset routes this client. Leave on default to follow the server's default preset.",
-    "presetUseDefault": "Use default preset"
+    "presetUseDefault": "Use default preset",
+    "nameHint": "Latin letters, digits, hyphen, dot and {'@'} only; up to 32 characters; must be unique.",
+    "nameError": {
+      "tooLong": "Name must not exceed {max} characters.",
+      "invalidChars": "Only Latin letters, digits, hyphen, dot and {'@'} are allowed (no spaces or other special characters).",
+      "duplicate": "A client with this name already exists."
+    }
   },
   "dialog": {
     "change": "Change",
@@ -338,7 +344,9 @@
       "serverAllowedIps": "Server Allowed IPs",
       "firewallIps": "Firewall Allowed IPs",
       "firewallIpsInvalid": "Invalid firewall IP entry. See docs for supported syntax.",
-      "presetId": "Obfuscator preset ID"
+      "presetId": "Obfuscator preset ID",
+      "nameTooLong": "Client name must not exceed 32 characters.",
+      "nameInvalidChars": "Client name may contain only Latin letters, digits, hyphen, dot and {'@'} (no spaces or other special characters)."
     },
     "obfuscatorPreset": {
       "id": "Obfuscator preset ID",

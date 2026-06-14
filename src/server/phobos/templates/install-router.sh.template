@@ -4,6 +4,8 @@ set -e
 CLIENT_NAME="{{CLIENT_NAME}}"
 PHOBOS_DIR=""
 ROUTER_PLATFORM=""
+SLOT=""
+LPORT=""
 
 . "$(dirname "$0")/lib-client.sh"
 . "$(dirname "$0")/install-obfuscator.sh"
@@ -12,72 +14,51 @@ ROUTER_PLATFORM=""
 detect_3xui_mode() {
   local platform="$1"
 
-  if [ "$platform" = "linux" ] && [ -f /etc/x-ui/x-ui.db ]; then
-    echo "true"
-  else
-    echo "false"
-  fi
+  [ "$platform" = "linux" ] || { echo "false"; return; }
+  [ "$(detect_arch)" = "x86_64" ] || { echo "false"; return; }
+  [ -f /etc/x-ui/x-ui.db ] || { echo "false"; return; }
+
+  echo "true"
 }
 
 check_dependencies() {
   local platform="$1"
+  local deps
+
+  case "$platform" in
+    keenetic) deps="grep cut date tar curl jq" ;;
+    openwrt)  deps="grep cut date tar uci" ;;
+    *)        deps="grep cut date tar" ;;
+  esac
+
   local missing=""
-  local base_deps="grep cut date tee tar curl jq"
-  local platform_deps=""
-
-  if [ "$platform" = "openwrt" ]; then
-    platform_deps="uci"
-  fi
-
-  for cmd in $base_deps $platform_deps; do
+  for cmd in $deps; do
     if ! command -v "$cmd" >/dev/null 2>&1; then
       missing="$missing $cmd"
     fi
   done
 
-  if [ -n "$missing" ]; then
-    log "ВНИМАНИЕ: Отсутствуют необходимые утилиты:$missing"
+  [ -z "$missing" ] && return 0
 
-    if [ "$platform" = "linux" ]; then
-      log "Устанавливаю недостающие пакеты через apt-get..."
+  log "ВНИМАНИЕ: Отсутствуют необходимые утилиты:$missing"
 
-      if command -v apt-get >/dev/null 2>&1; then
-        if ! apt-get update; then
-          log "ОШИБКА: Не удалось обновить список пакетов apt-get"
-          return 1
-        fi
-
-        for cmd in $missing; do
-          log "Установка $cmd..."
-          if ! apt-get install -y "$cmd" 2>/dev/null; then
-            log "ПРЕДУПРЕЖДЕНИЕ: Не удалось установить $cmd через apt-get"
-          fi
-        done
-      else
-        log "ОШИБКА: apt-get не найден. Невозможно установить зависимости."
-        return 1
-      fi
-    else
-      log "Устанавливаю недостающие пакеты через opkg..."
-
-      if command -v opkg >/dev/null 2>&1; then
-        if ! opkg update; then
-          log "ОШИБКА: Не удалось обновить список пакетов opkg"
-          return 1
-        fi
-
-        for cmd in $missing; do
-          log "Установка $cmd..."
-          if ! opkg install "$cmd" 2>/dev/null; then
-            log "ПРЕДУПРЕЖДЕНИЕ: Не удалось установить $cmd через opkg"
-          fi
-        done
-      else
-        log "ОШИБКА: opkg не найден. Невозможно установить зависимости."
-        return 1
-      fi
-    fi
+  if [ -z "$PKG_MGR" ]; then
+    log "ОШИБКА: пакетный менеджер не найден. Невозможно установить зависимости."
+    return 1
   fi
+
+  log "Установка недостающих пакетов через ${PKG_MGR}..."
+  if ! pkg_update; then
+    log "ОШИБКА: Не удалось обновить пакетную базу (${PKG_MGR})"
+    return 1
+  fi
+
+  for cmd in $missing; do
+    log "Установка $cmd..."
+    if ! pkg_install "$cmd" 2>/dev/null; then
+      log "ПРЕДУПРЕЖДЕНИЕ: Не удалось установить $cmd через ${PKG_MGR}"
+    fi
+  done
 
   return 0
 }
@@ -93,40 +74,45 @@ setup_configs() {
   cp "${CLIENT_NAME}.conf" "$PHOBOS_DIR/${CLIENT_NAME}.conf"
   chmod 600 "$PHOBOS_DIR/${CLIENT_NAME}.conf"
 
-  printf '%s' "${CLIENT_NAME}" > "$PHOBOS_DIR/${OBF_CONF_NAME%.conf}.link"
-
-  if [ "$OBF_BINARY_NAME" != "wg-obfuscator" ]; then
-    local used_ports=""
-    for existing_conf in "$PHOBOS_DIR"/wg-obfuscator*.conf; do
-      [ -f "$existing_conf" ] || continue
-      [ "$(basename "$existing_conf")" = "${OBF_CONF_NAME}" ] && continue
-      local port
-      port=$(grep 'source-lport' "$existing_conf" 2>/dev/null | tr -d ' ' | cut -d'=' -f2)
-      [ -n "$port" ] && used_ports="${used_ports} ${port}"
-    done
-
-    local new_port=13255
-    local port_taken=1
-    while [ "$port_taken" -eq 1 ]; do
-      port_taken=0
-      for p in $used_ports; do
-        if [ "$p" = "$new_port" ]; then
-          port_taken=1
-          new_port=$((new_port + 1))
-          break
-        fi
-      done
-    done
-
-    sed -i "s/^source-lport = [0-9]*/source-lport = ${new_port}/" "$PHOBOS_DIR/${OBF_CONF_NAME}"
-    sed -i "s/^Endpoint = 127\.0\.0\.1:[0-9]*/Endpoint = 127.0.0.1:${new_port}/" "$PHOBOS_DIR/${CLIENT_NAME}.conf"
-
-    log "  Назначен локальный порт obfuscator: $new_port"
-  fi
+  sed -i "s/^source-lport = .*/source-lport = ${LPORT}/" "$PHOBOS_DIR/${OBF_CONF_NAME}"
+  sed -i "s/^Endpoint = 127\.0\.0\.1:.*/Endpoint = 127.0.0.1:${LPORT}/" "$PHOBOS_DIR/${CLIENT_NAME}.conf"
 
   log "Конфигурации установлены:"
-  log "  - Obfuscator: $PHOBOS_DIR/${OBF_CONF_NAME}"
+  log "  - Obfuscator: $PHOBOS_DIR/${OBF_CONF_NAME} (порт ${LPORT})"
   log "  - WireGuard: $PHOBOS_DIR/${CLIENT_NAME}.conf"
+}
+
+allocate_slot() {
+  local existing
+  existing=$(registry_line_for_client "$CLIENT_NAME")
+
+  if [ -n "$existing" ]; then
+    SLOT=$(registry_field "$existing" 2)
+    LPORT=$(registry_field "$existing" 3)
+    log "Клиент ${CLIENT_NAME} уже зарегистрирован — переустановка (слот=${SLOT}, порт=${LPORT})"
+  else
+    SLOT=$(registry_alloc_slot)
+    LPORT=$(registry_alloc_port 13255)
+    log "Новый слот для ${CLIENT_NAME}: слот=${SLOT}, порт=${LPORT}"
+  fi
+
+  compute_slot_names "$SLOT"
+}
+
+register_client() {
+  local target masking iface_ref
+  target=$(grep '^target' "$PHOBOS_DIR/${OBF_CONF_NAME}" 2>/dev/null | head -1 | cut -d'=' -f2 | tr -d ' ')
+  masking=$(grep '^masking' "$PHOBOS_DIR/${OBF_CONF_NAME}" 2>/dev/null | head -1 | cut -d'=' -f2 | tr -d ' ')
+
+  if [ "$ROUTER_PLATFORM" = "keenetic" ]; then
+    iface_ref="Phobos-${CLIENT_NAME}"
+  else
+    iface_ref="${OBF_WG_IFACE}"
+  fi
+
+  registry_remove_client "$CLIENT_NAME"
+  registry_add "${CLIENT_NAME}|${SLOT}|${LPORT}|${OBF_CONF_NAME}|${OBF_BINARY_NAME}|${OBF_INIT_NAME}|${OBF_SERVICE_NAME}|${iface_ref}|${target}|${masking}|$(date '+%Y-%m-%d %H:%M:%S')"
+  log "Клиент зарегистрирован в ${PHOBOS_DIR}/registry"
 }
 
 deploy_lib_client() {
@@ -221,18 +207,19 @@ cleanup_3xui_script() {
 }
 
 install_wireguard_openwrt() {
-  log "Установка пакетов WireGuard для OpenWRT..."
+  log "Установка пакетов WireGuard для OpenWRT (${PKG_MGR})..."
 
-  if ! command -v wg >/dev/null 2>&1; then
-    log "Установка kmod-wireguard и wireguard-tools..."
-    opkg update
-    opkg install kmod-wireguard wireguard-tools luci-proto-wireguard
-  else
+  if command -v wg >/dev/null 2>&1; then
     log "WireGuard уже установлен"
+    return 0
   fi
 
-  log "Установка luci-app-wireguard для веб-интерфейса..."
-  opkg install luci-app-wireguard >/dev/null 2>&1 || log "ПРЕДУПРЕЖДЕНИЕ: luci-app-wireguard не удалось установить"
+  pkg_update || log "ПРЕДУПРЕЖДЕНИЕ: не удалось обновить пакетную базу (${PKG_MGR})"
+
+  if ! pkg_install kmod-wireguard wireguard-tools luci-proto-wireguard; then
+    log "ОШИБКА: не удалось установить пакеты WireGuard"
+    return 1
+  fi
 
   log "✓ Пакеты WireGuard установлены"
 }
@@ -253,6 +240,7 @@ configure_wireguard_openwrt() {
 
   if ./router-configure-wireguard-openwrt.sh \
       --client-name "$CLIENT_NAME" \
+      --interface "$OBF_WG_IFACE" \
       --client-private-key "$WG_PRIVATE_KEY" \
       --client-ip "$CLIENT_IP" \
       --client-ipv6 "$CLIENT_IPV6" \
@@ -300,11 +288,11 @@ extract_wireguard_params() {
     WG_ENDPOINT_PORT=13255
   fi
 
-  log "  Private Key: ${WG_PRIVATE_KEY:0:20}..."
+  log "  Private Key: $(printf '%s' "$WG_PRIVATE_KEY" | cut -c1-20)..."
   log "  IPv4: $CLIENT_IP"
   log "  IPv6: $CLIENT_IPV6"
-  log "  Server PubKey: ${WG_SERVER_PUBKEY:0:20}..."
-  log "  Preshared key: $( [ -n "$WG_PRESHARED_KEY" ] && echo "${WG_PRESHARED_KEY:0:12}..." || echo MISSING )"
+  log "  Server PubKey: $(printf '%s' "$WG_SERVER_PUBKEY" | cut -c1-20)..."
+  log "  Preshared key: $( [ -n "$WG_PRESHARED_KEY" ] && echo "$(printf '%s' "$WG_PRESHARED_KEY" | cut -c1-12)..." || echo MISSING )"
   log "  Endpoint port: $WG_ENDPOINT_PORT"
 
   if [ -z "$WG_PRESHARED_KEY" ]; then
@@ -432,12 +420,15 @@ main() {
   ROUTER_PLATFORM=$(detect_router_platform)
   PHOBOS_DIR=$(detect_phobos_dir "$ROUTER_PLATFORM")
   IS_3XUI_MODE=$(detect_3xui_mode "$ROUTER_PLATFORM")
+  detect_pkg_manager
 
   log "==> Определена платформа: $ROUTER_PLATFORM"
   log "==> Директория Phobos: $PHOBOS_DIR"
+  log "==> Пакетный менеджер: ${PKG_MGR:-не найден}"
 
-  resolve_install_names
-  log "==> Режим установки obfuscator: binary=${OBF_BINARY_NAME}, conf=${OBF_CONF_NAME}, init=${OBF_INIT_NAME}, service=${OBF_SERVICE_NAME}"
+  mkdir -p "$PHOBOS_DIR"
+  allocate_slot
+  log "==> Слот obfuscator: binary=${OBF_BINARY_NAME}, conf=${OBF_CONF_NAME}, init=${OBF_INIT_NAME}, service=${OBF_SERVICE_NAME}, iface=${OBF_WG_IFACE}"
 
   if [ "$IS_3XUI_MODE" = "true" ]; then
     log "==> Обнаружен режим установки: 3x-ui"
@@ -478,6 +469,7 @@ main() {
 
   install_obfuscator "$ARCH"
   setup_configs
+  register_client
   deploy_lib_client
   deploy_uninstall_script
 
@@ -554,14 +546,14 @@ main() {
         log "╚════════════════════════════════════════════════════════════╝"
         log ""
         log "Файлы установки:"
-        log "  Бинарник: /usr/local/bin/wg-obfuscator"
-        log "  Конфиг obfuscator: $PHOBOS_DIR/wg-obfuscator.conf"
+        log "  Бинарник: /usr/local/bin/${OBF_BINARY_NAME}"
+        log "  Конфиг obfuscator: $PHOBOS_DIR/${OBF_CONF_NAME}"
         log "  Конфиг WireGuard: $PHOBOS_DIR/${CLIENT_NAME}.conf"
         log "  Скрипт 3xui.sh: $PHOBOS_DIR/3xui.sh"
-        log "  Systemd service: /etc/systemd/system/phobos-obfuscator.service"
+        log "  Systemd service: /etc/systemd/system/${OBF_SERVICE_NAME}.service"
         log ""
         log "Управление:"
-        log "  systemctl status phobos-obfuscator         # Проверить что obfuscator запущен"
+        log "  systemctl status ${OBF_SERVICE_NAME}         # Проверить что obfuscator запущен"
         log ""
         log "Примечание:"
         log "  WireGuard управляется через 3x-ui панель"

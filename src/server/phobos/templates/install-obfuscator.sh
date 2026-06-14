@@ -1,64 +1,23 @@
-OBF_BINARY_NAME="wg-obfuscator"
-OBF_CONF_NAME="wg-obfuscator.conf"
-OBF_INIT_NAME="S49wg-obfuscator"
-OBF_SERVICE_NAME="phobos-obfuscator"
-OBF_WG_IFACE="phobos"
-
-resolve_install_names() {
-  local binary_dir
-  local binary_path
-
-  if [ "$ROUTER_PLATFORM" = "openwrt" ]; then
-    binary_dir="/usr/bin"
-  elif [ "$ROUTER_PLATFORM" = "linux" ]; then
-    binary_dir="/usr/local/bin"
-  else
-    binary_dir="/opt/bin"
+stop_existing_instance() {
+  if [ -f "/opt/etc/init.d/${OBF_INIT_NAME}" ]; then
+    /opt/etc/init.d/${OBF_INIT_NAME} stop >/dev/null 2>&1 || true
   fi
 
-  binary_path="${binary_dir}/wg-obfuscator"
-
-  if [ ! -f "$binary_path" ] && [ ! -f "$PHOBOS_DIR/wg-obfuscator.conf" ]; then
-    return
+  if [ -f "/etc/init.d/${OBF_SERVICE_NAME}" ]; then
+    /etc/init.d/${OBF_SERVICE_NAME} stop >/dev/null 2>&1 || true
   fi
 
-  if [ -f "$binary_path" ] && [ -f "$PHOBOS_DIR/${CLIENT_NAME}.conf" ]; then
-    return
+  if command -v systemctl >/dev/null 2>&1 && [ -f "/etc/systemd/system/${OBF_SERVICE_NAME}.service" ]; then
+    systemctl stop "${OBF_SERVICE_NAME}" >/dev/null 2>&1 || true
   fi
-
-  local idx=1
-  while [ -f "${binary_dir}/wg-obfuscator${idx}" ]; do
-    idx=$((idx + 1))
-  done
-
-  local init_num=50
-  while [ -f "/opt/etc/init.d/S${init_num}wg-obfuscator" ]; do
-    init_num=$((init_num + 1))
-  done
-
-  OBF_BINARY_NAME="wg-obfuscator${idx}"
-  OBF_CONF_NAME="wg-obfuscator${idx}.conf"
-  OBF_INIT_NAME="S${init_num}wg-obfuscator"
-  OBF_SERVICE_NAME="phobos-obfuscator${idx}"
-  OBF_WG_IFACE="phobos${idx}"
 }
 
 install_obfuscator() {
   local arch=$1
 
-  log "Установка wg-obfuscator для архитектуры $arch..."
+  log "Установка wg-obfuscator (${OBF_BINARY_NAME}) для архитектуры $arch..."
 
-  if [ "$OBF_BINARY_NAME" = "wg-obfuscator" ]; then
-    if [ -f /opt/etc/init.d/S49wg-obfuscator ]; then
-      log "Остановка текущего процесса wg-obfuscator..."
-      /opt/etc/init.d/S49wg-obfuscator stop >/dev/null 2>&1 || true
-    fi
-
-    if [ -f /etc/init.d/phobos-obfuscator ]; then
-      log "Остановка текущего процесса wg-obfuscator..."
-      /etc/init.d/phobos-obfuscator stop >/dev/null 2>&1 || true
-    fi
-  fi
+  stop_existing_instance
 
   local binary_name="wg-obfuscator-$arch"
 
@@ -127,11 +86,11 @@ start_obfuscator() {
 
   if command -v pidof >/dev/null 2>&1 && pidof ${OBF_BINARY_NAME} >/dev/null 2>&1; then
     process_found=1
-  elif command -v pgrep >/dev/null 2>&1 && pgrep -f wg-obfuscator >/dev/null 2>&1; then
+  elif command -v pgrep >/dev/null 2>&1 && pgrep -f "${OBF_BINARY_NAME}" >/dev/null 2>&1; then
     process_found=1
-  elif ps w 2>/dev/null | grep -v grep | grep -q "wg-obfuscator\|/opt/bin/wg-obfuscator\|/usr/bin/wg-obfuscator"; then
+  elif ps w 2>/dev/null | grep -v grep | grep -q "${OBF_BINARY_NAME}"; then
     process_found=1
-  elif ps 2>/dev/null | grep -v grep | grep -q "wg-obfuscator"; then
+  elif ps 2>/dev/null | grep -v grep | grep -q "${OBF_BINARY_NAME}"; then
     process_found=1
   fi
 
@@ -161,13 +120,13 @@ create_procd_init_script() {
   cat > /etc/init.d/${OBF_SERVICE_NAME} <<EOF
 #!/bin/sh /etc/rc.common
 
-START=49
-STOP=51
+START=$((49 + SLOT))
+STOP=$((51 + SLOT))
 
 USE_PROCD=1
 
 PROG=/usr/bin/${OBF_BINARY_NAME}
-CONFIG_FILE=/etc/Phobos/${OBF_CONF_NAME}
+CONFIG_FILE=${PHOBOS_DIR}/${OBF_CONF_NAME}
 
 start_service() {
   if [ ! -f "\$PROG" ]; then
@@ -199,7 +158,7 @@ create_systemd_obfuscator_service() {
 
   cat > /etc/systemd/system/${OBF_SERVICE_NAME}.service <<EOFS
 [Unit]
-Description=Phobos WireGuard Obfuscator
+Description=Phobos WireGuard Obfuscator (${CLIENT_NAME})
 After=network.target
 
 [Service]

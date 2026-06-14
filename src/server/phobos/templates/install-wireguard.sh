@@ -83,7 +83,7 @@ configure_ufw_linux() {
 
   log "✓ UFW обнаружен"
   log "  Клиентская конфигурация не требует открытия портов:"
-  log "  - obfuscator слушает на 127.0.0.1:13255 (локальный интерфейс)"
+  log "  - obfuscator слушает на 127.0.0.1:${LPORT} (локальный интерфейс)"
   log "  - obfuscator делает исходящие соединения (разрешены по умолчанию)"
 
   if ufw status 2>/dev/null | grep -q "Status: active"; then

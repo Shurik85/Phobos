@@ -19,7 +19,10 @@ export type UpdateClientType = Omit<
 
 const name = z
   .string({ message: t('zod.client.name') })
+  .trim()
   .min(1, t('zod.client.name'))
+  .max(CLIENT_NAME_MAX_LENGTH, t('zod.client.nameTooLong'))
+  .regex(CLIENT_NAME_PATTERN, t('zod.client.nameInvalidChars'))
   .pipe(safeStringRefine);
 
 // TODO?: validate iso string
