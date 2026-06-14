@@ -45,8 +45,8 @@
     "2faCode": "TOTP-Code"
   },
   "setup": {
-    "welcome": "Willkommen zur Ersteinrichtung von wg-easy",
-    "welcomeDesc": "Sie haben den einfachsten Weg gefunden, WireGuard auf jedem Linux-Server zu installieren und zu verwalten.",
+    "welcome": "Willkommen zur Ersteinrichtung von PhobosWG",
+    "welcomeDesc": "Sie haben den einfachsten Weg gefunden, ein ausfallsicheres WireGuard bereitzustellen",
     "existingSetup": "Haben Sie eine bestehende Einrichtung?",
     "createAdminDesc": "Bitte geben Sie zuerst einen Admin-Benutzernamen sowie ein starkes, sicheres Passwort ein. Diese Anmeldedaten benötigen Sie, um sich in der Admin-Konsole anzumelden.",
     "setupConfigDesc": "Bitte geben Sie die Host- und Portinformationen ein. Diese werden für die Client-Konfiguration verwendet, wenn Sie WireGuard auf Ihren Geräten einrichten.",
@@ -195,10 +195,6 @@
       "addressV4": "IPv4-Adresse",
       "addressV6": "IPv6-Adresse",
       "endpoint": "Endpunkt",
-      "egress": "Ausgang",
-      "egressDesc": "Ausgang im Bereich Schnittstelle auf WARP umschalten.",
-      "egressActive": "WARP (aktiv)",
-      "egressInactive": "WAN (inaktiv)",
       "license": "WARP+-Lizenz",
       "licenseKey": "Lizenzschlüssel",
       "licenseKeyDesc": "Geben Sie einen WARP+-Lizenzschlüssel ein, um WARP+ zu aktivieren.",
@@ -217,7 +213,16 @@
       "importTitle": "Manuelle WARP-Konfiguration",
       "importDesc": "WireGuard-Konfiguration einfügen. Das System testet die Verbindung — bei erfolgreichem Handshake wird die Konfiguration gespeichert. Table, PostUp und PostDown werden automatisch verwaltet.",
       "importApply": "Anwenden",
-      "importSuccess": "WARP-Konfiguration angewendet"
+      "importSuccess": "WARP-Konfiguration angewendet",
+      "connection": "Verbindung",
+      "online": "Online",
+      "offline": "Offline",
+      "checkNow": "Verbindung prüfen",
+      "checking": "Wird geprüft…",
+      "checkOnline": "WARP ist online",
+      "checkOffline": "WARP ist offline",
+      "notActiveEgress": "WARP ist nicht als Ausgang aktiv",
+      "notActiveEgressTip": "Aktivieren Sie „Client-Traffic über WARP leiten\" im Bereich „Netzwerkschnittstelle\", um den WARP-Tunnel zu nutzen und zu testen."
     }
   },
   "zod": {

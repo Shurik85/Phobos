@@ -13,7 +13,9 @@ const KEY_LENGTH_MIN = 200;
 const KEY_LENGTH_MAX = 254;
 
 function isPrivateIp(ip: string): boolean {
-  return /^(10\.|172\.(1[6-9]|2\d|3[01])\.|192\.168\.|127\.|169\.254\.)/.test(ip);
+  return /^(10\.|172\.(1[6-9]|2\d|3[01])\.|192\.168\.|127\.|169\.254\.)/.test(
+    ip
+  );
 }
 
 function randomKeyLength(): number {
@@ -21,7 +23,9 @@ function randomKeyLength(): number {
   return KEY_LENGTH_MIN + (randomBytes(1)[0]! % span);
 }
 
-export function generateObfuscatorKey(length: number = randomKeyLength()): string {
+export function generateObfuscatorKey(
+  length: number = randomKeyLength()
+): string {
   if (length < 1 || length > 255) {
     throw new Error('Key length must be 1..255');
   }
@@ -157,7 +161,9 @@ class ObfuscatorService {
       if (ip && !isPrivateIp(ip)) return ip;
     }
 
-    const pub = await exec('curl -sf --max-time 5 https://api.ipify.org').catch(() => '');
+    const pub = await exec('curl -sf --max-time 5 https://api.ipify.org').catch(
+      () => ''
+    );
     if (pub && /^\d+\.\d+\.\d+\.\d+$/.test(pub.trim())) return pub.trim();
 
     throw new Error('Cannot detect public IPv4. Set WG_HOST env variable.');
@@ -180,7 +186,10 @@ class ObfuscatorService {
     }
   }
 
-  buildClientObfConf(preset: ObfuscatorPresetType, iface: InterfaceType): string {
+  buildClientObfConf(
+    preset: ObfuscatorPresetType,
+    iface: InterfaceType
+  ): string {
     return [
       '[instance]',
       'source-if = 127.0.0.1',
@@ -216,7 +225,7 @@ class ObfuscatorService {
       sourceIf: '0.0.0.0',
       target: null,
       key: generateObfuscatorKey(),
-      masking: 'STUN',
+      masking: 'MEDIA',
       obfuscateBytes: 0,
       dummy: 40,
       verbose: 'error',

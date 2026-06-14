@@ -45,8 +45,8 @@
     "2faCode": "TOTP kód"
   },
   "setup": {
-    "welcome": "Vítejte u první instalace wg-easy",
-    "welcomeDesc": "Našli jste nejjednodušší způsob, jak instalovat a spravovat WireGuard na jakémkoliv Linuxovém hostiteli",
+    "welcome": "Vítejte u první instalace PhobosWG",
+    "welcomeDesc": "Našli jste nejjednodušší způsob, jak nasadit odolný WireGuard",
     "existingSetup": "Máte již existující nastavení?",
     "createAdminDesc": "Nejprve zadejte uživatelské jméno administrátora a silné heslo. Tyto údaje budou použity pro přihlášení do administrace.",
     "setupConfigDesc": "Zadejte údaje o hostiteli a portu. Tyto informace budou použity pro konfiguraci klientů při nastavování WireGuard na jejich zařízeních.",
@@ -188,10 +188,6 @@
       "addressV4": "Adresa IPv4",
       "addressV6": "Adresa IPv6",
       "endpoint": "Endpoint",
-      "egress": "Výstup",
-      "egressDesc": "Přepněte výstup na WARP v sekci Rozhraní.",
-      "egressActive": "WARP (aktivní)",
-      "egressInactive": "WAN (neaktivní)",
       "license": "Licence WARP+",
       "licenseKey": "Licenční klíč",
       "licenseKeyDesc": "Zadejte licenční klíč WARP+ pro aktivaci WARP+.",
@@ -210,7 +206,16 @@
       "importTitle": "Ruční konfigurace WARP",
       "importDesc": "Vložte konfiguraci WireGuard. Systém otestuje připojení — pokud se handshake podaří, konfigurace bude uložena. Table, PostUp a PostDown jsou spravovány automaticky.",
       "importApply": "Použít",
-      "importSuccess": "Konfigurace WARP použita"
+      "importSuccess": "Konfigurace WARP použita",
+      "connection": "Připojení",
+      "online": "Online",
+      "offline": "Offline",
+      "checkNow": "Zkontrolovat připojení",
+      "checking": "Kontrola…",
+      "checkOnline": "WARP je online",
+      "checkOffline": "WARP je offline",
+      "notActiveEgress": "WARP není aktivní jako výstup",
+      "notActiveEgressTip": "Zapněte „Směrovat provoz klientů přes WARP\" v sekci Síťové rozhraní, abyste mohli tunel WARP používat a otestovat."
     }
   },
   "zod": {

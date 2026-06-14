@@ -59,13 +59,11 @@
                 v-model="data.presetId"
                 class="rounded border-2 border-gray-100 px-3 py-2 text-sm dark:border-neutral-700 dark:bg-neutral-800"
               >
-                <option :value="null">{{ $t('client.presetUseDefault') }}</option>
-                <option
-                  v-for="p in presetList"
-                  :key="p.id"
-                  :value="p.id"
-                >
-                  {{ p.name }}{{ p.isDefault ? ' (default)' : '' }}
+                <option :value="null">
+                  {{ $t('client.presetUseDefault') }}
+                </option>
+                <option v-for="p in presetList" :key="p.id" :value="p.id">
+                  {{ p.name }}
                 </option>
               </select>
             </div>
@@ -201,7 +199,9 @@ const { data: presets } = await useFetch<PresetSummary[]>(
   '/api/admin/obfuscator-presets',
   { method: 'get', default: () => [] }
 );
-const presetList = computed(() => presets.value ?? []);
+const presetList = computed(() =>
+  (presets.value ?? []).filter((p) => !p.isDefault)
+);
 
 const _submit = useSubmit(
   `/api/client/${id}`,

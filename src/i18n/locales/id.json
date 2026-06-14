@@ -45,8 +45,8 @@
     "2faCode": "Kode TOTP"
   },
   "setup": {
-    "welcome": "Selamat datang di pengaturan pertama wg-easy anda",
-    "welcomeDesc": "Anda telah menemukan cara termudah untuk menginstal dan mengelola WireGuard di host Linux mana pun",
+    "welcome": "Selamat datang di pengaturan pertama PhobosWG anda",
+    "welcomeDesc": "Anda telah menemukan cara termudah untuk menerapkan WireGuard yang tangguh",
     "existingSetup": "Apakah anda sudah memiliki pengaturan sebelumnya?",
     "createAdminDesc": "Silakan masukkan dulu nama pengguna admin dan kata sandi yang kuat dan aman. Informasi ini akan digunakan untuk masuk ke panel administrasi Anda.",
     "setupConfigDesc": "Silakan masukkan informasi host dan port. Ini akan digunakan untuk konfigurasi klien saat mengatur WireGuard di perangkat mereka.",
@@ -184,10 +184,6 @@
       "addressV4": "Alamat IPv4",
       "addressV6": "Alamat IPv6",
       "endpoint": "Endpoint",
-      "egress": "Keluar",
-      "egressDesc": "Ganti keluar ke WARP di bagian Antarmuka.",
-      "egressActive": "WARP (aktif)",
-      "egressInactive": "WAN (tidak aktif)",
       "license": "Lisensi WARP+",
       "licenseKey": "Kunci lisensi",
       "licenseKeyDesc": "Masukkan kunci lisensi WARP+ untuk mengaktifkan WARP+.",
@@ -206,7 +202,16 @@
       "importTitle": "Konfigurasi WARP manual",
       "importDesc": "Tempelkan konfigurasi WireGuard. Sistem akan menguji koneksi — jika handshake berhasil, konfigurasi akan disimpan. Table, PostUp, dan PostDown dikelola secara otomatis.",
       "importApply": "Terapkan",
-      "importSuccess": "Konfigurasi WARP diterapkan"
+      "importSuccess": "Konfigurasi WARP diterapkan",
+      "connection": "Koneksi",
+      "online": "Online",
+      "offline": "Offline",
+      "checkNow": "Periksa koneksi",
+      "checking": "Memeriksa…",
+      "checkOnline": "WARP online",
+      "checkOffline": "WARP offline",
+      "notActiveEgress": "WARP tidak aktif sebagai egress",
+      "notActiveEgressTip": "Aktifkan \"Rutekan lalu lintas klien melalui WARP\" di bagian Antarmuka jaringan untuk menggunakan dan menguji terowongan WARP."
     }
   },
   "zod": {

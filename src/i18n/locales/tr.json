@@ -45,8 +45,8 @@
     "2faCode": "TOTP Kodu"
   },
   "setup": {
-    "welcome": "wg-easy kurulumuna hoş geldiniz",
-    "welcomeDesc": "Linux üzerinde WireGuard kurmanın ve yönetmenin en kolay yolu.",
+    "welcome": "PhobosWG kurulumuna hoş geldiniz",
+    "welcomeDesc": "Dayanıklı bir WireGuard dağıtmanın en kolay yolunu buldunuz",
     "existingSetup": "Mevcut bir kurulumunuz var mı?",
     "createAdminDesc": "Yönetim paneline giriş için bir kullanıcı adı ve güçlü bir şifre belirleyin.",
     "setupConfigDesc": "İstemci cihazların bağlanacağı Host ve Port bilgilerini girin.",
@@ -195,10 +195,6 @@
       "addressV4": "IPv4 adresi",
       "addressV6": "IPv6 adresi",
       "endpoint": "Uç nokta",
-      "egress": "Çıkış",
-      "egressDesc": "Arayüz bölümünde çıkışı WARP'a geçirin.",
-      "egressActive": "WARP (aktif)",
-      "egressInactive": "WAN (inaktif)",
       "license": "WARP+ lisansı",
       "licenseKey": "Lisans anahtarı",
       "licenseKeyDesc": "WARP+ etkinleştirmek için bir WARP+ lisans anahtarı girin.",
@@ -217,7 +213,16 @@
       "importTitle": "Manuel WARP yapılandırması",
       "importDesc": "WireGuard yapılandırması yapıştırın. Sistem bağlantıyı test eder — el sıkışma kurulursa yapılandırma kaydedilir. Table, PostUp ve PostDown otomatik yönetilir.",
       "importApply": "Uygula",
-      "importSuccess": "WARP yapılandırması uygulandı"
+      "importSuccess": "WARP yapılandırması uygulandı",
+      "connection": "Bağlantı",
+      "online": "Çevrimiçi",
+      "offline": "Çevrimdışı",
+      "checkNow": "Bağlantıyı kontrol et",
+      "checking": "Kontrol ediliyor…",
+      "checkOnline": "WARP çevrimiçi",
+      "checkOffline": "WARP çevrimdışı",
+      "notActiveEgress": "WARP çıkış olarak etkin değil",
+      "notActiveEgressTip": "WARP tünelini kullanmak ve test etmek için Ağ arayüzü bölümünde \"İstemci trafiğini WARP üzerinden yönlendir\" seçeneğini etkinleştirin."
     }
   },
   "zod": {

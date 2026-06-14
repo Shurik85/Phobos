@@ -11,6 +11,9 @@ const WARP_TABLE = 200;
 const WARP_CONFIG_PATH = `/etc/wireguard/${WARP_INTERFACE}.conf`;
 const HANDSHAKE_RETRIES = 10;
 const HANDSHAKE_DELAY_MS = 1000;
+const WARP_ONLINE_FLOOR_S = 135;
+const CONNECTIVITY_TIMEOUT_S = 5;
+const CONNECTIVITY_PROBE_URL = 'http://cp.cloudflare.com/generate_204';
 
 function joinShell(parts: string[]): string {
   return parts
@@ -124,20 +127,54 @@ class WarpInterfaceService {
     await exec(`wg-quick down ${WARP_INTERFACE}`).catch(() => {});
   }
 
-  async #handshakeEstablished(): Promise<boolean> {
-    const out = await exec(
-      `wg show ${WARP_INTERFACE} latest-handshakes`,
-      { log: false }
-    ).catch(() => '');
+  async #latestHandshakeTs(): Promise<number> {
+    const out = await exec(`wg show ${WARP_INTERFACE} latest-handshakes`, {
+      log: false,
+    }).catch(() => '');
 
     return out
       .trim()
       .split('\n')
       .filter(Boolean)
-      .some((line) => {
+      .reduce((max, line) => {
         const ts = Number.parseInt(line.split('\t')[1] ?? '0', 10);
-        return ts > 0;
-      });
+        return ts > max ? ts : max;
+      }, 0);
+  }
+
+  async #handshakeEstablished(): Promise<boolean> {
+    return (await this.#latestHandshakeTs()) > 0;
+  }
+
+  async status(): Promise<{ online: boolean; lastHandshakeAt: string | null }> {
+    const wgInterface = await Database.interfaces.get();
+    if (wgInterface.egressMode !== 'warp' || !wgInterface.enabled) {
+      return { online: false, lastHandshakeAt: null };
+    }
+
+    const ts = await this.#latestHandshakeTs();
+    if (ts <= 0) {
+      return { online: false, lastHandshakeAt: null };
+    }
+
+    const warp = await Database.warp.get();
+    const stalenessMs =
+      Math.max(warp.persistentKeepalive * 3, WARP_ONLINE_FLOOR_S) * 1000;
+    const ageMs = Date.now() - ts * 1000;
+
+    return {
+      online: ageMs < stalenessMs,
+      lastHandshakeAt: new Date(ts * 1000).toISOString(),
+    };
+  }
+
+  async connectivityCheck(): Promise<boolean> {
+    const code = await exec(
+      `curl --interface ${WARP_INTERFACE} -s -o /dev/null -w '%{http_code}' --max-time ${CONNECTIVITY_TIMEOUT_S} ${CONNECTIVITY_PROBE_URL}`,
+      { log: false }
+    ).catch(() => '');
+
+    return code.trim() === '204' || code.trim() === '200';
   }
 
   async #healthCheck(): Promise<boolean> {
@@ -232,8 +269,7 @@ class WarpInterfaceService {
       Database.interfaces.get(),
     ]);
 
-    const wasActive =
-      wgInterface.egressMode === 'warp' && wgInterface.enabled;
+    const wasActive = wgInterface.egressMode === 'warp' && wgInterface.enabled;
 
     const enableIpv6 = !WG_ENV.DISABLE_IPV6;
     const testConfig = this.buildConfig(

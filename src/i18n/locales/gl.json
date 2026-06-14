@@ -45,8 +45,8 @@
     "2faCode": "Código TOTP"
   },
   "setup": {
-    "welcome": "Benvido á túa primeira configuración de wg-easy",
-    "welcomeDesc": "Atopaches a forma máis doada de instalar e xestionar WireGuard en calquera sistema Linux",
+    "welcome": "Benvido á túa primeira configuración de PhobosWG",
+    "welcomeDesc": "Atopaches a forma máis sinxela de implantar un WireGuard resiliente",
     "existingSetup": "Tes unha configuración existente?",
     "createAdminDesc": "Por favor, introduce primeiro un usuario administrador cun contrasinal seguro. Esta información empregarase para acceder ao panel de administración.",
     "setupConfigDesc": "Por favor, introduce a información do host e do porto. Isto empregarase para a configuración dos clientes ao configurar WireGuard nos seus dispositivos.",
@@ -157,10 +157,6 @@
       "addressV4": "Enderezo IPv4",
       "addressV6": "Enderezo IPv6",
       "endpoint": "Punto de acceso",
-      "egress": "Saída",
-      "egressDesc": "Cambia a saída a WARP na sección Interface.",
-      "egressActive": "WARP (activo)",
-      "egressInactive": "WAN (inactivo)",
       "license": "Licenza WARP+",
       "licenseKey": "Chave de licenza",
       "licenseKeyDesc": "Introduce unha chave de licenza WARP+ para activar WARP+.",
@@ -179,7 +175,16 @@
       "importTitle": "Configuración WARP manual",
       "importDesc": "Pegue unha configuración WireGuard. O sistema probará a conexión — se o handshake ten éxito, a configuración gardarase. Table, PostUp e PostDown xestionanse automaticamente.",
       "importApply": "Aplicar",
-      "importSuccess": "Configuración WARP aplicada"
+      "importSuccess": "Configuración WARP aplicada",
+      "connection": "Conexión",
+      "online": "En liña",
+      "offline": "Sen conexión",
+      "checkNow": "Comprobar conexión",
+      "checking": "Comprobando…",
+      "checkOnline": "WARP está en liña",
+      "checkOffline": "WARP está sen conexión",
+      "notActiveEgress": "WARP non está activo como saída",
+      "notActiveEgressTip": "Activa \"Encamiñar o tráfico dos clientes a través de WARP\" na sección Interface de rede para usar e probar o túnel WARP."
     }
   },
   "zod": {

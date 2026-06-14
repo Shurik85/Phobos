@@ -45,8 +45,8 @@
     "2faCode": "TOTP-code"
   },
   "setup": {
-    "welcome": "Welkom bij uw eerste installatie van wg-easy",
-    "welcomeDesc": "U hebt de gemakkelijkste manier gevonden om WireGuard op elke Linux-host te installeren en te beheren",
+    "welcome": "Welkom bij uw eerste installatie van PhobosWG",
+    "welcomeDesc": "Je hebt de eenvoudigste manier gevonden om een veerkrachtige WireGuard te implementeren",
     "existingSetup": "Heeft u een bestaande installatie?",
     "createAdminDesc": "Voer eerst een beheerdersgebruikersnaam en een sterk veilig wachtwoord in. Deze gegevens worden gebruikt om in te loggen op uw beheerderspaneel.",
     "setupConfigDesc": "Voer alstublieft de host- en poortinformatie in. Dit wordt gebruikt voor de clientconfiguratie bij het instellen van WireGuard op hun apparaten.",
@@ -195,10 +195,6 @@
       "addressV4": "IPv4-adres",
       "addressV6": "IPv6-adres",
       "endpoint": "Eindpunt",
-      "egress": "Uitgang",
-      "egressDesc": "Schakel uitgang naar WARP in de sectie Interface.",
-      "egressActive": "WARP (actief)",
-      "egressInactive": "WAN (inactief)",
       "license": "WARP+-licentie",
       "licenseKey": "Licentiesleutel",
       "licenseKeyDesc": "Voer een WARP+-licentiesleutel in om WARP+ in te schakelen.",
@@ -217,7 +213,16 @@
       "importTitle": "Handmatige WARP-configuratie",
       "importDesc": "Plak een WireGuard-configuratie. Het systeem test de verbinding — als de handshake slaagt, wordt de configuratie opgeslagen. Table, PostUp en PostDown worden automatisch beheerd.",
       "importApply": "Toepassen",
-      "importSuccess": "WARP-configuratie toegepast"
+      "importSuccess": "WARP-configuratie toegepast",
+      "connection": "Verbinding",
+      "online": "Online",
+      "offline": "Offline",
+      "checkNow": "Verbinding controleren",
+      "checking": "Bezig met controleren…",
+      "checkOnline": "WARP is online",
+      "checkOffline": "WARP is offline",
+      "notActiveEgress": "WARP is niet actief als uitgang",
+      "notActiveEgressTip": "Schakel \"Clientverkeer via WARP routeren\" in onder Netwerkinterface om de WARP-tunnel te gebruiken en te testen."
     }
   },
   "zod": {

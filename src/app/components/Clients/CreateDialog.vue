@@ -22,12 +22,8 @@
             class="rounded border-2 border-gray-100 px-3 py-2 text-sm dark:border-neutral-700 dark:bg-neutral-800"
           >
             <option :value="null">{{ $t('client.presetUseDefault') }}</option>
-            <option
-              v-for="p in presets ?? []"
-              :key="p.id"
-              :value="p.id"
-            >
-              {{ p.name }}{{ p.isDefault ? ' (default)' : '' }}
+            <option v-for="p in selectablePresets" :key="p.id" :value="p.id">
+              {{ p.name }}
             </option>
           </select>
         </div>
@@ -65,6 +61,10 @@ defineProps<{ triggerClass?: string }>();
 const { data: presets } = await useFetch<PresetSummary[]>(
   '/api/admin/obfuscator-presets',
   { method: 'get', default: () => [] }
+);
+
+const selectablePresets = computed(() =>
+  (presets.value ?? []).filter((p) => !p.isDefault)
 );
 
 function createClient() {

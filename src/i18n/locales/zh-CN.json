@@ -45,8 +45,8 @@
     "2faCode": "验证码"
   },
   "setup": {
-    "welcome": "欢迎使用wg-easy安装向导",
-    "welcomeDesc": "您正在使用最简单的WireGuard Linux主机安装和管理方案",
+    "welcome": "欢迎使用PhobosWG安装向导",
+    "welcomeDesc": "您已找到部署高可用 WireGuard 的最简单方法",
     "existingSetup": "是否已有现有配置？",
     "createAdminDesc": "请首先输入管理员用户名和强密码。这些信息将用于登录管理面板。",
     "setupConfigDesc": "请输入服务器主机和端口信息。这些设置将用于客户端设备连接WireGuard时的配置。",
@@ -195,10 +195,6 @@
       "addressV4": "IPv4 地址",
       "addressV6": "IPv6 地址",
       "endpoint": "端点",
-      "egress": "出口",
-      "egressDesc": "在「网络接口」部分将出口切换至 WARP。",
-      "egressActive": "WARP（活跃）",
-      "egressInactive": "WAN（非活跃）",
       "license": "WARP+ 许可证",
       "licenseKey": "许可证密钥",
       "licenseKeyDesc": "输入 WARP+ 许可证密钥以启用 WARP+。",
@@ -217,7 +213,16 @@
       "importTitle": "手动 WARP 配置",
       "importDesc": "粘贴 WireGuard 配置。系统将测试连接——握手成功后配置将被保存。Table、PostUp 和 PostDown 由系统自动管理，无需填写。",
       "importApply": "应用",
-      "importSuccess": "WARP 配置已应用"
+      "importSuccess": "WARP 配置已应用",
+      "connection": "连接",
+      "online": "在线",
+      "offline": "离线",
+      "checkNow": "检查连接",
+      "checking": "检查中…",
+      "checkOnline": "WARP 在线",
+      "checkOffline": "WARP 离线",
+      "notActiveEgress": "WARP 未作为出口启用",
+      "notActiveEgressTip": "在“网络接口”部分启用“通过 WARP 路由客户端流量”，即可使用并测试 WARP 隧道。"
     }
   },
   "zod": {

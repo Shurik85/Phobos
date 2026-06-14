@@ -45,8 +45,8 @@
     "2faCode": "TOTP-kode"
   },
   "setup": {
-    "welcome": "Velkommen til ditt oppsett av wg-easy",
-    "welcomeDesc": "Du har funnet den enkleste måten å installere og administrere WireGuard på en hvilken som helst Linux-vert",
+    "welcome": "Velkommen til ditt oppsett av PhobosWG",
+    "welcomeDesc": "Du har funnet den enkleste måten å distribuere en robust WireGuard på",
     "existingSetup": "Har du et eksisterende oppsett?",
     "createAdminDesc": "Skriv først inn et adminbrukernavn og et sterkt, sikkert passord. Denne informasjonen brukes til å logge inn i administrasjonspanelet.",
     "setupConfigDesc": "Skriv inn vert- og portinformasjon. Dette brukes til klientkonfigurasjonen når du setter opp WireGuard på enhetene deres.",
@@ -188,10 +188,6 @@
       "addressV4": "IPv4-adresse",
       "addressV6": "IPv6-adresse",
       "endpoint": "Endepunkt",
-      "egress": "Utgangspunkt",
-      "egressDesc": "Bytt utgangspunkt til WARP i Grensesnitt-seksjonen.",
-      "egressActive": "WARP (aktiv)",
-      "egressInactive": "WAN (inaktiv)",
       "license": "WARP+-lisens",
       "licenseKey": "Lisensnøkkel",
       "licenseKeyDesc": "Skriv inn en WARP+-lisensnøkkel for å aktivere WARP+.",
@@ -210,7 +206,16 @@
       "importTitle": "Manuell WARP-konfigurasjon",
       "importDesc": "Lim inn en WireGuard-konfigurasjon. Systemet tester tilkoblingen — hvis handshake lykkes, lagres konfigurasjonen. Table, PostUp og PostDown administreres automatisk.",
       "importApply": "Bruk",
-      "importSuccess": "WARP-konfigurasjon brukt"
+      "importSuccess": "WARP-konfigurasjon brukt",
+      "connection": "Tilkobling",
+      "online": "Tilkoblet",
+      "offline": "Frakoblet",
+      "checkNow": "Sjekk tilkobling",
+      "checking": "Sjekker…",
+      "checkOnline": "WARP er tilkoblet",
+      "checkOffline": "WARP er frakoblet",
+      "notActiveEgress": "WARP er ikke aktiv som utgang",
+      "notActiveEgressTip": "Aktiver «Rut klienttrafikk gjennom WARP» i Nettverksgrensesnitt-delen for å bruke og teste WARP-tunnelen."
     }
   },
   "zod": {

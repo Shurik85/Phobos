@@ -45,8 +45,8 @@
     "2faCode": "Mã TOTP"
   },
   "setup": {
-    "welcome": "Chào mừng đến với thiết lập đầu tiên của wg-easy",
-    "welcomeDesc": "Bạn đã tìm thấy cách dễ nhất để cài đặt và quản lý WireGuard trên bất kỳ máy chủ Linux nào",
+    "welcome": "Chào mừng đến với thiết lập đầu tiên của PhobosWG",
+    "welcomeDesc": "Bạn đã tìm ra cách dễ nhất để triển khai một WireGuard có khả năng phục hồi cao",
     "existingSetup": "Bạn có hệ thống được cài đặt trước đây chưa?",
     "createAdminDesc": "Vui lòng nhập tên đăng nhập quản trị viên và mật khẩu mạnh. Thông tin này sẽ được sử dụng để đăng nhập vào bảng quản trị của bạn.",
     "setupConfigDesc": "Vui lòng cung cấp host và cổng. Những thông tin này sẽ được sử dụng để cấu hình WireGuard cho người dùng trên thiết bị của họ.",
@@ -195,10 +195,6 @@
       "addressV4": "Địa chỉ IPv4",
       "addressV6": "Địa chỉ IPv6",
       "endpoint": "Điểm cuối",
-      "egress": "Đầu ra",
-      "egressDesc": "Chuyển đầu ra sang WARP trong phần Giao diện.",
-      "egressActive": "WARP (đang hoạt động)",
-      "egressInactive": "WAN (không hoạt động)",
       "license": "Giấy phép WARP+",
       "licenseKey": "Khóa giấy phép",
       "licenseKeyDesc": "Nhập khóa giấy phép WARP+ để kích hoạt WARP+.",
@@ -217,7 +213,16 @@
       "importTitle": "Cấu hình WARP thủ công",
       "importDesc": "Dán cấu hình WireGuard. Hệ thống sẽ kiểm tra kết nối — nếu bắt tay thành công, cấu hình sẽ được lưu. Table, PostUp và PostDown được quản lý tự động.",
       "importApply": "Áp dụng",
-      "importSuccess": "Cấu hình WARP đã được áp dụng"
+      "importSuccess": "Cấu hình WARP đã được áp dụng",
+      "connection": "Kết nối",
+      "online": "Trực tuyến",
+      "offline": "Ngoại tuyến",
+      "checkNow": "Kiểm tra kết nối",
+      "checking": "Đang kiểm tra…",
+      "checkOnline": "WARP đang trực tuyến",
+      "checkOffline": "WARP đang ngoại tuyến",
+      "notActiveEgress": "WARP không hoạt động làm cổng ra",
+      "notActiveEgressTip": "Bật \"Định tuyến lưu lượng máy khách qua WARP\" trong phần Giao diện mạng để sử dụng và kiểm tra đường hầm WARP."
     }
   },
   "zod": {

@@ -16,6 +16,40 @@
     <FormElement v-else @submit.prevent="() => {}">
       <FormGroup>
         <FormHeading>{{ $t('admin.warp.status') }}</FormHeading>
+        <div class="flex items-center">
+          <FormLabel for="connection">
+            {{ $t('admin.warp.connection') }}
+          </FormLabel>
+        </div>
+        <span id="connection" class="flex items-center gap-2">
+          <template v-if="!egressActive">
+            <span
+              class="inline-block h-2.5 w-2.5 shrink-0 rounded-full bg-amber-400"
+            />
+            {{ $t('admin.warp.notActiveEgress') }}
+            <BaseTooltip :text="$t('admin.warp.notActiveEgressTip')">
+              <IconsInfo class="size-4" />
+            </BaseTooltip>
+          </template>
+          <template v-else>
+            <span
+              class="inline-block h-2.5 w-2.5 shrink-0 rounded-full"
+              :class="
+                data.online ? 'animate-pulse bg-green-500' : 'bg-gray-400'
+              "
+            />
+            {{
+              data.online ? $t('admin.warp.online') : $t('admin.warp.offline')
+            }}
+          </template>
+        </span>
+        <FormSecondaryActionField
+          :label="
+            checking ? $t('admin.warp.checking') : $t('admin.warp.checkNow')
+          "
+          :disabled="!egressActive || checking"
+          @click="checkNow"
+        />
         <FormInfoField
           id="deviceId"
           :label="$t('admin.warp.deviceId')"
@@ -35,16 +69,6 @@
           id="endpoint"
           :label="$t('admin.warp.endpoint')"
           :data="data.endpoint"
-        />
-        <FormInfoField
-          id="egress"
-          :label="$t('admin.warp.egress')"
-          :description="$t('admin.warp.egressDesc')"
-          :data="
-            data.egressMode === 'warp'
-              ? $t('admin.warp.egressActive')
-              : $t('admin.warp.egressInactive')
-          "
         />
       </FormGroup>
 
@@ -111,9 +135,14 @@ const { data: _data, refresh } = await useFetch(`/api/admin/warp`, {
 
 const data = toRef(_data.value);
 
+const toast = useToast();
+
 const license = ref('');
 const interval = ref(data.value?.updateIntervalDays ?? 0);
 const importOpen = ref(false);
+const checking = ref(false);
+
+const egressActive = computed(() => data.value?.egressMode === 'warp');
 
 async function revert() {
   await refresh();
@@ -121,6 +150,51 @@ async function revert() {
   license.value = '';
   interval.value = data.value?.updateIntervalDays ?? 0;
 }
+
+async function syncStatus() {
+  await refresh();
+  data.value = toRef(_data.value).value;
+}
+
+async function checkNow() {
+  if (checking.value || !egressActive.value) {
+    return;
+  }
+  checking.value = true;
+  try {
+    const res = await $fetch('/api/admin/warp/check', { method: 'post' });
+    toast.showToast(
+      res.online
+        ? { type: 'success', message: t('admin.warp.checkOnline') }
+        : { type: 'error', message: t('admin.warp.checkOffline') }
+    );
+    await syncStatus();
+  } catch (e) {
+    toast.showToast({
+      type: 'error',
+      message: e instanceof Error ? e.message : t('admin.warp.checkOffline'),
+    });
+  } finally {
+    checking.value = false;
+  }
+}
+
+const statusPoll = ref<NodeJS.Timeout | null>(null);
+
+onMounted(() => {
+  statusPoll.value = setInterval(() => {
+    if (data.value?.registered) {
+      syncStatus().catch(console.error);
+    }
+  }, 5000);
+});
+
+onUnmounted(() => {
+  if (statusPoll.value !== null) {
+    clearInterval(statusPoll.value);
+    statusPoll.value = null;
+  }
+});
 
 const _register = useSubmit(
   `/api/admin/warp/register`,

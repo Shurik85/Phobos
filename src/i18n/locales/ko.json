@@ -45,8 +45,8 @@
     "2faCode": "TOTP 코드"
   },
   "setup": {
-    "welcome": "wg-easy의 첫 번째 설정에 오신 것을 환영합니다.",
-    "welcomeDesc": "모든 Linux 호스트에서 WireGuard를 설치하고 관리하는 가장 쉬운 방법을 찾았습니다",
+    "welcome": "PhobosWG의 첫 번째 설정에 오신 것을 환영합니다.",
+    "welcomeDesc": "복원력 있는 WireGuard를 배포하는 가장 쉬운 방법을 찾으셨습니다",
     "existingSetup": "기존 설정이 있습니까?",
     "createAdminDesc": "먼저 관리자 사용자 이름과 강력한 보안 비밀번호를 입력하십시오. 이 정보는 관리 패널에 로그인하는 데 사용됩니다.",
     "setupConfigDesc": "호스트 및 포트 정보를 입력하십시오. 이는 장치에서 WireGuard를 설정할 때 클라이언트 구성에 사용됩니다.",
@@ -184,10 +184,6 @@
       "addressV4": "IPv4 주소",
       "addressV6": "IPv6 주소",
       "endpoint": "엔드포인트",
-      "egress": "이그레스",
-      "egressDesc": "인터페이스 섹션에서 이그레스를 WARP로 전환하세요.",
-      "egressActive": "WARP (활성)",
-      "egressInactive": "WAN (비활성)",
       "license": "WARP+ 라이선스",
       "licenseKey": "라이선스 키",
       "licenseKeyDesc": "WARP+를 활성화하려면 WARP+ 라이선스 키를 입력하세요.",
@@ -206,7 +202,16 @@
       "importTitle": "수동 WARP 설정",
       "importDesc": "WireGuard 설정을 붙여 넣으세요. 시스템이 연결을 테스트하여 핸드셰이크가 성립되면 설정이 저장됩니다. Table, PostUp, PostDown은 자동으로 관리됩니다.",
       "importApply": "적용",
-      "importSuccess": "WARP 설정이 적용되었습니다"
+      "importSuccess": "WARP 설정이 적용되었습니다",
+      "connection": "연결",
+      "online": "온라인",
+      "offline": "오프라인",
+      "checkNow": "연결 확인",
+      "checking": "확인 중…",
+      "checkOnline": "WARP가 온라인 상태입니다",
+      "checkOffline": "WARP가 오프라인 상태입니다",
+      "notActiveEgress": "WARP가 송신 경로로 활성화되어 있지 않습니다",
+      "notActiveEgressTip": "WARP 터널을 사용하고 테스트하려면 네트워크 인터페이스 섹션에서 \"클라이언트 트래픽을 WARP로 라우팅\"을 활성화하세요."
     }
   },
   "zod": {

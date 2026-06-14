@@ -45,8 +45,8 @@
     "2faCode": "Kod TOTP"
   },
   "setup": {
-    "welcome": "Witaj w pierwszej konfiguracji wg-easy",
-    "welcomeDesc": "Znalazłeś najłatwiejszy sposób na instalację i zarządzanie WireGuard na dowolnym hoście Linux",
+    "welcome": "Witaj w pierwszej konfiguracji PhobosWG",
+    "welcomeDesc": "Znalazłeś najprostszy sposób na wdrożenie odpornego WireGuard",
     "existingSetup": "Czy masz już istniejącą konfigurację?",
     "createAdminDesc": "Najpierw wprowadź nazwę użytkownika administratora i silne hasło. Dane te będą używane do logowania się do panelu administracyjnego.",
     "setupConfigDesc": "Wprowadź informacje o hoście i porcie. Zostaną one użyte do konfiguracji klientów podczas ustawiania WireGuard na ich urządzeniach.",
@@ -195,10 +195,6 @@
       "addressV4": "Adres IPv4",
       "addressV6": "Adres IPv6",
       "endpoint": "Punkt końcowy",
-      "egress": "Wyjście",
-      "egressDesc": "Przełącz wyjście na WARP w sekcji Interfejs.",
-      "egressActive": "WARP (aktywny)",
-      "egressInactive": "WAN (nieaktywny)",
       "license": "Licencja WARP+",
       "licenseKey": "Klucz licencyjny",
       "licenseKeyDesc": "Wprowadź klucz licencyjny WARP+, aby włączyć WARP+.",
@@ -217,7 +213,16 @@
       "importTitle": "Ręczna konfiguracja WARP",
       "importDesc": "Wklej konfigurację WireGuard. System przetestuje połączenie — jeśli handshake zostanie nawiązany, konfiguracja zostanie zapisana. Table, PostUp i PostDown są zarządzane automatycznie.",
       "importApply": "Zastosuj",
-      "importSuccess": "Konfiguracja WARP zastosowana"
+      "importSuccess": "Konfiguracja WARP zastosowana",
+      "connection": "Połączenie",
+      "online": "Online",
+      "offline": "Offline",
+      "checkNow": "Sprawdź połączenie",
+      "checking": "Sprawdzanie…",
+      "checkOnline": "WARP jest online",
+      "checkOffline": "WARP jest offline",
+      "notActiveEgress": "WARP nie jest aktywny jako wyjście",
+      "notActiveEgressTip": "Włącz „Kieruj ruch klientów przez WARP\" w sekcji Interfejs sieciowy, aby używać i testować tunel WARP."
     }
   },
   "zod": {
