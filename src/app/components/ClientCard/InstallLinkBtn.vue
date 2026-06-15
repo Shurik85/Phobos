@@ -45,25 +45,25 @@ const { pause, resume } = useIntervalFn(
 
 async function copyInstallLink() {
   try {
-    const { token, expiresAt: expiresAtStr } = await $fetch<{
-      token: string;
-      expiresAt: string;
-    }>(`/api/client/${props.client.id}/generateInstallLink`, { method: 'post' });
+    await copy(async () => {
+      const { token, expiresAt: expiresAtStr } = await $fetch<{
+        token: string;
+        expiresAt: string;
+      }>(`/api/client/${props.client.id}/generateInstallLink`, { method: 'post' });
 
-    expiresAt.value = new Date(expiresAtStr).getTime();
-    secondsLeft.value = Math.max(
-      0,
-      Math.floor((expiresAt.value - Date.now()) / 1000)
-    );
-    resume();
+      expiresAt.value = new Date(expiresAtStr).getTime();
+      secondsLeft.value = Math.max(
+        0,
+        Math.floor((expiresAt.value - Date.now()) / 1000)
+      );
+      resume();
 
-    const untrusted =
-      window.location.protocol === 'https:' &&
-      Boolean(globalStore.information?.tlsUntrusted);
-    const curlFlags = untrusted ? '-ksL' : '-sL';
-    const command = `curl ${curlFlags} ${window.location.origin}/api/install/${token} | sh`;
-
-    await copy(command);
+      const untrusted =
+        window.location.protocol === 'https:' &&
+        Boolean(globalStore.information?.tlsUntrusted);
+      const curlFlags = untrusted ? '-ksL' : '-sL';
+      return `curl ${curlFlags} ${window.location.origin}/api/install/${token} | sh`;
+    });
 
     toast.showToast({
       type: 'success',

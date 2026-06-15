@@ -52,45 +52,77 @@ function isSecureClipboardAvailable(): boolean {
   );
 }
 
+function supportsAsyncClipboardItem(): boolean {
+  if (typeof window === 'undefined' || !window.isSecureContext) {
+    return false;
+  }
+  if (typeof ClipboardItem === 'undefined' || !navigator.clipboard?.write) {
+    return false;
+  }
+  try {
+    new ClipboardItem({
+      'text/plain': Promise.resolve(new Blob([''], { type: 'text/plain' })),
+    });
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+function assertCopyable(text: unknown): asserts text is string {
+  if (typeof text !== 'string' || text.length === 0) {
+    throw new Error('Nothing to copy');
+  }
+}
+
+async function writeResolvedText(text: string): Promise<void> {
+  if (isSecureClipboardAvailable()) {
+    try {
+      await navigator.clipboard.writeText(text);
+      return;
+    } catch {
+      void 0;
+    }
+  }
+  if (!legacyCopy(text)) {
+    throw new Error('Clipboard copy failed');
+  }
+}
+
 export function useCopyToClipboard() {
   return async (source: TextSource): Promise<void> => {
     if (typeof source === 'string') {
-      if (source.length === 0) {
-        throw new Error('Nothing to copy');
-      }
-
-      if (isSecureClipboardAvailable()) {
-        try {
-          await navigator.clipboard.writeText(source);
-          return;
-        } catch {
-          // fall through to legacy below
-        }
-      }
-
-      if (!legacyCopy(source)) {
-        throw new Error('Clipboard copy failed');
-      }
+      assertCopyable(source);
+      await writeResolvedText(source);
       return;
     }
 
-    const text = await source();
-    if (typeof text !== 'string' || text.length === 0) {
-      throw new Error('Nothing to copy');
-    }
+    let textPromise: Promise<string> | undefined;
+    const resolveText = (): Promise<string> => {
+      if (!textPromise) {
+        textPromise = Promise.resolve(source()).then((text) => {
+          assertCopyable(text);
+          return text;
+        });
+      }
+      return textPromise;
+    };
 
-    if (isSecureClipboardAvailable()) {
+    if (supportsAsyncClipboardItem()) {
       try {
-        await navigator.clipboard.writeText(text);
+        await navigator.clipboard.write([
+          new ClipboardItem({
+            'text/plain': resolveText().then(
+              (text) => new Blob([text], { type: 'text/plain' })
+            ),
+          }),
+        ]);
         return;
       } catch {
-        // user gesture is already consumed by the await on the source;
-        // legacyCopy will likely fail here, but try anyway.
+        void 0;
       }
     }
 
-    if (!legacyCopy(text)) {
-      throw new Error('Clipboard copy failed');
-    }
+    await writeResolvedText(await resolveText());
   };
 }
