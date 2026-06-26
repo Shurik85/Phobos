@@ -152,6 +152,25 @@ export default defineNuxtConfig({
   experimental: {
     payloadExtraction: false,
   },
+  vite: {
+    build: {
+      rollupOptions: {
+        output: {
+          manualChunks(id) {
+            if (id.includes('apexcharts') || id.includes('vue3-apexcharts')) {
+              return 'vendor-charts';
+            }
+            if (id.includes('radix-vue')) {
+              return 'vendor-radix';
+            }
+            if (id.includes('@vueuse')) {
+              return 'vendor-vueuse';
+            }
+          },
+        },
+      },
+    },
+  },
   nitro: {
     esbuild: {
       options: {
