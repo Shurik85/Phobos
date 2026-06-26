@@ -71,7 +71,6 @@
     "signIn": "Inloggen",
     "rememberMe": "Onthoud mij",
     "rememberMeDesc": "Ingelogd blijven na het sluiten van de browser",
-    "insecure": "U kunt niet inloggen via een onveilige verbinding. Gebruik HTTPS.",
     "2faRequired": "Twee-factor-authenticatie is vereist",
     "2faWrong": "Twee-factor-authenticatiecode is fout"
   },
@@ -270,7 +269,8 @@
       "cidr": "CIDR",
       "device": "Apparaat",
       "cidrValid": "CIDR moet geldig zijn",
-      "egressMode": "Uitgangsmodus"
+      "egressMode": "Uitgangsmodus",
+      "domainValid": "Domain must be a valid hostname"
     },
     "stringMalformed": "Tekenreeks is beschadigd",
     "body": "Body moet een geldig object bevatten",

@@ -69,14 +69,22 @@
         <FormTextField
           id="serverPublicIpV4"
           v-model="data.serverPublicIpV4"
+          :disabled="!!data.serverPublicDomain"
           :label="$t('admin.interface.publicIpV4')"
           :description="$t('admin.interface.publicIpV4Desc')"
         />
         <FormNullTextField
           id="serverPublicIpV6"
           v-model="data.serverPublicIpV6"
+          :disabled="!!data.serverPublicDomain"
           :label="$t('admin.interface.publicIpV6')"
           :description="$t('admin.interface.publicIpV6Desc')"
+        />
+        <FormNullTextField
+          id="serverPublicDomain"
+          v-model="data.serverPublicDomain"
+          :label="$t('admin.interface.publicDomain')"
+          :description="$t('admin.interface.publicDomainDesc')"
         />
       </FormGroup>
       <FormGroup>

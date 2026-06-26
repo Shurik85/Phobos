@@ -71,7 +71,6 @@
     "signIn": "로그인",
     "rememberMe": "로그인 상태 유지",
     "rememberMeDesc": "브라우저를 닫은 후에도 로그인 유지",
-    "insecure": "안전하지 않은 연결로 로그인할 수 없습니다. HTTPS를 사용하세요.",
     "2faRequired": "2단계 인증이 필요합니다",
     "2faWrong": "2단계 인증이 잘못되었습니다"
   },
@@ -256,7 +255,8 @@
       "cidr": "CIDR",
       "device": "장치",
       "cidrValid": "CIDR는 유효해야 합니다.",
-      "egressMode": "이그레스 모드"
+      "egressMode": "이그레스 모드",
+      "domainValid": "Domain must be a valid hostname"
     },
     "stringMalformed": "문자열이 잘못되었습니다.",
     "body": "본문은 유효한 객체여야 합니다",

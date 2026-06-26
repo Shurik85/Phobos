@@ -71,7 +71,6 @@
     "signIn": "Đăng nhập",
     "rememberMe": "Duy trì đăng nhập",
     "rememberMeDesc": "Duy trì trạng thái đăng nhập sau khi đóng trình duyệt",
-    "insecure": "Bạn không thể đăng nhập qua kết nối không bảo mật. Hãy dùng HTTPS.",
     "2faRequired": "Yêu cầu xác thực hai yếu tố",
     "2faWrong": "Mã xác thực hai yếu tố không đúng"
   },
@@ -270,7 +269,8 @@
       "cidr": "CIDR",
       "device": "Thiết bị mạng",
       "cidrValid": "CIDR phải hợp lệ",
-      "egressMode": "Chế độ đầu ra"
+      "egressMode": "Chế độ đầu ra",
+      "domainValid": "Domain must be a valid hostname"
     },
     "stringMalformed": "Chuỗi không đúng định dạng",
     "body": "Body phải là đối tượng hợp lệ",

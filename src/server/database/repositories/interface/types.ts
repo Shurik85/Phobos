@@ -43,6 +43,17 @@ export const ServerPublicIpV6Schema = z
   })
   .nullable();
 
+export const ServerPublicDomainSchema = z
+  .string()
+  .refine(
+    (v) =>
+      /^[a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(\.[a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/.test(
+        v
+      ),
+    { message: t('zod.interface.domainValid') }
+  )
+  .nullable();
+
 export const InterfaceUpdateSchema = schemaForType<InterfaceAdminUpdateType>()(
   z.object({
     ipv4Cidr: cidr,
@@ -56,6 +67,7 @@ export const InterfaceUpdateSchema = schemaForType<InterfaceAdminUpdateType>()(
     }),
     serverPublicIpV4: ServerPublicIpV4Schema,
     serverPublicIpV6: ServerPublicIpV6Schema,
+    serverPublicDomain: ServerPublicDomainSchema,
   })
 );
 

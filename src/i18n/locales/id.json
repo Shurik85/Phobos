@@ -71,7 +71,6 @@
     "signIn": "Masuk",
     "rememberMe": "Ingat saya",
     "rememberMeDesc": "Tetap masuk setelah menutup browser",
-    "insecure": "Anda tidak dapat masuk dengan koneksi yang tidak aman. Gunakan HTTPS.",
     "2faRequired": "Autentikasi dua faktor wajib digunakan",
     "2faWrong": "Autentikasi dua faktor salah"
   },
@@ -256,7 +255,8 @@
       "cidr": "CIDR",
       "device": "Perangkat",
       "cidrValid": "CIDR harus valid",
-      "egressMode": "Mode keluar"
+      "egressMode": "Mode keluar",
+      "domainValid": "Domain must be a valid hostname"
     },
     "stringMalformed": "String tidak terformat dengan benar",
     "body": "Body harus berupa objek yang valid",

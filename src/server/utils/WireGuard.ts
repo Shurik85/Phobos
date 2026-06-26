@@ -15,6 +15,14 @@ class WireGuard {
     await this.#applyFirewallRules(wgInterface);
   }
 
+  async saveConfigAndRestart() {
+    const wgInterface = await Database.interfaces.get();
+    await wg.down(wgInterface.name).catch(() => {});
+    await this.#saveWireguardConfig(wgInterface);
+    await wg.up(wgInterface.name);
+    await this.#applyFirewallRules(wgInterface);
+  }
+
   /**
    * Apply firewall rules based on current config
    */

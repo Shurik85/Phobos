@@ -71,7 +71,6 @@
     "signIn": "Se connecter",
     "rememberMe": "Se souvenir de moi",
     "rememberMeDesc": "Rester connecté après avoir fermé le navigateur",
-    "insecure": "Vous ne pouvez pas vous connecter avec une connexion non sécurisée. Utilisez HTTPS.",
     "2faRequired": "L'authentification à deux facteurs est requise",
     "2faWrong": "Le code d'authentification à deux facteurs est incorrect"
   },
@@ -270,7 +269,8 @@
       "cidr": "CIDR",
       "device": "Périphérique",
       "cidrValid": "CIDR doit être valide",
-      "egressMode": "Mode de sortie"
+      "egressMode": "Mode de sortie",
+      "domainValid": "Domain must be a valid hostname"
     },
     "stringMalformed": "La chaîne est malformée",
     "body": "Le corps doit être un objet valide",

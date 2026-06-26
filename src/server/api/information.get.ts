@@ -5,8 +5,6 @@ import {
 } from '~~/server/utils/TlsInfo';
 
 export default defineEventHandler(async () => {
-  const insecure =
-    WG_ENV.INSECURE || (await Database.general.getAllowInsecureHttpLogin());
   const wgInterface = await Database.interfaces.get();
 
   const tlsOrigin = readTlsOrigin();
@@ -15,7 +13,6 @@ export default defineEventHandler(async () => {
 
   return {
     currentRelease: RELEASE,
-    insecure,
     firewallEnabled: wgInterface.firewallEnabled,
     tlsOrigin,
     tlsUntrusted,

@@ -71,7 +71,6 @@
     "signIn": "সাইন ইন",
     "rememberMe": "মনে রাখুন",
     "rememberMeDesc": "ব্রাউজার বন্ধ করার পরেও লগইন থাকুন",
-    "insecure": "অনিরাপদ সংযোগে লগইন করা যাবে না। HTTPS ব্যবহার করুন।",
     "2faRequired": "দুই স্তরের যাচাইকরণ প্রয়োজন",
     "2faWrong": "দুই স্তরের যাচাইকরণ ভুল"
   },
@@ -256,7 +255,8 @@
       "cidr": "CIDR",
       "device": "ডিভাইস",
       "cidrValid": "CIDR বৈধ হতে হবে",
-      "egressMode": "বহির্গমন মোড"
+      "egressMode": "বহির্গমন মোড",
+      "domainValid": "Domain must be a valid hostname"
     },
     "stringMalformed": "স্ট্রিং বিকৃত",
     "body": "বডি একটি বৈধ অবজেক্ট হতে হবে",

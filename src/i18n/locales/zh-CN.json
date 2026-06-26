@@ -71,7 +71,6 @@
     "signIn": "登录系统",
     "rememberMe": "记住我",
     "rememberMeDesc": "关闭浏览器后保持登录状态",
-    "insecure": "无法通过不安全连接登录。请使用HTTPS。",
     "2faRequired": "需要进行双重认证",
     "2faWrong": "双重认证验证码错误"
   },
@@ -270,7 +269,8 @@
       "cidr": "CIDR",
       "device": "网络设备",
       "cidrValid": "CIDR必须有效",
-      "egressMode": "出口模式"
+      "egressMode": "出口模式",
+      "domainValid": "Domain must be a valid hostname"
     },
     "stringMalformed": "文本格式错误",
     "body": "请求体必须是有效对象",

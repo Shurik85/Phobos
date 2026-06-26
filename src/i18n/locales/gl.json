@@ -71,7 +71,6 @@
     "signIn": "Iniciar sesión",
     "rememberMe": "Lembrarme",
     "rememberMeDesc": "Manter a sesión iniciada ao pechar o navegador",
-    "insecure": "Non podes iniciar sesión cunha conexión insegura. Usa HTTPS.",
     "2faRequired": "É necesaria a autenticación de dobre factor",
     "2faWrong": "A autenticación de dobre factor é incorrecta"
   },
@@ -189,7 +188,8 @@
   },
   "zod": {
     "interface": {
-      "egressMode": "Modo de saída"
+      "egressMode": "Modo de saída",
+      "domainValid": "Domain must be a valid hostname"
     },
     "warp": {
       "addressV4": "Enderezo IPv4",

@@ -71,7 +71,6 @@
     "signIn": "Logg inn",
     "rememberMe": "Husk meg",
     "rememberMeDesc": "Hold deg innlogget etter at nettleseren lukkes",
-    "insecure": "Du kan ikke logge inn med en usikker tilkobling. Bruk HTTPS.",
     "2faRequired": "Tofaktorautentisering er påkrevd",
     "2faWrong": "Tofaktorautentisering er feil"
   },
@@ -260,7 +259,8 @@
       "cidr": "CIDR",
       "device": "Enhet",
       "cidrValid": "CIDR må være gyldig",
-      "egressMode": "Utgangsmodus"
+      "egressMode": "Utgangsmodus",
+      "domainValid": "Domain must be a valid hostname"
     },
     "stringMalformed": "Strengen er ugyldig",
     "body": "Innholdet må være et gyldig objekt",

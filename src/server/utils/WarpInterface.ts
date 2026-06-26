@@ -197,8 +197,8 @@ class WarpInterfaceService {
       throw new Error('WARP is not registered');
     }
 
-    await this.#writeConfig();
     await this.#down();
+    await this.#writeConfig();
     await this.#up();
 
     const healthy = await this.#healthCheck();
@@ -279,8 +279,8 @@ class WarpInterfaceService {
       enableIpv6
     );
 
-    await fs.writeFile(WARP_CONFIG_PATH, testConfig, { mode: 0o600 });
     await this.#down();
+    await fs.writeFile(WARP_CONFIG_PATH, testConfig, { mode: 0o600 });
     await this.#up();
 
     const healthy = await this.#healthCheck();

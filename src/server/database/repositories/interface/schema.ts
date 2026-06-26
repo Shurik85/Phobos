@@ -21,6 +21,7 @@ export const wgInterface = sqliteTable('interfaces_table', {
     .default('wan'),
   serverPublicIpV4: text('server_public_ip_v4').notNull().default(''),
   serverPublicIpV6: text('server_public_ip_v6'),
+  serverPublicDomain: text('server_public_domain'),
   createdAt: text('created_at')
     .notNull()
     .default(sql`(CURRENT_TIMESTAMP)`),

@@ -71,7 +71,6 @@
     "signIn": "Giriş Yap",
     "rememberMe": "Beni hatırla",
     "rememberMeDesc": "Oturumu açık tut",
-    "insecure": "Güvensiz bağlantı üzerinden giriş yapılamaz. Lütfen HTTPS kullanın.",
     "2faRequired": "2FA Doğrulaması Gerekli",
     "2faWrong": "Hatalı 2FA Kodu"
   },
@@ -270,7 +269,8 @@
       "cidr": "CIDR",
       "device": "Aygıt",
       "cidrValid": "Geçersiz CIDR",
-      "egressMode": "Çıkış modu"
+      "egressMode": "Çıkış modu",
+      "domainValid": "Domain must be a valid hostname"
     },
     "stringMalformed": "Hatalı format",
     "body": "Body geçerli bir obje olmalıdır",

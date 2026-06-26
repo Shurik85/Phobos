@@ -97,7 +97,6 @@
     "signIn": "Sign In",
     "rememberMe": "Remember me",
     "rememberMeDesc": "Stay logged after closing the browser",
-    "insecure": "You can't log in with an insecure connection. Use HTTPS.",
     "2faRequired": "Two Factor Authentication is required",
     "2faWrong": "Two Factor Authentication is wrong"
   },
@@ -245,6 +244,8 @@
       "publicIpV4Desc": "Used as target in client obfuscator config.",
       "publicIpV6": "Server public IPv6",
       "publicIpV6Desc": "Optional IPv6 target.",
+      "publicDomain": "Server public domain",
+      "publicDomainDesc": "When set, used as obfuscator target in client config instead of IPv4/IPv6.",
       "egress": "Egress",
       "egressWarp": "Route client traffic through WARP",
       "egressWarpDesc": "When enabled, clients exit via Cloudflare WARP instead of the server's WAN, hiding the server IP. Requires a registered WARP configuration. A lower client MTU may be needed."
@@ -387,7 +388,8 @@
       "cidr": "CIDR",
       "device": "Device",
       "cidrValid": "CIDR must be valid",
-      "egressMode": "Egress mode"
+      "egressMode": "Egress mode",
+      "domainValid": "Domain must be a valid hostname"
     },
     "installLink": {
       "token": "Install token"

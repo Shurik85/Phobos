@@ -71,7 +71,6 @@
     "signIn": "Zaloguj się",
     "rememberMe": "Zapamiętaj mnie",
     "rememberMeDesc": "Pozostań zalogowany po zamknięciu przeglądarki",
-    "insecure": "Nie możesz zalogować się przez niezabezpieczone połączenie. Użyj HTTPS.",
     "2faRequired": "Wymagane jest uwierzytelnianie dwuskładnikowe",
     "2faWrong": "Błędny kod uwierzytelniania dwuskładnikowego"
   },
@@ -270,7 +269,8 @@
       "cidr": "CIDR",
       "device": "Urządzenie",
       "cidrValid": "CIDR musi być prawidłowy",
-      "egressMode": "Tryb wyjścia"
+      "egressMode": "Tryb wyjścia",
+      "domainValid": "Domain must be a valid hostname"
     },
     "stringMalformed": "Ciąg znaków jest zniekształcony",
     "body": "Body musi być prawidłowym obiektem",

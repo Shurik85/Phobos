@@ -71,7 +71,6 @@
     "signIn": "Anmelden",
     "rememberMe": "Angemeldet bleiben",
     "rememberMeDesc": "Bleiben Sie auch nach dem Schließen des Browsers angemeldet",
-    "insecure": "Sie können sich nicht über eine unsichere Verbindung anmelden. Bitte benutzen Sie HTTPS.",
     "2faRequired": "Zwei-Faktor-Authentifizierung wird benötigt",
     "2faWrong": "Zwei-Faktor-Authentifizierung ist fehlgeschlagen"
   },
@@ -270,7 +269,8 @@
       "cidr": "CIDR",
       "device": "Gerät",
       "cidrValid": "CIDR muss gültig sein",
-      "egressMode": "Ausgangsmodus"
+      "egressMode": "Ausgangsmodus",
+      "domainValid": "Domain must be a valid hostname"
     },
     "stringMalformed": "Zeichenkette ist fehlerhaft",
     "body": "Body muss ein gültiges Objekt sein",

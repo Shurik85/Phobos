@@ -71,7 +71,6 @@
     "signIn": "Вход",
     "rememberMe": "Запомни ме",
     "rememberMeDesc": "Остани влязъл след затваряне на браузъра",
-    "insecure": "Не можеш да влезеш през несигурна връзка. Използвай HTTPS.",
     "2faRequired": "Изисква се двуфакторна автентикация",
     "2faWrong": "Грешен код за двуфакторна автентикация"
   },
@@ -260,7 +259,8 @@
       "cidr": "CIDR",
       "device": "Устройство",
       "cidrValid": "CIDR трябва да е валиден",
-      "egressMode": "Режим на изход"
+      "egressMode": "Режим на изход",
+      "domainValid": "Domain must be a valid hostname"
     },
     "stringMalformed": "Невалиден формат на низа",
     "body": "Тялото трябва да е валиден обект",

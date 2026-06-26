@@ -194,7 +194,7 @@ class ObfuscatorService {
       '[instance]',
       'source-if = 127.0.0.1',
       `source-lport = ${preset.clientWgLocalPort}`,
-      `target = ${iface.serverPublicIpV4}:${preset.extPort}`,
+      `target = ${iface.serverPublicDomain || iface.serverPublicIpV4}:${preset.extPort}`,
       `key = ${preset.key}`,
       `masking = ${preset.masking}`,
       `obfuscate-bytes = ${preset.obfuscateBytes}`,

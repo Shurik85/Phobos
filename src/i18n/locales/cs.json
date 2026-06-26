@@ -71,7 +71,6 @@
     "signIn": "Přihlásit se",
     "rememberMe": "Zapamatovat si mě",
     "rememberMeDesc": "Zůstat přihlášen i po zavření prohlížeče",
-    "insecure": "Nemůžete se přihlásit přes nezabezpečené připojení. Použijte HTTPS.",
     "2faRequired": "Je vyžadováno dvoufázové ověření",
     "2faWrong": "Neplatný kód dvoufázového ověření"
   },
@@ -261,7 +260,8 @@
       "cidr": "CIDR",
       "device": "Zařízení",
       "cidrValid": "CIDR musí být platný",
-      "egressMode": "Výstupní režim"
+      "egressMode": "Výstupní režim",
+      "domainValid": "Domain must be a valid hostname"
     },
     "stringMalformed": "Řetězec má nesprávný formát",
     "body": "Tělo požadavku musí být platný objekt",

@@ -71,7 +71,6 @@
     "signIn": "Iniciar sesión",
     "rememberMe": "Recordarme",
     "rememberMeDesc": "Mantener sesión iniciada tras cerrar el navegador",
-    "insecure": "No puedes iniciar sesión con una conexión no segura. Usa HTTPS.",
     "2faRequired": "Se requiere autenticación en dos pasos",
     "2faWrong": "El código de autenticación en dos pasos es incorrecto"
   },
@@ -269,7 +268,8 @@
       "cidr": "CIDR",
       "device": "Dispositivo",
       "cidrValid": "El CIDR debe ser válido",
-      "egressMode": "Modo de salida"
+      "egressMode": "Modo de salida",
+      "domainValid": "Domain must be a valid hostname"
     },
     "stringMalformed": "Cadena malformada",
     "body": "El cuerpo debe ser un objeto válido",

@@ -71,7 +71,6 @@
     "signIn": "登入",
     "rememberMe": "保持登入",
     "rememberMeDesc": "關閉瀏覽器後仍保持登入",
-    "insecure": "連線不安全，請使用HTTPS。",
     "2faRequired": "需要雙重認證",
     "2faWrong": "雙重認證失敗"
   },
@@ -254,7 +253,8 @@
       "cidr": "CIDR",
       "device": "裝置",
       "cidrValid": "CIDR必須有效",
-      "egressMode": "出口模式"
+      "egressMode": "出口模式",
+      "domainValid": "Domain must be a valid hostname"
     },
     "stringMalformed": "字串格式不正確",
     "body": "主體必須是有效的物件",
