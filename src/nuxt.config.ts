@@ -26,7 +26,7 @@ export default defineNuxtConfig({
   css: ['~/app.css'],
   i18n: {
     lazy: true,
-    langDir: 'i18n/locales/',
+    langDir: 'locales/',
     experimental: {
       localeDetector: './localeDetector.ts',
     },
@@ -55,7 +55,7 @@ export default defineNuxtConfig({
       { code: 'vi', language: 'vi-VN', name: 'Tiếng Việt', file: 'vi.json' },
     ],
     defaultLocale: 'en',
-    vueI18n: './i18n/i18n.config.ts',
+    vueI18n: './i18n.config.ts',
     strategy: 'no_prefix',
     detectBrowserLanguage: {
       useCookie: true,
