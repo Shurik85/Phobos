@@ -166,6 +166,18 @@ export default defineNuxtConfig({
             if (id.includes('@vueuse')) {
               return 'vendor-vueuse';
             }
+            if (id.includes('@intlify/') || id.includes('/vue-i18n/')) {
+              return 'vendor-i18n';
+            }
+            if (
+              id.includes('/node_modules/@vue/') ||
+              id.includes('/node_modules/vue/')
+            ) {
+              return 'vendor-vue';
+            }
+            if (id.includes('/node_modules/pinia/')) {
+              return 'vendor-pinia';
+            }
           },
         },
       },
