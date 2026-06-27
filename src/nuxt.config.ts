@@ -66,12 +66,10 @@ export default defineNuxtConfig({
   },
   vite: {
     build: {
+      chunkSizeWarningLimit: 600,
       rollupOptions: {
         output: {
           manualChunks(id) {
-            if (id.includes('apexcharts') || id.includes('vue3-apexcharts')) {
-              return 'vendor-charts';
-            }
             if (id.includes('radix-vue')) {
               return 'vendor-radix';
             }
